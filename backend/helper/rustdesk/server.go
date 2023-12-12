@@ -26,8 +26,6 @@ func GetRustdeskServerBinDir() string {
 		return path.Join(pwd, "rustdesk-server", "x86_64")
 	case "linux":
 		return path.Join(pwd, "rustdesk-server", "amd64")
-	default:
-
 	}
 	return ""
 }

@@ -1,6 +1,9 @@
 package app
 
-import "github.com/kataras/iris/v12"
+import (
+	"github.com/kataras/iris/v12"
+	"rustdesk-api-server-pro/helper/config"
+)
 
 func newApp() *iris.Application {
 	app := iris.Default()
@@ -8,14 +11,13 @@ func newApp() *iris.Application {
 	return app
 }
 
-func StartServer(port string) (bool, error) {
+func StartServer() (bool, error) {
+	cfg := config.GetServerConfig()
 
 	app := newApp()
-
-	err := app.Listen(port)
+	err := app.Listen(cfg.Port)
 	if err != nil {
 		return false, err
 	}
-
 	return true, nil
 }
