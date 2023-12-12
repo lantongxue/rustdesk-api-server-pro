@@ -1,4 +1,4 @@
-module rustdesk-server-pro
+module rustdesk-api-server-pro
 
 go 1.21.4
 

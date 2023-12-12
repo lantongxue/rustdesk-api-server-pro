@@ -1,7 +1,7 @@
 package main
 
 import (
-	"rustdesk-server-pro/cmd"
+	"rustdesk-api-server-pro/cmd"
 )
 
 func main() {

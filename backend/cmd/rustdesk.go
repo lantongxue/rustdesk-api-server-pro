@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 	"runtime"
-	"rustdesk-server-pro/helper/rustdesk"
-	"rustdesk-server-pro/util"
+	"rustdesk-api-server-pro/helper/rustdesk"
+	"rustdesk-api-server-pro/util"
 
 	"github.com/spf13/cobra"
 )
