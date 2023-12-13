@@ -1,6 +1,6 @@
 package config
 
 type DbConfig struct {
-	Driver string `yaml:"type"`
+	Driver string `yaml:"driver"`
 	Dsn    string `yaml:"dsn"`
 }

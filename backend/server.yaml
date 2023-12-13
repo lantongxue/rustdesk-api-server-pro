@@ -1,6 +1,6 @@
 port: ":8080" # api server port
 db:
-  driver: "sqlite3"
+  driver: "sqlite"
   dsn: "./server.db"
 
   # driver: "mysql"

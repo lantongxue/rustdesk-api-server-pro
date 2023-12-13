@@ -1,6 +1,8 @@
 package db
 
 import (
+	_ "github.com/go-sql-driver/mysql"
+	_ "modernc.org/sqlite"
 	"rustdesk-api-server-pro/config"
 	"xorm.io/xorm"
 )
