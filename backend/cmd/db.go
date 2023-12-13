@@ -25,6 +25,8 @@ var dbInitCmd = &cobra.Command{
 		}
 		models := []interface{}{
 			new(model.User),
+			new(model.Peer),
+			new(model.Tags),
 		}
 		err = engine.Sync(models...)
 		if err != nil {
