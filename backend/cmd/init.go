@@ -8,14 +8,9 @@ import (
 	"rustdesk-api-server-pro/db"
 )
 
-var dbCmd = &cobra.Command{
-	Use:   "db",
-	Short: "About api-server db command",
-}
-
-var dbInitCmd = &cobra.Command{
-	Use:   "init",
-	Short: "Initialize the database",
+var dbSyncCmd = &cobra.Command{
+	Use:   "sync",
+	Short: "The api-server database synchronization",
 	Run: func(cmd *cobra.Command, args []string) {
 		cfg := config.GetServerConfig()
 		engine, err := db.NewEngine(cfg.Db)
@@ -38,6 +33,5 @@ var dbInitCmd = &cobra.Command{
 }
 
 func init() {
-	dbCmd.AddCommand(dbInitCmd)
-	RootCmd.AddCommand(dbCmd)
+	RootCmd.AddCommand(dbSyncCmd)
 }
