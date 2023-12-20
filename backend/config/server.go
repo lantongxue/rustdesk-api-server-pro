@@ -14,8 +14,9 @@ type ServerConfig struct {
 var DefaultConfig = &ServerConfig{
 	Port: ":8080",
 	Db: &DbConfig{
-		Driver: "sqlite",
-		Dsn:    "./server.db",
+		Driver:  "sqlite",
+		Dsn:     "./server.db",
+		ShowSql: true,
 	},
 }
 

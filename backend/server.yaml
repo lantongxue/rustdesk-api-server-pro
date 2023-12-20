@@ -2,6 +2,7 @@ port: ":8080" # api server port
 db:
   driver: "sqlite"
   dsn: "./server.db"
+  showSql: true
 
   # driver: "mysql"
   # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"

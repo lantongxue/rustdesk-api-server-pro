@@ -6,9 +6,9 @@ import (
 	"rustdesk-api-server-pro/db"
 )
 
-func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
-	app := iris.Default()
+var app = iris.Default()
 
+func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 	dbEngine, err := db.NewEngine(cfg.Db)
 	if err != nil {
 		app.Logger().Fatal("Db Engine create error:", err)

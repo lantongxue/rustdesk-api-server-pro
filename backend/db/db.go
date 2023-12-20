@@ -12,7 +12,7 @@ func NewEngine(cfg *config.DbConfig) (*xorm.Engine, error) {
 	if err != nil {
 		return nil, err
 	}
-	engine.ShowSQL(true)
+	engine.ShowSQL(cfg.ShowSql)
 	engine.SetMaxIdleConns(100)
 	engine.SetMaxOpenConns(100)
 	return engine, nil

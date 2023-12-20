@@ -12,7 +12,6 @@ type User struct {
 	Status    int       `xorm:"'status' tinyint"`
 	CreatedAt time.Time `xorm:"'created_at' datetime created"`
 	UpdatedAt time.Time `xorm:"'updated_at' datetime updated"`
-	DeletedAt time.Time `xorm:"'deleted_at' datetime deleted"`
 }
 
 func (m *User) TableName() string {
