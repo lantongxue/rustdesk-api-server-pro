@@ -6,3 +6,6 @@ db:
 
   # driver: "mysql"
   # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
+
+jwt:
+  signKey: "sercrethatmaycontainch@r$32chars" # change this

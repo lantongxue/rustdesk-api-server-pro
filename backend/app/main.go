@@ -3,19 +3,20 @@ package app
 import (
 	"fmt"
 	"github.com/kataras/iris/v12"
+	"rustdesk-api-server-pro/app/middleware"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
 )
 
-var app = iris.Default()
-
 func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
+	app := iris.Default()
+
 	dbEngine, err := db.NewEngine(cfg.Db)
 	if err != nil {
 		app.Logger().Fatal("Db Engine create error:", err)
 		return nil, err
 	}
-	app.RegisterDependency(dbEngine)
+	app.RegisterDependency(dbEngine, cfg)
 
 	app.OnErrorCode(iris.StatusNotFound, func(context iris.Context) {
 		requestInfo := fmt.Sprintf("(404)▶ %s:%s", context.Method(), context.Request().RequestURI)
@@ -26,6 +27,11 @@ func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 		}
 		fmt.Println(string(body))
 	})
+
+	app.Use(iris.Compression)
+	app.Use(middleware.RequestLogger())
+
+	InitRoute(app)
 
 	return app, nil
 }
@@ -38,7 +44,7 @@ func StartServer() (bool, error) {
 		return false, err
 	}
 
-	err = app.Listen(cfg.Port)
+	err = app.Listen(cfg.Port, iris.WithoutBodyConsumptionOnUnmarshal)
 	if err != nil {
 		return false, err
 	}
