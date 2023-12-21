@@ -1,8 +1,0 @@
-### /api/heartbeat
-POST  http://localhost:8080/api/heartbeat
-Content-Type: application/json
-
-
-### /api/sysinfo
-POST http://localhost:8080/api/sysinfo
-Content-Type: application/json

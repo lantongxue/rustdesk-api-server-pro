@@ -11,6 +11,12 @@ type ServerConfig struct {
 	Db   *DbConfig `yaml:"db"`
 }
 
+type DbConfig struct {
+	Driver  string `yaml:"driver"`
+	Dsn     string `yaml:"dsn"`
+	ShowSql bool   `yaml:"showSql"`
+}
+
 var DefaultConfig = &ServerConfig{
 	Port: ":8080",
 	Db: &DbConfig{

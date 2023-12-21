@@ -7,8 +7,13 @@ import (
 
 func RequestLogger() iris.Handler {
 	return func(context iris.Context) {
-		info := fmt.Sprintf("▶ %s:%s", context.Method(), context.Request().RequestURI)
+		requestInfo := fmt.Sprintf("▶ %s:%s", context.Method(), context.Request().RequestURI)
 		body, _ := context.GetBody()
-		fmt.Println(info, string(body))
+		context.Application().Logger().Info(requestInfo)
+		for header, value := range context.Request().Header {
+			fmt.Println(header+":", value)
+		}
+		fmt.Println(string(body))
+		context.Next()
 	}
 }
