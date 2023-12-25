@@ -2,30 +2,14 @@ package api
 
 import (
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/jwt"
 	"github.com/kataras/iris/v12/mvc"
+	"rustdesk-api-server-pro/app/form"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/util"
 	"time"
 	"xorm.io/xorm"
 )
-
-type LoginForm struct {
-	Username   string     `json:"username"`
-	Password   string     `json:"password"`
-	Id         string     `json:"id"`
-	Uuid       string     `json:"uuid"`
-	AutoLogin  bool       `json:"autoLogin"`
-	Type       string     `json:"type"`
-	DeviceInfo DeviceInfo `json:"deviceInfo"`
-}
-
-type DeviceInfo struct {
-	OS   string `json:"os"`
-	Type string `json:"type"`
-	Name string `json:"name"`
-}
 
 type LoginController struct {
 	Ctx iris.Context
@@ -38,7 +22,7 @@ func (c *LoginController) BeforeActivation(b mvc.BeforeActivation) {
 }
 
 func (c *LoginController) PostLogin() mvc.Result {
-	var loginForm LoginForm
+	var loginForm form.LoginForm
 	err := c.Ctx.ReadJSON(&loginForm)
 	if err != nil {
 		return mvc.Response{
@@ -72,19 +56,15 @@ func (c *LoginController) PostLogin() mvc.Result {
 			},
 		}
 	}
-	expired := 7 * 24 * time.Hour // 7 days
-	if loginForm.AutoLogin {      // for long time
-		expired = 36500 * 24 * time.Hour // 100 years
-	}
-	tokenBytes, err := jwt.Sign(jwt.HS256, []byte(c.Cfg.JWT.SignKey), user, jwt.MaxAge(expired))
-	if err != nil {
-		return mvc.Response{
-			Object: iris.Map{
-				"error": err.Error(),
-			},
-		}
-	}
-	token := string(tokenBytes)
+
+	// make other tokens expired
+	_, err = c.Db.Where("user_id = ? and my_id = ? and uuid = ? and status = 1", user.Id, loginForm.Id, loginForm.Uuid).Cols("status").Update(&model.AuthToken{
+		Status: 0,
+	})
+
+	signStr := loginForm.Id + loginForm.Uuid + user.Username + time.Now().String()
+	token := util.HmacSha256(signStr, c.Cfg.SignKey)
+	expired := 90 * 24 * time.Hour // 3 months
 
 	authToken := &model.AuthToken{
 		UserId:  user.Id,
@@ -119,51 +99,11 @@ func (c *LoginController) PostLogin() mvc.Result {
 	}
 }
 
-func (c *LoginController) PostLogout() mvc.Result {
-	var form LoginForm
-	err := c.Ctx.ReadJSON(&form)
-	if err != nil {
-		return mvc.Response{
-			Object: iris.Map{
-				"error": err.Error(),
-			},
-		}
-	}
-	user := jwt.Get(c.Ctx).(*model.User)
-	query := c.Db.Where("my_id = ? and uuid = ?", form.Id, form.Uuid)
-	if user != nil {
-		query.Where("user_id = ?", user.Id)
-	}
-	var authToken model.AuthToken
-	_, err = query.Get(&authToken)
-	if err != nil {
-		return mvc.Response{
-			Object: iris.Map{
-				"error": err.Error(),
-			},
-		}
-	}
-
-	authToken.Status = 0
-	_, err = c.Db.Where("id = ?", authToken.Id).Update(&authToken)
-	if err != nil {
-		return mvc.Response{
-			Object: iris.Map{
-				"error": err.Error(),
-			},
-		}
-	}
-
-	return mvc.Response{
-		Text: "ok",
-	}
-}
-
 func (c *LoginController) HandleLoginOptions() mvc.Result {
 	// this api returns about Open ID Connect options
 	// returns like [ "common-oidc/[{'name':'<oidc name>', 'icon': '<oidc icon>'}]" ]
 	// or [ "oidc/<oidc name>" ]
-	// for rustdesk, it supports github,gitlab,apple,auth0,azure,facebook,google,okta authentication
+	// for rustdesk, it supports gitHub,gitlab,apple,auth0,azure,facebook,google,okta authentication
 	// example:
 	//oidc := []string{
 	//	"oidc/github",

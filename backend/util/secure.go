@@ -1,9 +1,12 @@
 package util
 
 import (
+	"crypto/hmac"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/sha256"
 	"crypto/x509"
+	"encoding/base64"
 	"encoding/pem"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -43,6 +46,9 @@ func PasswordVerify(password, hash string) bool {
 	return err == nil
 }
 
-func JWTSign(sigKey []byte) {
-
+func HmacSha256(data, key string) string {
+	mac := hmac.New(sha256.New, []byte(key))
+	mac.Write([]byte(data))
+	b := mac.Sum(nil)
+	return base64.URLEncoding.EncodeToString(b)
 }

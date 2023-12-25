@@ -11,10 +11,8 @@ var startCmd = &cobra.Command{
 	Short:                 "Start the api-server",
 	DisableFlagsInUseLine: true,
 	Run: func(cmd *cobra.Command, args []string) {
-		ret, err := app.StartServer()
-		if ret {
-			fmt.Println("api-server started")
-		} else {
+		_, err := app.StartServer()
+		if err != nil {
 			fmt.Println("api-server failed to start:", err.Error())
 		}
 	},

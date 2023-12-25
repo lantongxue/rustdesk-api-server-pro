@@ -1,4 +1,6 @@
 port: ":8080" # api server port
+timeZone: "Asia/Shanghai" # setting the time zone fixes the database creation time problem
+signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
 db:
   driver: "sqlite"
   dsn: "./server.db"
@@ -6,6 +8,3 @@ db:
 
   # driver: "mysql"
   # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
-
-jwt:
-  signKey: "sercrethatmaycontainch@r$32chars" # change this

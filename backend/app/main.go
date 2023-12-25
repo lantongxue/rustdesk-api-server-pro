@@ -6,16 +6,21 @@ import (
 	"rustdesk-api-server-pro/app/middleware"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
+	"time"
 )
 
 func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 	app := iris.Default()
+
+	location, _ := time.LoadLocation(cfg.TimeZone)
 
 	dbEngine, err := db.NewEngine(cfg.Db)
 	if err != nil {
 		app.Logger().Fatal("Db Engine create error:", err)
 		return nil, err
 	}
+	dbEngine.TZLocation = location
+	dbEngine.DatabaseTZ = location
 	app.RegisterDependency(dbEngine, cfg)
 
 	app.OnErrorCode(iris.StatusNotFound, func(context iris.Context) {
@@ -31,7 +36,7 @@ func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 	app.Use(iris.Compression)
 	app.Use(middleware.RequestLogger())
 
-	InitRoute(app)
+	SetRoute(app)
 
 	return app, nil
 }
