@@ -2,18 +2,13 @@ package api
 
 import (
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/jwt"
 	"github.com/kataras/iris/v12/mvc"
 	"rustdesk-api-server-pro/app/form"
 	"rustdesk-api-server-pro/app/model"
-	"rustdesk-api-server-pro/config"
-	"xorm.io/xorm"
 )
 
 type UserController struct {
-	Ctx    iris.Context
-	Db     *xorm.Engine
-	Verify *jwt.Verifier
+	basicController
 }
 
 func (c *UserController) BeforeActivation(b mvc.BeforeActivation) {
@@ -21,7 +16,7 @@ func (c *UserController) BeforeActivation(b mvc.BeforeActivation) {
 }
 
 func (c *UserController) HandleCurrentUser() mvc.Result {
-	user := c.Ctx.Values().Get(config.CurrentUserKey).(*model.User)
+	user := c.GetUser()
 	return mvc.Response{
 		Object: iris.Map{
 			"name":     user.Name,
@@ -48,8 +43,8 @@ func (c *UserController) PostLogout() mvc.Result {
 			},
 		}
 	}
-	user := c.Ctx.Values().Get(config.CurrentUserKey).(*model.User)
-	token := c.Ctx.Values().Get(config.CurrentAuthTokenString).(string)
+	user := c.GetUser()
+	token := c.GetToken()
 	query := c.Db.Where("my_id = ? and uuid = ? and token = ?", f.Id, f.Uuid, token)
 	if user != nil {
 		query.Where("user_id = ?", user.Id)

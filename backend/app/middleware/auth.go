@@ -33,7 +33,7 @@ func Auth(app *iris.Application) iris.Handler {
 
 		context.Values().Set(config.CurrentUserKey, &user)
 		context.Values().Set(config.CurrentAuthTokenString, token)
-		context.Values().Set(config.CurrentAuthToken, authToken)
+		context.Values().Set(config.CurrentAuthToken, &authToken)
 		context.Next()
 	}
 }

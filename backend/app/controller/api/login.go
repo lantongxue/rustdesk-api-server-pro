@@ -8,12 +8,10 @@ import (
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/util"
 	"time"
-	"xorm.io/xorm"
 )
 
 type LoginController struct {
-	Ctx iris.Context
-	Db  *xorm.Engine
+	basicController
 	Cfg *config.ServerConfig
 }
 
