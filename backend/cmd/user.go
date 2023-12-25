@@ -26,7 +26,7 @@ var userAddCmd = &cobra.Command{
 			Password:        password,
 			Name:            username,
 			LicensedDevices: 0,
-			Status:          2,
+			Status:          1,
 		}
 		cfg := config.GetServerConfig()
 		engine, err := db.NewEngine(cfg.Db)

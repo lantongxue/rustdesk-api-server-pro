@@ -12,6 +12,7 @@ type Peer struct {
 	Platform  string    `xorm:"'platform' varchar(255)"`
 	Alias     string    `xorm:"'alias' varchar(255)"`
 	Tags      string    `xorm:"'tags' text"`
+	Note      string    `xorm:"'note' text"`
 	CreatedAt time.Time `xorm:"'created_at' datetime created"`
 	UpdatedAt time.Time `xorm:"'updated_at' datetime updated"`
 }

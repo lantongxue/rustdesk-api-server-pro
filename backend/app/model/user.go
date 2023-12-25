@@ -13,6 +13,7 @@ type User struct {
 	Note            string    `xorm:"'note' varchar(255)"`
 	LicensedDevices int       `xorm:"'licensed_devices' int"`
 	Status          int       `xorm:"'status' tinyint"`
+	IsAdmin         bool      `xorm:"'is_admin' tinyint"`
 	CreatedAt       time.Time `xorm:"'created_at' datetime created"`
 	UpdatedAt       time.Time `xorm:"'updated_at' datetime updated"`
 }
