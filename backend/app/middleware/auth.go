@@ -29,8 +29,6 @@ func Auth(app *iris.Application) iris.Handler {
 			return
 		}
 
-		context.User()
-
 		context.Values().Set(config.CurrentUserKey, &user)
 		context.Values().Set(config.CurrentAuthTokenString, token)
 		context.Values().Set(config.CurrentAuthToken, &authToken)
