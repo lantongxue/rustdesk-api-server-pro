@@ -43,16 +43,9 @@ func (c *PeerController) GetPeers() mvc.Result {
 				"os":          p.Platform,
 				"device_name": p.Hostname,
 			},
-			"status": status,
-			//"user": iris.Map{
-			//	"name":     user.Name,
-			//	"email":    user.Email,
-			//	"note":     user.Note,
-			//	"status":   user.Status,
-			//	"is_admin": user.IsAdmin,
-			//},
+			"status":    status,
 			"user":      user.Username,
-			"user_name": p.Username,
+			"user_name": p.LoginName,
 			"note":      p.Note,
 		})
 	}
