@@ -64,10 +64,19 @@ func (c *AddressBookController) GetAb() mvc.Result {
 		})
 	}
 
-	b, err := json.Marshal(iris.Map{
+	b, err := json.Marshal(tagColors)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+
+	b, err = json.Marshal(iris.Map{
 		"tags":       tags,
 		"peers":      peers,
-		"tag_colors": tagColors,
+		"tag_colors": string(b),
 	})
 	if err != nil {
 		return mvc.Response{
