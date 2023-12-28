@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
-	"rustdesk-api-server-pro/app/form"
+	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
 )
 
@@ -13,7 +13,7 @@ type AuditController struct {
 
 func (c *AuditController) PostAuditConn() mvc.Result {
 
-	var auditForm form.AuditForm
+	var auditForm api.AuditForm
 	err := c.Ctx.ReadJSON(&auditForm)
 	if err != nil {
 		return mvc.Response{

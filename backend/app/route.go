@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
+	"rustdesk-api-server-pro/app/controller/admin"
 	"rustdesk-api-server-pro/app/controller/api"
 	"rustdesk-api-server-pro/app/middleware"
 )
@@ -14,12 +15,23 @@ func SetRoute(app *iris.Application) {
 	apiMvc.Handle(new(api.LoginController))
 
 	apiWithAuthParty := app.Party("/api")
-	apiWithAuthParty.Use(middleware.Auth(app))
+	apiWithAuthParty.Use(middleware.ApiAuth(app))
 	{
 		apiWithAuthMvc := mvc.New(apiWithAuthParty)
 		apiWithAuthMvc.Handle(new(api.UserController))
 		apiWithAuthMvc.Handle(new(api.PeerController))
 		apiWithAuthMvc.Handle(new(api.AddressBookController))
 		apiWithAuthMvc.Handle(new(api.AuditController))
+	}
+
+	adminParty := app.Party("/admin")
+	adminMvc := mvc.New(adminParty)
+	adminMvc.Handle(new(admin.AuthController))
+
+	adminWithAuthParty := app.Party("/admin")
+	adminWithAuthParty.Use(middleware.ApiAuth(app))
+	{
+		adminWithAuthMvc := mvc.New(adminWithAuthParty)
+		adminWithAuthMvc.Handle(new(api.UserController))
 	}
 }

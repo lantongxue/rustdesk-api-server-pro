@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
-	"rustdesk-api-server-pro/app/form"
+	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
 	"strconv"
 )
@@ -95,7 +95,7 @@ func (c *AddressBookController) GetAb() mvc.Result {
 }
 
 func (c *AddressBookController) PostAb() mvc.Result {
-	var abForm form.AbForm
+	var abForm api.AbForm
 	err := c.Ctx.ReadJSON(&abForm)
 	if err != nil {
 		return mvc.Response{
@@ -104,7 +104,7 @@ func (c *AddressBookController) PostAb() mvc.Result {
 			},
 		}
 	}
-	var abData form.AbData
+	var abData api.AbData
 	err = json.Unmarshal([]byte(abForm.Data), &abData)
 	if err != nil {
 		return mvc.Response{

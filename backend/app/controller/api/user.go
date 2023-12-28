@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
-	"rustdesk-api-server-pro/app/form"
+	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/db"
 	"xorm.io/xorm"
@@ -77,7 +77,7 @@ func (c *UserController) GetUsers() mvc.Result {
 }
 
 func (c *UserController) PostLogout() mvc.Result {
-	var f form.LoginForm
+	var f api.LoginForm
 	err := c.Ctx.ReadJSON(&f)
 	if err != nil {
 		return mvc.Response{

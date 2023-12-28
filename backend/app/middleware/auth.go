@@ -10,7 +10,7 @@ import (
 	"xorm.io/xorm"
 )
 
-func Auth(app *iris.Application) iris.Handler {
+func ApiAuth(app *iris.Application) iris.Handler {
 	return func(context iris.Context) {
 		db := helper.GetAppDependency(app, "*xorm.Engine").(*xorm.Engine)
 		token := jwt.FromHeader(context)
