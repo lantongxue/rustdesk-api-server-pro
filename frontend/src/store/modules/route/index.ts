@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ROOT_ROUTE, constantRoutes, router, routes as staticRoutes } from '@/router';
 import {
-  localStg,
+  // localStg,
   filterAuthRoutesByUserPermission,
   getCacheRoutes,
   getConstantRouteNames,
@@ -10,8 +10,8 @@ import {
   transformAuthRouteToMenu,
   transformAuthRouteToSearchMenus,
   transformRouteNameToRoutePath,
-  transformRoutePathToRouteName,
-  sortRoutes
+  transformRoutePathToRouteName
+  // sortRoutes
 } from '@/utils';
 import { useAppStore } from '../app';
 import { useAuthStore } from '../auth';
