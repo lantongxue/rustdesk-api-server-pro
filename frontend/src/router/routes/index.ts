@@ -17,12 +17,6 @@ export const constantRoutes: AuthRoute.Route[] = [
     name: 'login',
     path: '/login',
     component: 'self',
-    props: route => {
-      const moduleType = (route.params.module as UnionKey.LoginModule) || 'pwd-login';
-      return {
-        module: moduleType
-      };
-    },
     meta: {
       title: '登录',
       dynamicPath: `/login/:module(${getLoginModuleRegExp()})?`,

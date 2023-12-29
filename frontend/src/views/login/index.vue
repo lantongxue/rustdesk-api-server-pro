@@ -12,10 +12,10 @@
           <n-gradient-text type="primary" :size="28">{{ $t('system.title') }}</n-gradient-text>
         </header>
         <main class="pt-24px">
-          <h3 class="text-18px text-primary font-medium">{{ activeModule.label }}</h3>
+          <h3 class="text-18px text-primary font-medium">{{ $t('page.login.pwdLogin.title') }}</h3>
           <div class="pt-24px">
             <transition name="fade-slide" mode="out-in" appear>
-              <component :is="activeModule.component" />
+              <pwd-login />
             </transition>
           </div>
         </main>
@@ -27,44 +27,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Component } from 'vue';
-import { loginModuleLabels } from '@/constants';
 import { useThemeStore } from '@/store';
 import { getColorPalette, mixColor } from '@/utils';
 import { $t } from '@/locales';
-import { BindWechat, CodeLogin, LoginBg, PwdLogin, Register, ResetPwd } from './components';
-
-interface Props {
-  /** 登录模块分类 */
-  module: UnionKey.LoginModule;
-}
-
-const props = defineProps<Props>();
+import { LoginBg, PwdLogin } from './components';
 
 const theme = useThemeStore();
-
-interface LoginModule {
-  key: UnionKey.LoginModule;
-  label: string;
-  component: Component;
-}
-
-const modules: LoginModule[] = [
-  { key: 'pwd-login', label: loginModuleLabels['pwd-login'], component: PwdLogin },
-  { key: 'code-login', label: loginModuleLabels['code-login'], component: CodeLogin },
-  { key: 'register', label: loginModuleLabels.register, component: Register },
-  { key: 'reset-pwd', label: loginModuleLabels['reset-pwd'], component: ResetPwd },
-  { key: 'bind-wechat', label: loginModuleLabels['bind-wechat'], component: BindWechat }
-];
-
-const activeModule = computed(() => {
-  const active: LoginModule = { ...modules[0] };
-  const findItem = modules.find(item => item.key === props.module);
-  if (findItem) {
-    Object.assign(active, findItem);
-  }
-  return active;
-});
 
 const bgThemeColor = computed(() => (theme.darkMode ? getColorPalette(theme.themeColor, 7) : theme.themeColor));
 

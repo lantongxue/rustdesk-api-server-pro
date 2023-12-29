@@ -9,7 +9,6 @@ import {
   handleServiceResult,
   transformRequestData
 } from '@/utils';
-import { handleRefreshToken } from './helpers';
 
 type RefreshRequestQueue = (config: AxiosRequestConfig) => void;
 
@@ -21,8 +20,6 @@ export default class CustomAxiosInstance {
   instance: AxiosInstance;
 
   backendConfig: Service.BackendResultConfig;
-
-  isRefreshing: boolean;
 
   retryQueues: RefreshRequestQueue[];
 
@@ -43,7 +40,6 @@ export default class CustomAxiosInstance {
     this.backendConfig = backendConfig;
     this.instance = axios.create(axiosConfig);
     this.setInterceptor();
-    this.isRefreshing = false;
     this.retryQueues = [];
   }
 
@@ -86,16 +82,6 @@ export default class CustomAxiosInstance {
                 resolve(this.instance.request(config));
               });
             });
-
-            if (!this.isRefreshing) {
-              this.isRefreshing = true;
-              const refreshConfig = await handleRefreshToken(response.config);
-              if (refreshConfig) {
-                this.retryQueues.map(cb => cb(refreshConfig));
-              }
-              this.retryQueues = [];
-              this.isRefreshing = false;
-            }
             return originRequest;
           }
 

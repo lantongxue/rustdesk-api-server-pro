@@ -1,9 +1,10 @@
 package admin
 
 import (
+	"rustdesk-api-server-pro/helper/captcha"
+
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
-	"rustdesk-api-server-pro/helper/captcha"
 )
 
 type AuthController struct {
@@ -17,7 +18,7 @@ func (c *AuthController) PostAuthLogin() mvc.Result {
 func (c *AuthController) GetAuthCaptcha() mvc.Result {
 	id, img := captcha.CreateCaptcha()
 	return c.Success(iris.Map{
-		"captchaID":  id,
-		"captchaImg": img,
+		"id":  id,
+		"img": img,
 	}, "")
 }

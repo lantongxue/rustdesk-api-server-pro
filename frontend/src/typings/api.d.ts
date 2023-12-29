@@ -7,6 +7,11 @@ declare namespace ApiAuth {
     token: string;
     refreshToken: string;
   }
+  /** 返回验证码 */
+  interface Captcha {
+    id: string;
+    img: string;
+  }
   /** 返回的用户信息 */
   type UserInfo = Auth.UserInfo;
 }
