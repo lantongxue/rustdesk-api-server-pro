@@ -1,29 +1,30 @@
-import {createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw} from "vue-router";
-import {App} from "vue";
-import {constantRoutes} from "@/router/common";
-import {PageRoute} from "@/typings/route";
-import {createRouterGuard} from "@/router/guard";
-import {useAuthStore} from "@/store";
+import type { App } from 'vue';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import { transformRouteNameToRoutePath } from '@/utils';
+import { transformAuthRouteToVueRoutes } from '@/utils/router/transform';
+import { constantRoutes } from './routes';
+import { scrollBehavior } from './helpers';
+import { createRouterGuard } from './guard';
 
-const {VITE_BASE_URL} = import.meta.env;
+const { VITE_HASH_ROUTE = 'N', VITE_BASE_URL } = import.meta.env;
 
 export const router = createRouter({
-    history: createWebHistory(VITE_BASE_URL),
-    routes: constantRoutes as any, // `routes: routes` 的缩写
-    strict: true,
-    scrollBehavior: () => ({left: 0, top: 0}),
-})
+  history: VITE_HASH_ROUTE === 'Y' ? createWebHashHistory(VITE_BASE_URL) : createWebHistory(VITE_BASE_URL),
+  routes: transformAuthRouteToVueRoutes(constantRoutes),
+  scrollBehavior
+});
 
+/** setup vue router. - [安装vue路由] */
 export async function setupRouter(app: App) {
-    app.use(router);
-    await createRouterGuard(router);
-    await router.isReady();
+  app.use(router);
+  createRouterGuard(router);
+  await router.isReady();
 }
 
-// 加载需要验证的路由
-const modules = import.meta.glob<any>('./modules/**/*.ts', {eager: true});
-export const routeModuleList: any = Object.keys(modules).reduce((list: any, key) => {
-    const mod: PageRoute | PageRoute[] = modules[key].default ?? {};
-    const modList = Array.isArray(mod) ? [...mod] : [mod];
-    return [...list, ...modList];
-}, [])
+/** 路由名称 */
+export const routeName = (key: AuthRoute.AllRouteKey) => key;
+/** 路由路径 */
+export const routePath = (key: Exclude<AuthRoute.AllRouteKey, 'not-found'>) => transformRouteNameToRoutePath(key);
+
+export * from './routes';
+export * from './modules';

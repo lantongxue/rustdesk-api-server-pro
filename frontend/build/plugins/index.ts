@@ -1,60 +1,47 @@
-import type {Plugin, PluginOption} from "vite";
-import vue from "@vitejs/plugin-vue";
-import UnoCSS from "unocss/vite";
-import Components from "unplugin-vue-components/vite";
-import {NaiveUiResolver} from "unplugin-vue-components/resolvers";
-import path from "path";
-import {FileSystemIconLoader} from "unplugin-icons/loaders";
-import Icons from 'unplugin-icons/vite';
-import {createSvgIconsPlugin} from "vite-plugin-svg-icons";
-import IconsResolver from 'unplugin-icons/resolver';
-import vueJsxPlugin from "@vitejs/plugin-vue-jsx";
-
+import type { PluginOption } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import unocss from '@unocss/vite';
+import progress from 'vite-plugin-progress';
+import VueDevtools from 'vite-plugin-vue-devtools';
+import pageRoute from '@soybeanjs/vite-plugin-vue-page-route';
+import unplugin from './unplugin';
+import mock from './mock';
+import visualizer from './visualizer';
+import compress from './compress';
+import pwa from './pwa';
 
 /**
- * 创建vite插件
- *
+ * vite插件
+ * @param viteEnv - 环境变量配置
  */
-export function createVitePlugins(viteEnv: ImportMetaEnv) {
-    const {VITE_ICON_PREFIX, VITE_ICON_LOCAL_PREFIX, VITE_ICON_LOCAL_PATH} = viteEnv;
+export function setupVitePlugins(viteEnv: ImportMetaEnv): (PluginOption | PluginOption[])[] {
+  const plugins = [
+    vue({
+      script: {
+        defineModel: true
+      }
+    }),
+    vueJsx(),
+    VueDevtools(),
+    ...unplugin(viteEnv),
+    unocss(),
+    mock(viteEnv),
+    progress()
+  ];
 
-    const srcPath = path.resolve(process.cwd(), 'src');
-    // 本地svg图标路径
-    const localIconPath = `${srcPath}${VITE_ICON_LOCAL_PATH}`;
-    /** 本地svg图标集合名称 */
-    const collectionName = VITE_ICON_LOCAL_PREFIX.replace(`${VITE_ICON_PREFIX}-`, '');
-    const vitePlugins: (Plugin | Plugin[] | PluginOption[])[] = [
-        vue(),
-        UnoCSS(),
-        vueJsxPlugin(),
-        Components({
-            dts: 'src/typings/components.d.ts',
-            resolvers: [
-                NaiveUiResolver(),
-                IconsResolver({customCollections: [collectionName], componentPrefix: VITE_ICON_PREFIX})
-            ]
-        }),
-    ]
+  if (viteEnv.VITE_VISUALIZER === 'Y') {
+    plugins.push(visualizer as PluginOption);
+  }
+  if (viteEnv.VITE_COMPRESS === 'Y') {
+    plugins.push(compress(viteEnv));
+  }
+  if (viteEnv.VITE_PWA === 'Y' || viteEnv.VITE_VERCEL === 'Y') {
+    plugins.push(pwa());
+  }
+  if (viteEnv.VITE_SOYBEAN_ROUTE_PLUGIN === 'Y') {
+    plugins.push(pageRoute());
+  }
 
-    vitePlugins.push(
-        createSvgIconsPlugin({
-            iconDirs: [localIconPath],
-            symbolId: `${VITE_ICON_LOCAL_PREFIX}-[dir]-[name]`,
-            inject: 'body-last',
-            customDomId: '__SVG_ICON_LOCAL__'
-        })
-    )
-    vitePlugins.push(
-        Icons({
-            compiler: 'vue3',
-            customCollections: {
-                [collectionName]: FileSystemIconLoader(localIconPath, svg =>
-                    svg.replace(/^<svg\s/, '<svg width="1em" height="1em" ')
-                )
-            },
-            scale: 1,
-            defaultClass: 'inline-block'
-        })
-    )
-    return vitePlugins;
+  return plugins;
 }

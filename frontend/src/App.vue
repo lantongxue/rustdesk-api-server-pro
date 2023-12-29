@@ -1,23 +1,26 @@
 <template>
-  <n-config-provider :theme="theme.systemTheme" :theme-overrides="theme.getNaiveThemeOverrides" :date-locale="dateZhCN" :locale="zhCN">
-    <app-provider>
-      <router-view  />
-    </app-provider>
+  <n-config-provider
+    :theme="theme.naiveTheme"
+    :theme-overrides="theme.naiveThemeOverrides"
+    :locale="zhCN"
+    :date-locale="dateZhCN"
+    class="h-full"
+  >
+    <naive-provider>
+      <router-view />
+    </naive-provider>
   </n-config-provider>
 </template>
 
 <script setup lang="ts">
-import {useThemeStore} from "@/store";
-import {subscribeThemeStore} from "@/store/subscribe";
-import { zhCN, dateZhCN } from 'naive-ui'
+import { dateZhCN, zhCN } from 'naive-ui';
+import { subscribeStore, useThemeStore } from '@/store';
+import { useGlobalEvents } from '@/composables';
 
-const theme = useThemeStore()
-subscribeThemeStore()
+const theme = useThemeStore();
 
+subscribeStore();
+useGlobalEvents();
 </script>
 
-
-
-<style scoped>
-
-</style>
+<style scoped></style>

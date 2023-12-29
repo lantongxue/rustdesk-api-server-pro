@@ -1,37 +1,58 @@
-import {defineConfig, loadEnv} from 'vite'
-import {getRootPath, getSrcPath} from "./build";
-import {createVitePlugins} from "./build/plugins";
-import {createViteProxy} from "./build/config/proxy";
-import {getServiceEnvConfig} from "./env.config";
+import { defineConfig, loadEnv } from 'vite';
+import { createViteProxy, getRootPath, getSrcPath, setupVitePlugins, viteDefine } from './build';
+import { getServiceEnvConfig } from './.env-config';
 
-// https://vitejs.dev/config/
+export default defineConfig(configEnv => {
+  const viteEnv = loadEnv(configEnv.mode, process.cwd()) as unknown as ImportMetaEnv;
 
+  const rootPath = getRootPath();
+  const srcPath = getSrcPath();
 
-const rootPath = getRootPath();
-const srcPath = getSrcPath();
+  const isOpenProxy = viteEnv.VITE_HTTP_PROXY === 'Y';
+  const envConfig = getServiceEnvConfig(viteEnv);
 
-
-export default defineConfig(({command, mode}) => {
-    // 获取环境变量
-    const viteEnv = loadEnv(mode, process.cwd()) as unknown as ImportMetaEnv;
-    // 是否开启代理
-    const isOpenProxy = viteEnv.VITE_HTTP_PROXY === 'Y';
-    // 获取服务环境配置
-    const serviceEnvConfig = getServiceEnvConfig(viteEnv);
-    return {
-        base: viteEnv.VITE_BASE_URL,
-        resolve: {
-            alias: {
-                '~': rootPath,
-                '@': srcPath,
-            }
-        },
-        plugins: createVitePlugins(viteEnv),
-        server: {
-            host: '0.0.0.0',
-            port: 8888,
-            open: true,
-            proxy: createViteProxy(isOpenProxy, serviceEnvConfig)
+  return {
+    base: viteEnv.VITE_BASE_URL,
+    resolve: {
+      alias: {
+        '~': rootPath,
+        '@': srcPath
+      }
+    },
+    define: viteDefine,
+    plugins: setupVitePlugins(viteEnv),
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "./src/styles/scss/global.scss" as *;`
         }
+      }
+    },
+    server: {
+      host: '0.0.0.0',
+      port: 3200,
+      open: true,
+      proxy: createViteProxy(isOpenProxy, envConfig)
+    },
+    optimizeDeps: {
+      include: [
+        '@antv/data-set',
+        '@antv/g2',
+        '@better-scroll/core',
+        'echarts',
+        'swiper',
+        'swiper/vue',
+        'vditor',
+        'wangeditor',
+        'xgplayer'
+      ]
+    },
+    build: {
+      reportCompressedSize: false,
+      sourcemap: false,
+      commonjsOptions: {
+        ignoreTryCatch: false
+      }
     }
-})
+  };
+});

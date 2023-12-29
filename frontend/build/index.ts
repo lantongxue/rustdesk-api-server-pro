@@ -1,1 +1,3 @@
-export * from './utils/index'
+export * from './plugins';
+export * from './config';
+export * from './utils';
