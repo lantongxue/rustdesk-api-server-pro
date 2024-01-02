@@ -84,8 +84,6 @@ declare namespace PageRoute {
     | 'constant-page'
     | 'not-found'
     | 'about'
-    | 'auth-demo_permission'
-    | 'auth-demo_super'
     | 'component_button'
     | 'component_card'
     | 'component_table'

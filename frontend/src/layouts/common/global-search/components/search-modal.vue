@@ -10,16 +10,16 @@
     @after-leave="handleClose"
   >
     <n-input-group>
-      <n-input ref="inputRef" v-model:value="keyword" clearable placeholder="请输入关键词搜索" @input="handleSearch">
+      <n-input ref="inputRef" v-model:value="keyword" clearable :placeholder="$t('component.search.enterKeywords')" @input="handleSearch">
         <template #prefix>
           <icon-uil-search class="text-15px text-#c2c2c2" />
         </template>
       </n-input>
-      <n-button v-if="isMobile" type="primary" ghost @click="handleClose">取消</n-button>
+      <n-button v-if="isMobile" type="primary" ghost @click="handleClose">{{ $t('common.cancel') }}</n-button>
     </n-input-group>
 
     <div class="mt-20px">
-      <n-empty v-if="resultOptions.length === 0" description="暂无搜索结果" />
+      <n-empty v-if="resultOptions.length === 0" :description="$t('component.search.noResult')" />
       <search-result v-else v-model:value="activePath" :options="resultOptions" @enter="handleEnter" />
     </div>
     <template #footer>

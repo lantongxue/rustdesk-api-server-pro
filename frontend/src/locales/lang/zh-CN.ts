@@ -167,6 +167,23 @@ const locale: I18nType.Schema = {
         copySuccess: '复制成功,请替换 src/settings/theme.json的内容！',
         confirmCopy: '确认'
       }
+    },
+    header: {
+      search: '搜索'
+    }
+  },
+  component: {
+    userAvatar: {
+      confirmLogout: '您确定要退出登录吗？',
+      userCenter: '用户中心',
+      logout: '退出登录'
+    },
+    search: {
+      enterKeywords: '请输入关键词搜索',
+      noResult: '暂无搜索结果',
+      enter: '确认',
+      select: '选择',
+      close: '关闭'
     }
   },
   page: {
@@ -183,6 +200,11 @@ const locale: I18nType.Schema = {
         title: '密码登录'
       }
     }
+  },
+  backend: {
+    CaptchaError: '验证码错误',
+    UserNotExists: '用户不存在',
+    UsernameOrPasswordError: '账号或密码错误'
   }
 };
 

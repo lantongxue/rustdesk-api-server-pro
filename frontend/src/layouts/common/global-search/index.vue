@@ -2,7 +2,7 @@
   <div>
     <hover-container
       class="w-40px h-full"
-      tooltip-content="搜索"
+      :tooltip-content="$t('layout.header.search')"
       :inverted="theme.header.inverted"
       @click="handleSearch"
     >
@@ -15,6 +15,7 @@
 <script lang="ts" setup>
 import { useThemeStore } from '@/store';
 import { useBoolean } from '@/hooks';
+import { $t } from '@/locales';
 import { SearchModal } from './components';
 
 defineOptions({ name: 'GlobalSearch' });

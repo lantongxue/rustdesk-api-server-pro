@@ -9,6 +9,7 @@ type AuthToken struct {
 	Uuid      string    `xorm:"'uuid' varchar(255)"`
 	Token     string    `xorm:"'token' varchar(255)"`
 	Expired   time.Time `xorm:"'expired' datetime"`
+	IsAdmin   bool      `xorm:"'is_admin' tinyint"`
 	Status    int       `xorm:"'status' tinyint"`
 	CreatedAt time.Time `xorm:"'created_at' datetime created"`
 	UpdatedAt time.Time `xorm:"'updated_at' datetime updated"`

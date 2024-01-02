@@ -476,6 +476,23 @@ declare namespace I18nType {
           confirmCopy: string;
         };
       };
+      header: {
+        search: string;
+      };
+    };
+    component: {
+      userAvatar: {
+        confirmLogout: string;
+        userCenter: string;
+        logout: string;
+      };
+      search: {
+        enterKeywords: string;
+        noResult: string;
+        enter: string;
+        select: string;
+        close: string;
+      };
     };
     page: {
       login: {
@@ -491,6 +508,11 @@ declare namespace I18nType {
           title: string;
         };
       };
+    };
+    backend: {
+      CaptchaError: string;
+      UserNotExists: string;
+      UsernameOrPasswordError: string;
     };
   };
 

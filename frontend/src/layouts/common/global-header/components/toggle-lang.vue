@@ -1,6 +1,6 @@
 <template>
   <hover-container class="w-40px h-full" :inverted="theme.header.inverted">
-    <n-dropdown :options="options" trigger="hover" :value="language" @select="handleSelect">
+    <n-dropdown :options="options" trigger="click" :value="language" @select="handleSelect">
       <icon-cil:language class="text-18px outline-transparent" />
     </n-dropdown>
   </hover-container>
@@ -24,10 +24,6 @@ const options = [
   {
     label: 'English',
     key: 'en'
-  },
-  {
-    label: 'ភាសាខ្មែរ',
-    key: 'km-KH'
   }
 ];
 const handleSelect = (key: string) => {

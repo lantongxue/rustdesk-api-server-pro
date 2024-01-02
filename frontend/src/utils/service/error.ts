@@ -8,6 +8,7 @@ import {
   REQUEST_TIMEOUT_CODE,
   REQUEST_TIMEOUT_MSG
 } from '@/config';
+import { $t } from '@/locales';
 import { exeStrategyActions } from '../common';
 import { showErrorMsg } from './msg';
 
@@ -92,7 +93,7 @@ export function handleBackendError(backendResult: Record<string, any>, config: S
   const error: Service.RequestError = {
     type: 'backend',
     code: backendResult[codeKey],
-    msg: backendResult[msgKey]
+    msg: $t(backendResult[msgKey])
   };
 
   showErrorMsg(error);

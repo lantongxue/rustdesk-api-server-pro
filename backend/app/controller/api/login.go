@@ -1,13 +1,14 @@
 package api
 
 import (
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/util"
 	"time"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
 )
 
 type LoginController struct {
@@ -56,7 +57,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 	}
 
 	// make other tokens expired
-	_, err = c.Db.Where("user_id = ? and my_id = ? and uuid = ? and status = 1", user.Id, loginForm.Id, loginForm.Uuid).Cols("status").Update(&model.AuthToken{
+	_, _ = c.Db.Where("user_id = ? and my_id = ? and uuid = ? and status = 1 and is_admin = 0", user.Id, loginForm.Id, loginForm.Uuid).Cols("status").Update(&model.AuthToken{
 		Status: 0,
 	})
 
@@ -70,6 +71,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 		Uuid:    loginForm.Uuid,
 		Token:   token,
 		Expired: time.Now().Add(expired),
+		IsAdmin: false,
 		Status:  1,
 	}
 

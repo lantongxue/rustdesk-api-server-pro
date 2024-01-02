@@ -11,8 +11,6 @@ declare namespace StorageInterface {
   interface Local {
     /** 用户token */
     token: string;
-    /** 用户刷新token */
-    refreshToken: string;
     /** 用户信息 */
     userInfo: Auth.UserInfo;
     /** 多页签路由信息 */

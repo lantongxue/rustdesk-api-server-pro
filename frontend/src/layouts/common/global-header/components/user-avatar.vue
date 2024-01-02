@@ -1,5 +1,5 @@
 <template>
-  <n-dropdown :options="options" @select="handleDropdown">
+  <n-dropdown trigger="click" :options="options" @select="handleDropdown">
     <hover-container class="px-12px" :inverted="theme.header.inverted">
       <icon-local-avatar class="text-32px" />
       <span class="pl-8px text-16px font-medium">{{ auth.userInfo.userName }}</span>
@@ -11,6 +11,7 @@
 import type { DropdownOption } from 'naive-ui';
 import { useAuthStore, useThemeStore } from '@/store';
 import { useIconRender } from '@/composables';
+import { $t } from '@/locales';
 
 defineOptions({ name: 'UserAvatar' });
 
@@ -20,7 +21,7 @@ const { iconRender } = useIconRender();
 
 const options: DropdownOption[] = [
   {
-    label: '用户中心',
+    label: $t('component.userAvatar.userCenter'),
     key: 'user-center',
     icon: iconRender({ icon: 'carbon:user-avatar' })
   },
@@ -29,7 +30,7 @@ const options: DropdownOption[] = [
     key: 'divider'
   },
   {
-    label: '退出登录',
+    label: $t('component.userAvatar.logout'),
     key: 'logout',
     icon: iconRender({ icon: 'carbon:logout' })
   }
@@ -41,10 +42,10 @@ function handleDropdown(optionKey: string) {
   const key = optionKey as DropdownKey;
   if (key === 'logout') {
     window.$dialog?.info({
-      title: '提示',
-      content: '您确定要退出登录吗？',
-      positiveText: '确定',
-      negativeText: '取消',
+      title: `${$t('common.confirm')}?`,
+      content: $t('component.userAvatar.confirmLogout'),
+      positiveText: $t('common.confirm'),
+      negativeText: $t('common.cancel'),
       onPositiveClick: () => {
         auth.resetAuthStore();
       }

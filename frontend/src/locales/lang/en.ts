@@ -167,6 +167,23 @@ const locale: I18nType.Schema = {
         copySuccess: 'Copy success, please replace the content of src/settings/theme.json!',
         confirmCopy: 'Confirm'
       }
+    },
+    header: {
+      search: 'Search'
+    }
+  },
+  component: {
+    userAvatar: {
+      confirmLogout: 'Are you sure you want to log out?',
+      userCenter: 'User Center',
+      logout: 'Logout'
+    },
+    search: {
+      enterKeywords: 'Please enter a keyword to search',
+      noResult: 'No search results',
+      enter: 'Enter',
+      select: 'Select',
+      close: 'Close'
     }
   },
   page: {
@@ -183,6 +200,11 @@ const locale: I18nType.Schema = {
         title: 'Password Login'
       }
     }
+  },
+  backend: {
+    CaptchaError: 'CAPTCHA error',
+    UserNotExists: 'The user does not exist',
+    UsernameOrPasswordError: 'Incorrect account or password'
   }
 };
 

@@ -1,7 +1,7 @@
 <template>
   <hover-container
     class="w-40px h-full"
-    tooltip-content="主题配置"
+    :tooltip-content="$t('layout.settingDrawer.title')"
     :inverted="theme.header.inverted"
     @click="app.toggleSettingDrawerVisible"
   >
@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { useAppStore, useThemeStore } from '@/store';
+import { $t } from '@/locales';
 
 defineOptions({ name: 'SettingButton' });
 

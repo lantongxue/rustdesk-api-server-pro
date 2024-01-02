@@ -1,8 +1,8 @@
 <template>
   <n-form ref="formRef" :model="model" :rules="rules" size="large" :show-label="false">
-    <n-form-item path="userName">
+    <n-form-item path="username">
       <n-input
-        v-model:value="model.userName"
+        v-model:value="model.username"
         :clearable="true"
         :placeholder="$t('page.login.common.userNamePlaceholder')"
       />
@@ -16,10 +16,10 @@
         :placeholder="$t('page.login.common.passwordPlaceholder')"
       />
     </n-form-item>
-    <n-form-item path="imgCode">
-      <n-input v-model:value="model.imgCode" :clearable="true" :placeholder="$t('page.login.common.codePlaceholder')" />
+    <n-form-item path="code">
+      <n-input v-model:value="model.code" :clearable="true" :placeholder="$t('page.login.common.codePlaceholder')" />
       <div class="pl-8px">
-        <image-verify v-model:code="imgCode" />
+        <img width="152" height="40" class="cursor-pointer" :src="captcha?.data?.img" @click="handleCaptcha" />
       </div>
     </n-form-item>
     <n-space :vertical="true" :size="24">
@@ -38,38 +38,45 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import type { FormInst, FormRules } from 'naive-ui';
 import { useAuthStore } from '@/store';
-import { formRules } from '@/utils';
+import { createRequiredFormRule } from '@/utils';
 import { fetchCaptcha } from '@/service/api/auth';
 
 const auth = useAuthStore();
 const { login } = useAuthStore();
+const captcha = ref<Service.RequestResult<ApiAuth.Captcha>>();
 
 const formRef = ref<HTMLElement & FormInst>();
 
 const model = reactive({
-  userName: '',
+  username: '',
   password: '',
-  imgCode: ''
+  code: ''
 });
 
-const imgCode = ref('');
+async function handleCaptcha() {
+  captcha.value = await fetchCaptcha();
+}
 
-const captcha = fetchCaptcha();
-console.log(captcha);
+onMounted(() => {
+  handleCaptcha();
+});
 
 const rules: FormRules = {
-  password: formRules.pwd
+  username: createRequiredFormRule('用户名不能为空'),
+  password: createRequiredFormRule('密码不能为空'),
+  code: createRequiredFormRule('验证码不能为空'),
+  id: createRequiredFormRule('')
 };
 
 async function handleSubmit() {
   await formRef.value?.validate();
-
-  const { userName, password } = model;
-
-  login(userName, password);
+  await login({
+    ...model,
+    captchaId: captcha.value?.data?.id
+  });
 }
 </script>
 

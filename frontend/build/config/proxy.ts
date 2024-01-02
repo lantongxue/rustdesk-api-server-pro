@@ -11,8 +11,8 @@ export function createViteProxy(isOpenProxy: boolean, envConfig: ServiceEnvConfi
   const proxy: Record<string, string | ProxyOptions> = {
     [envConfig.proxyPattern]: {
       target: envConfig.url,
-      changeOrigin: true,
-      rewrite: path => path.replace(new RegExp(`^${envConfig.proxyPattern}`), '')
+      changeOrigin: true
+      // rewrite: path => path.replace(new RegExp(`^${envConfig.proxyPattern}`), '')
     }
   };
 

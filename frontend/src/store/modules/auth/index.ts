@@ -89,9 +89,8 @@ export const useAuthStore = defineStore('auth-store', {
       let successFlag = false;
 
       // 先把token存储到缓存中(后面接口的请求头需要token)
-      const { token, refreshToken } = backendToken;
+      const { token } = backendToken;
       localStg.set('token', token);
-      localStg.set('refreshToken', refreshToken);
 
       // 获取用户信息
       const { data } = await fetchUserInfo();
@@ -110,45 +109,15 @@ export const useAuthStore = defineStore('auth-store', {
     },
     /**
      * 登录
-     * @param userName - 用户名
-     * @param password - 密码
+     * @param loginData
      */
-    async login(userName: string, password: string) {
+    async login(loginData: object) {
       this.loginLoading = true;
-      const { data } = await fetchLogin(userName, password);
+      const { data } = await fetchLogin(loginData);
       if (data) {
         await this.handleActionAfterLogin(data);
       }
       this.loginLoading = false;
-    },
-    /**
-     * 更换用户权限(切换账号)
-     * @param userRole
-     */
-    async updateUserRole(userRole: Auth.RoleType) {
-      const { resetRouteStore, initAuthRoute } = useRouteStore();
-
-      const accounts: Record<Auth.RoleType, { userName: string; password: string }> = {
-        super: {
-          userName: 'Super',
-          password: 'super123'
-        },
-        admin: {
-          userName: 'Admin',
-          password: 'admin123'
-        },
-        user: {
-          userName: 'User01',
-          password: 'user01123'
-        }
-      };
-      const { userName, password } = accounts[userRole];
-      const { data } = await fetchLogin(userName, password);
-      if (data) {
-        await this.loginByToken(data);
-        resetRouteStore();
-        initAuthRoute();
-      }
     }
   }
 });

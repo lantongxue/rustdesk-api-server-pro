@@ -7,3 +7,9 @@ const CurrentUserKey = "iris.current.user"
 const CurrentAuthToken = "iris.current.token"
 
 const CurrentAuthTokenString = "iris.current.token.string"
+
+const AdminUserKey = "iris.admin.user"
+
+const AdminAuthToken = "iris.admin.token"
+
+const AdminAuthTokenString = "iris.admin.token.string"

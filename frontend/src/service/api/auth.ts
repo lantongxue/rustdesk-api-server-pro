@@ -2,16 +2,15 @@ import { request } from '../request';
 
 /**
  * 登录
- * @param userName - 用户名
- * @param password - 密码
+ * @param data
  */
-export function fetchLogin(userName: string, password: string) {
-  return request.post<ApiAuth.Token>('/login', { userName, password });
+export function fetchLogin(data: object) {
+  return request.post<ApiAuth.Token>('/auth/login', data);
 }
 
 /** 获取用户信息 */
 export function fetchUserInfo() {
-  return request.get<ApiAuth.UserInfo>('/getUserInfo');
+  return request.get<ApiAuth.UserInfo>('/user/info');
 }
 
 /**
