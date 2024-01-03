@@ -23,6 +23,7 @@ var dbSyncCmd = &cobra.Command{
 			new(model.Peer),
 			new(model.Tags),
 			new(model.AuthToken),
+			new(model.Audit),
 		}
 		err = engine.Sync(models...)
 		if err != nil {

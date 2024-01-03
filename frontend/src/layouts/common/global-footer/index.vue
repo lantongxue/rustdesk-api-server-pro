@@ -1,6 +1,9 @@
 <template>
   <dark-mode-container class="flex-center h-full" :inverted="theme.footer.inverted">
-    <span>Copyright ©2021 Soybean Admin</span>
+    <span>
+      Copyright ©2024
+      <a href="https://github.com/lantongxue/rustdesk-api-server-pro" target="_blank">GitHub@lantongxue</a>
+    </span>
   </dark-mode-container>
 </template>
 

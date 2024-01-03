@@ -3,17 +3,15 @@
     <n-grid-item span="0:24 640:24 1024:6">
       <n-card :bordered="false" class="rounded-8px shadow-sm">
         <div class="w-full h-360px py-12px">
-          <h3 class="text-16px font-bold">Dashboard</h3>
-          <p class="text-#aaa">Overview Of Lasted Month</p>
-          <h3 class="pt-32px text-24px font-bold">
-            <count-to prefix="$" :start-value="0" :end-value="7754" />
-          </h3>
-          <p class="text-#aaa">Current Month Earnings</p>
-          <h3 class="pt-32px text-24px font-bold">
-            <count-to :start-value="0" :end-value="1234" />
-          </h3>
-          <p class="text-#aaa">Current Month Sales</p>
-          <n-button class="mt-24px whitespace-pre-wrap" type="primary">Last Month Summary</n-button>
+          <h3 class="text-16px font-bold">{{ $t('page.dashboard.friendlySponsorship') }}</h3>
+          <p class="text-#aaa">{{ $t('page.dashboard.cupOfCoffee') }}</p>
+          <n-image-group>
+            <n-space>
+              <n-image :src="alipay" width="150" />
+              <n-image :src="wechat" width="150" />
+            </n-space>
+          </n-image-group>
+          <p class="text-center text-24px font-bold">{{ $t('page.dashboard.thankYou') }}</p>
         </div>
       </n-card>
     </n-grid-item>
@@ -34,6 +32,9 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { type ECOption, useEcharts } from '@/composables';
+import alipay from '@/assets/images/donet/alipay.jpeg';
+import wechat from '@/assets/images/donet/wechat.jpeg';
+import { $t } from '../../../../../locales';
 
 defineOptions({ name: 'DashboardAnalysisTopCard' });
 
@@ -48,7 +49,7 @@ const lineOptions = ref<ECOption>({
     }
   },
   legend: {
-    data: ['下载量', '注册数']
+    data: ['用户数', '主机数']
   },
   grid: {
     left: '3%',
@@ -71,7 +72,7 @@ const lineOptions = ref<ECOption>({
   series: [
     {
       color: '#8e9dff',
-      name: '下载量',
+      name: '用户数',
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -101,7 +102,7 @@ const lineOptions = ref<ECOption>({
     },
     {
       color: '#26deca',
-      name: '注册数',
+      name: '主机数',
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -134,6 +135,10 @@ const lineOptions = ref<ECOption>({
 const { domRef: lineRef } = useEcharts(lineOptions);
 
 const pieOptions = ref<ECOption>({
+  title: {
+    text: '系统分布',
+    left: 'center'
+  },
   tooltip: {
     trigger: 'item'
   },
@@ -146,8 +151,7 @@ const pieOptions = ref<ECOption>({
   },
   series: [
     {
-      color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
-      name: '时间安排',
+      name: '系统分布',
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
@@ -156,24 +160,18 @@ const pieOptions = ref<ECOption>({
         borderColor: '#fff',
         borderWidth: 1
       },
-      label: {
-        show: false,
-        position: 'center'
-      },
       emphasis: {
         label: {
           show: true,
           fontSize: '12'
         }
       },
-      labelLine: {
-        show: false
-      },
       data: [
-        { value: 20, name: '学习' },
-        { value: 10, name: '娱乐' },
-        { value: 30, name: '工作' },
-        { value: 40, name: '休息' }
+        { value: 20, name: 'Windows' },
+        { value: 10, name: 'macOS' },
+        { value: 30, name: 'Linux' },
+        { value: 40, name: 'Android' },
+        { value: 40, name: 'iOS' }
       ]
     }
   ]

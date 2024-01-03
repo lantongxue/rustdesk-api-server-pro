@@ -18,8 +18,7 @@ const locale: I18nType.Schema = {
   routes: {
     dashboard: {
       _value: 'Dashboard',
-      analysis: 'Analysis',
-      workbench: 'Workbench'
+      analysis: 'Analysis'
     },
     document: {
       _value: 'Document',
@@ -199,6 +198,11 @@ const locale: I18nType.Schema = {
       pwdLogin: {
         title: 'Password Login'
       }
+    },
+    dashboard: {
+      friendlySponsorship: 'Friendly sponsorship',
+      cupOfCoffee: 'Can you treat me to a cup of coffee?',
+      thankYou: 'Thank you for your sponsorship'
     }
   },
   backend: {

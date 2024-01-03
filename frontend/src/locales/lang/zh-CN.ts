@@ -18,8 +18,7 @@ const locale: I18nType.Schema = {
   routes: {
     dashboard: {
       _value: '仪表盘',
-      analysis: '分析页',
-      workbench: '工作台'
+      analysis: '分析页'
     },
     document: {
       _value: '文档',
@@ -199,6 +198,11 @@ const locale: I18nType.Schema = {
       pwdLogin: {
         title: '密码登录'
       }
+    },
+    dashboard: {
+      friendlySponsorship: '友情赞助',
+      cupOfCoffee: '可以请我喝杯咖啡吗？',
+      thankYou: '感谢您的赞助'
     }
   },
   backend: {

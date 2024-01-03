@@ -327,7 +327,6 @@ declare namespace I18nType {
       dashboard: {
         _value: string;
         analysis: string;
-        workbench: string;
       };
       document: {
         _value: string;
@@ -507,6 +506,11 @@ declare namespace I18nType {
         pwdLogin: {
           title: string;
         };
+      };
+      dashboard: {
+        friendlySponsorship: string;
+        cupOfCoffee: string;
+        thankYou: string;
       };
     };
     backend: {
