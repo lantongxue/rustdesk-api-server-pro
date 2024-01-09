@@ -90,10 +90,11 @@ export function handleResponseError(response: AxiosResponse) {
  */
 export function handleBackendError(backendResult: Record<string, any>, config: Service.BackendResultConfig) {
   const { codeKey, msgKey } = config;
+  const k = 'backend.'+backendResult[msgKey]
   const error: Service.RequestError = {
     type: 'backend',
     code: backendResult[codeKey],
-    msg: $t(backendResult[msgKey])
+    msg: $t(k as I18nType.I18nKey)
   };
 
   showErrorMsg(error);
