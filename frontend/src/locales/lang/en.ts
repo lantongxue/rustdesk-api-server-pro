@@ -202,7 +202,13 @@ const locale: I18nType.Schema = {
     dashboard: {
       friendlySponsorship: 'Friendly sponsorship',
       cupOfCoffee: 'Can you treat me to a cup of coffee?',
-      thankYou: 'Thank you for your sponsorship'
+      thankYou: 'Thank you for your sponsorship',
+      userCount: 'User Count',
+      peerCount: 'Peer Count',
+      onlineCount: 'Online Count',
+      visitsCount: 'Visits Count',
+      operatingSystem: 'Operating System',
+      oneWeek: 'One Week'
     }
   },
   backend: {

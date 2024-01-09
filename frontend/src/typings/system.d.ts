@@ -511,6 +511,12 @@ declare namespace I18nType {
         friendlySponsorship: string;
         cupOfCoffee: string;
         thankYou: string;
+        userCount: string;
+        peerCount: string;
+        onlineCount: string;
+        visitsCount: string;
+        operatingSystem: string;
+        oneWeek: string;
       };
     };
     backend: {

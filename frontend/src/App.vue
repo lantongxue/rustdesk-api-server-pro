@@ -7,7 +7,7 @@
     class="h-full"
   >
     <naive-provider>
-      <router-view />
+      <router-view v-if="isRouterAlive" />
     </naive-provider>
   </n-config-provider>
 </template>
@@ -16,11 +16,24 @@
 import { dateZhCN, zhCN } from 'naive-ui';
 import { subscribeStore, useThemeStore } from '@/store';
 import { useGlobalEvents } from '@/composables';
+import { nextTick, ref } from 'vue';
+import { provide } from 'vue';
 
 const theme = useThemeStore();
 
+const isRouterAlive = ref(true)
+
 subscribeStore();
 useGlobalEvents();
+
+const reload = () => {
+  isRouterAlive.value = false;
+  nextTick(() => {
+    isRouterAlive.value = true;
+  })
+}
+
+provide('reload', reload);
 </script>
 
 <style scoped></style>

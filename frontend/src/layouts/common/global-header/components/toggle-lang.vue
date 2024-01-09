@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/store';
 import { localStg } from '@/utils';
@@ -26,10 +26,12 @@ const options = [
     key: 'en'
   }
 ];
+const reload = inject<Function>('reload');
 const handleSelect = (key: string) => {
   language.value = key as I18nType.LangType;
   locale.value = key;
   localStg.set('lang', key as I18nType.LangType);
+  reload?.call(this)
 };
 </script>
 <style scoped></style>

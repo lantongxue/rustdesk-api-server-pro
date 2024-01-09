@@ -34,11 +34,17 @@ import type { Ref } from 'vue';
 import { type ECOption, useEcharts } from '@/composables';
 import alipay from '@/assets/images/donet/alipay.jpeg';
 import wechat from '@/assets/images/donet/wechat.jpeg';
-import { $t } from '../../../../../locales';
+import { $t } from '@/locales';
+import { onMounted } from 'vue';
+import { fetchPieCharts, fetchLineCharts } from '@/service';
+import { PieSeriesOption } from 'echarts/types/dist/shared'
 
 defineOptions({ name: 'DashboardAnalysisTopCard' });
 
 const lineOptions = ref<ECOption>({
+  title: {
+    text: $t('page.dashboard.oneWeek')
+  },
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -49,7 +55,7 @@ const lineOptions = ref<ECOption>({
     }
   },
   legend: {
-    data: ['用户数', '主机数']
+    data: [$t('page.dashboard.userCount'), $t('page.dashboard.peerCount')]
   },
   grid: {
     left: '3%',
@@ -61,7 +67,7 @@ const lineOptions = ref<ECOption>({
     {
       type: 'category',
       boundaryGap: false,
-      data: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
+      data: []
     }
   ],
   yAxis: [
@@ -71,8 +77,50 @@ const lineOptions = ref<ECOption>({
   ],
   series: [
     {
+      name: $t('page.dashboard.userCount'),
+      type: 'line',
+      data: []
+    },
+    {
+      name: $t('page.dashboard.peerCount'),
+      type: 'line',
+      data: []
+    }
+  ]
+}) as Ref<ECOption>;
+const { domRef: lineRef } = useEcharts(lineOptions);
+
+const pieOptions = ref<ECOption>({
+  title: {
+    text: $t('page.dashboard.operatingSystem'),
+    left: 'center'
+  },
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    bottom: '1%',
+    left: 'center',
+    itemStyle: {
+      borderWidth: 0
+    }
+  }
+}) as Ref<ECOption>;
+const { domRef: pieRef } = useEcharts(pieOptions);
+
+async function fetchChartsData() {
+  const line = await fetchLineCharts()
+  lineOptions.value.xAxis = [
+    {
+      type: 'category',
+      boundaryGap: false,
+      data: line.data?.xAxis
+    }
+  ];
+  lineOptions.value.series = [
+    {
       color: '#8e9dff',
-      name: '用户数',
+      name: $t('page.dashboard.userCount'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -98,11 +146,11 @@ const lineOptions = ref<ECOption>({
       emphasis: {
         focus: 'series'
       },
-      data: [4623, 6145, 6268, 6411, 1890, 4251, 2978, 3880, 3606, 4311]
+      data: line.data?.users
     },
     {
       color: '#26deca',
-      name: '主机数',
+      name: $t('page.dashboard.peerCount'),
       type: 'line',
       smooth: true,
       stack: 'Total',
@@ -128,30 +176,14 @@ const lineOptions = ref<ECOption>({
       emphasis: {
         focus: 'series'
       },
-      data: [2208, 2016, 2916, 4512, 8281, 2008, 1963, 2367, 2956, 678]
+      data: line.data?.peer
     }
-  ]
-}) as Ref<ECOption>;
-const { domRef: lineRef } = useEcharts(lineOptions);
-
-const pieOptions = ref<ECOption>({
-  title: {
-    text: '系统分布',
-    left: 'center'
-  },
-  tooltip: {
-    trigger: 'item'
-  },
-  legend: {
-    bottom: '1%',
-    left: 'center',
-    itemStyle: {
-      borderWidth: 0
-    }
-  },
-  series: [
+  ];
+  
+  const pie = await fetchPieCharts()
+  pieOptions.value.series = [
     {
-      name: '系统分布',
+      name: $t('page.dashboard.operatingSystem'),
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
@@ -166,17 +198,17 @@ const pieOptions = ref<ECOption>({
           fontSize: '12'
         }
       },
-      data: [
-        { value: 20, name: 'Windows' },
-        { value: 10, name: 'macOS' },
-        { value: 30, name: 'Linux' },
-        { value: 40, name: 'Android' },
-        { value: 40, name: 'iOS' }
-      ]
+      data: (pie.data) as PieSeriesOption[]
     }
-  ]
-}) as Ref<ECOption>;
-const { domRef: pieRef } = useEcharts(pieOptions);
+  ];
+  //useEcharts(pieOptions).domRef.value = pieRef.value;
+}
+
+
+onMounted(() => {
+  fetchChartsData()
+})
+
 </script>
 
 <style scoped></style>

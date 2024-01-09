@@ -202,7 +202,13 @@ const locale: I18nType.Schema = {
     dashboard: {
       friendlySponsorship: '友情赞助',
       cupOfCoffee: '可以请我喝杯咖啡吗？',
-      thankYou: '感谢您的赞助'
+      thankYou: '感谢您的赞助',
+      userCount: '用户数量',
+      peerCount: '主机数量',
+      onlineCount: '在线数量',
+      visitsCount: '访问次数',
+      operatingSystem: '操作系统',
+      oneWeek: '一周内'
     }
   },
   backend: {

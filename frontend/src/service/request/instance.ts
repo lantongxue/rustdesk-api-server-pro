@@ -1,6 +1,5 @@
 import axios from 'axios';
 import type { AxiosResponse, AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { REFRESH_TOKEN_CODE } from '@/config';
 import {
   localStg,
   handleAxiosError,
@@ -63,8 +62,8 @@ export default class CustomAxiosInstance {
       }
     );
     this.instance.interceptors.response.use(
-      (async response => {
-        const { status, config } = response;
+      ((response: AxiosResponse<any, any>) => {
+        const status = response.status;
         if (status === 200 || status < 300 || status === 304) {
           const backend = response.data;
           const { codeKey, dataKey, successCode } = this.backendConfig;
@@ -72,25 +71,12 @@ export default class CustomAxiosInstance {
           if (backend[codeKey] === successCode) {
             return handleServiceResult(null, backend[dataKey]);
           }
-
-          // token失效, 刷新token
-          if (REFRESH_TOKEN_CODE.includes(backend[codeKey])) {
-            // 原始请求
-            const originRequest = new Promise(resolve => {
-              this.retryQueues.push((refreshConfig: AxiosRequestConfig) => {
-                config.headers.Authorization = refreshConfig.headers?.Authorization;
-                resolve(this.instance.request(config));
-              });
-            });
-            return originRequest;
-          }
-
           const error = handleBackendError(backend, this.backendConfig);
           return handleServiceResult(error, null);
         }
         const error = handleResponseError(response);
         return handleServiceResult(error, null);
-      }) as (response: AxiosResponse<any, any>) => Promise<AxiosResponse<any, any>>,
+      }) as unknown as (response: AxiosResponse<any, any>) => Promise<AxiosResponse<any, any>>,
       (axiosError: AxiosError) => {
         const error = handleAxiosError(axiosError);
         return handleServiceResult(error, null);

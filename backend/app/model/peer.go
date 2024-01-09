@@ -17,6 +17,7 @@ type Peer struct {
 	RdpPort          string    `xorm:"'rdpPort' varchar(5)"`
 	RdpUsername      string    `xorm:"'rdpUsername' varchar(100)"`
 	LoginName        string    `xorm:"'loginName' varchar(100)"`
+	IsOnline         bool      `xorm:"'is_online' tinyint"`
 	CreatedAt        time.Time `xorm:"'created_at' datetime created"`
 	UpdatedAt        time.Time `xorm:"'updated_at' datetime updated"`
 }

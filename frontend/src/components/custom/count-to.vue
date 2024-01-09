@@ -37,7 +37,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   startValue: 0,
-  endValue: 2021,
+  endValue: 0,
   duration: 1500,
   autoplay: true,
   decimals: 0,

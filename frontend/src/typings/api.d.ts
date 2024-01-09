@@ -15,6 +15,26 @@ declare namespace ApiAuth {
   type UserInfo = Auth.UserInfo;
 }
 
+declare namespace ApiDashboard {
+  interface Stat {
+    userCount: number;
+    peerCount: number;
+    onlineCount: number;
+    visitsCount: number;
+  }
+
+  interface LineChart {
+    xAxis: string[];
+    users: number[];
+    peer: number[];
+  }
+
+  interface PieChart {
+    name: string;
+    value: number;
+  }
+}
+
 /** 后端返回的路由相关类型 */
 declare namespace ApiRoute {
   /** 后端返回的路由数据类型 */

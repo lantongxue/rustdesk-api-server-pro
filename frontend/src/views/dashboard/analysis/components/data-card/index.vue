@@ -1,15 +1,53 @@
 <template>
   <n-card :bordered="false" class="h-full rounded-8px shadow-sm">
     <n-grid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
-      <n-grid-item v-for="item in cardData" :key="item.id">
-        <gradient-bg class="h-100px" :start-color="item.colors[0]" :end-color="item.colors[1]">
-          <h3 class="text-16px">{{ item.title }}</h3>
+      <n-grid-item>
+        <gradient-bg class="h-100px" start-color="#ec4786" end-color="#b955a4">
+          <h3 class="text-16px">{{ $t('page.dashboard.userCount') }}</h3>
           <div class="flex justify-between pt-12px">
-            <svg-icon :icon="item.icon" class="text-32px" />
+            <svg-icon icon="gravity-ui:person" class="text-32px" />
             <count-to
-              :prefix="item.unit"
-              :start-value="1"
-              :end-value="item.value"
+              :start-value="0"
+              :end-value="stat?.userCount"
+              class="text-30px text-white dark:text-dark"
+            />
+          </div>
+        </gradient-bg>
+      </n-grid-item>
+      <n-grid-item>
+        <gradient-bg class="h-100px" start-color="#865ec0" end-color="#5144b4">
+          <h3 class="text-16px">{{ $t('page.dashboard.peerCount') }}</h3>
+          <div class="flex justify-between pt-12px">
+            <svg-icon icon="fluent:desktop-32-regular" class="text-32px" />
+            <count-to
+              :start-value="0"
+              :end-value="stat?.peerCount"
+              class="text-30px text-white dark:text-dark"
+            />
+          </div>
+        </gradient-bg>
+      </n-grid-item>
+      <n-grid-item>
+        <gradient-bg class="h-100px" start-color="#56cdf3" end-color="#719de3">
+          <h3 class="text-16px">{{ $t('page.dashboard.onlineCount') }}</h3>
+          <div class="flex justify-between pt-12px">
+            <svg-icon icon="fluent:desktop-checkmark-20-regular" class="text-32px" />
+            <count-to
+              :start-value="0"
+              :end-value="stat?.onlineCount"
+              class="text-30px text-white dark:text-dark"
+            />
+          </div>
+        </gradient-bg>
+      </n-grid-item>
+      <n-grid-item>
+        <gradient-bg class="h-100px" start-color="#fcbc25" end-color="#f68057">
+          <h3 class="text-16px">{{ $t('page.dashboard.visitsCount') }}</h3>
+          <div class="flex justify-between pt-12px">
+            <svg-icon icon="ant-design:bar-chart-outlined" class="text-32px" />
+            <count-to
+              :start-value="0"
+              :end-value="stat?.visitsCount"
               class="text-30px text-white dark:text-dark"
             />
           </div>
@@ -20,53 +58,29 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { GradientBg } from './components';
+import { fetchStat } from '@/service';
+import { onMounted } from 'vue';
+import { $t } from '~/src/locales';
 
 defineOptions({ name: 'DashboardAnalysisDataCard' });
 
-interface CardData {
-  id: string;
-  title: string;
-  value: number;
-  unit: string;
-  colors: [string, string];
-  icon: string;
-}
+const stat = ref<ApiDashboard.Stat>({
+  userCount: 110,
+  peerCount: 0,
+  onlineCount: 0,
+  visitsCount: 0
+})
 
-const cardData: CardData[] = [
-  {
-    id: 'users',
-    title: '用户数量',
-    value: 1000000,
-    unit: '',
-    colors: ['#ec4786', '#b955a4'],
-    icon: 'gravity-ui:person'
-  },
-  {
-    id: 'hosts',
-    title: '主机数量',
-    value: 234567.89,
-    unit: '$',
-    colors: ['#865ec0', '#5144b4'],
-    icon: 'fluent:phone-desktop-32-regular'
-  },
-  {
-    id: 'online',
-    title: '在线数量',
-    value: 666666,
-    unit: '',
-    colors: ['#56cdf3', '#719de3'],
-    icon: 'carbon:user-online'
-  },
-  {
-    id: 'visit',
-    title: '访问次数',
-    value: 999999,
-    unit: '',
-    colors: ['#fcbc25', '#f68057'],
-    icon: 'ant-design:bar-chart-outlined'
+
+onMounted( async () => {
+  const d = (await fetchStat()).data
+  if (d != null) {
+    stat.value = d
   }
-];
+})
+
 </script>
 
 <style scoped></style>
