@@ -16,24 +16,18 @@
 import { dateZhCN, zhCN } from 'naive-ui';
 import { subscribeStore, useThemeStore } from '@/store';
 import { useGlobalEvents } from '@/composables';
-import { nextTick, ref } from 'vue';
-import { provide } from 'vue';
+import { useAppVueContext } from '@/context';
 
 const theme = useThemeStore();
 
-const isRouterAlive = ref(true)
+const { useProvide } = useAppVueContext();
+const { isRouterAlive } = useProvide();
 
 subscribeStore();
 useGlobalEvents();
 
-const reload = () => {
-  isRouterAlive.value = false;
-  nextTick(() => {
-    isRouterAlive.value = true;
-  })
-}
 
-provide('reload', reload);
+
 </script>
 
 <style scoped></style>

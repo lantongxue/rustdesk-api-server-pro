@@ -37,7 +37,6 @@ import wechat from '@/assets/images/donet/wechat.jpeg';
 import { $t } from '@/locales';
 import { onMounted } from 'vue';
 import { fetchPieCharts, fetchLineCharts } from '@/service';
-import { PieSeriesOption } from 'echarts/types/dist/shared'
 
 defineOptions({ name: 'DashboardAnalysisTopCard' });
 
@@ -198,7 +197,7 @@ async function fetchChartsData() {
           fontSize: '12'
         }
       },
-      data: (pie.data) as PieSeriesOption[]
+      data: pie.data
     }
   ];
   //useEcharts(pieOptions).domRef.value = pieRef.value;

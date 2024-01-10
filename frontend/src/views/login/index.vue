@@ -14,9 +14,7 @@
         <main class="pt-24px">
           <h3 class="text-18px text-primary font-medium">{{ $t('page.login.pwdLogin.title') }}</h3>
           <div class="pt-24px">
-            <transition name="fade-slide" mode="out-in" appear>
-              <pwd-login />
-            </transition>
+            <pwd-login />
           </div>
         </main>
       </div>

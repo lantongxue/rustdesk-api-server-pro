@@ -1,5 +1,3 @@
-import { getLoginModuleRegExp } from '@/utils';
-
 /** 根路由: / */
 export const ROOT_ROUTE: AuthRoute.Route = {
   name: 'root',
@@ -19,16 +17,6 @@ export const constantRoutes: AuthRoute.Route[] = [
     component: 'self',
     meta: {
       title: '登录',
-      dynamicPath: `/login/:module(${getLoginModuleRegExp()})?`,
-      singleLayout: 'blank'
-    }
-  },
-  {
-    name: 'constant-page',
-    path: '/constant-page',
-    component: 'self',
-    meta: {
-      title: '固定页面',
       singleLayout: 'blank'
     }
   },

@@ -105,26 +105,6 @@ export const useRouteStore = defineStore('route-store', {
       const rootVueRoute = transformAuthRouteToVueRoute(rootRoute)[0];
       router.addRoute(rootVueRoute);
     },
-    /** 初始化动态路由 */
-    async initDynamicRoute() {
-      // const { resetAuthStore } = useAuthStore();
-      // const { initHomeTab } = useTabStore();
-      // const { userId } = localStg.get('userInfo') || {};
-      // if (!userId) {
-      //   throw new Error('userId 不能为空!');
-      // }
-      // const { error, data } = await fetchUserRoutes(userId);
-      // if (!error) {
-      //   this.handleAuthRoute(sortRoutes(data.routes));
-      //   // home相关处理需要在最后，否则会出现找不到主页404的情况
-      //   this.routeHomeName = data.home;
-      //   this.handleUpdateRootRedirect(data.home);
-      //   initHomeTab(data.home, router);
-      //   this.isInitAuthRoute = true;
-      // } else {
-      //   resetAuthStore();
-      // }
-    },
     /** 初始化静态路由 */
     async initStaticRoute() {
       const { initHomeTab } = useTabStore();
@@ -139,11 +119,7 @@ export const useRouteStore = defineStore('route-store', {
     },
     /** 初始化权限路由 */
     async initAuthRoute() {
-      if (this.authRouteMode === 'dynamic') {
-        await this.initDynamicRoute();
-      } else {
-        await this.initStaticRoute();
-      }
+      await this.initStaticRoute();
     },
     /** 从缓存路由中去除某个路由 */
     removeCacheRoute(name: AuthRoute.AllRouteKey) {

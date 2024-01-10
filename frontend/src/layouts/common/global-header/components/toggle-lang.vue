@@ -7,10 +7,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/store';
 import { localStg } from '@/utils';
+import { useAppVueContext } from '@/context';
 
 const theme = useThemeStore();
 const { locale } = useI18n();
@@ -26,12 +27,13 @@ const options = [
     key: 'en'
   }
 ];
-const reload = inject<Function>('reload');
+const { useInject } = useAppVueContext();
+const { reload } = useInject();
 const handleSelect = (key: string) => {
   language.value = key as I18nType.LangType;
   locale.value = key;
   localStg.set('lang', key as I18nType.LangType);
-  reload?.call(this)
+  reload();
 };
 </script>
 <style scoped></style>
