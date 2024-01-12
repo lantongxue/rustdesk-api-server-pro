@@ -10,6 +10,7 @@ const locale: I18nType.Schema = {
     delete: '删除',
     deleteSuccess: '删除成功',
     batchDelete: '批量删除',
+    confirmDelete: '确认删除？',
     confirm: '确认',
     cancel: '取消',
     pleaseCheckValue: '请检查输入的值是否合法',

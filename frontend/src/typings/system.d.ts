@@ -318,6 +318,7 @@ declare namespace I18nType {
       delete: string;
       deleteSuccess: string;
       batchDelete: string;
+      confirmDelete: string;
       confirm: string;
       cancel: string;
       pleaseCheckValue: string;

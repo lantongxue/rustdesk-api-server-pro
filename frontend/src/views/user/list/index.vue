@@ -38,7 +38,7 @@
 import { reactive, ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
 import type { DataTableColumns, PaginationProps } from 'naive-ui';
-import { NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import { useLoading } from '@/hooks';
 import { fetchUserList } from '@/service/api/user';
 import { $t } from '@/locales';
@@ -103,9 +103,9 @@ const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
     key: 'is_admin',
     title: $t('dataMap.user.is_admin'),
     align: 'center',
-    render: (row: { is_admin: any; }) => {
+    render: row => {
       if (row.is_admin) {
-        return <NTag bordered={false} type='success'>{$t('common.yes')}</NTag>;
+        return <NTag bordered={false} type={'success'}>{$t('common.yes')}</NTag>;
       } else {
         return <NTag bordered={false}>{$t('common.no')}</NTag>;
       }
@@ -116,6 +116,26 @@ const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
     title: $t('dataMap.user.created_at'),
     align: 'center'
   },
+  {
+    key: 'actions',
+    title: '操作',
+    align: 'center',
+    render: row => {
+      return (
+        <NSpace justify={'center'}>
+          <NButton size={'small'}>
+            {$t('common.edit')}
+          </NButton>
+          <NPopconfirm negativeText={$t('common.cancel')} positiveText={$t('common.confirm')}>
+            {{
+              default: () => $t('common.confirmDelete'),
+              trigger: () => <NButton size={'small'} type={'error'}>{$t('common.delete')}</NButton>
+            }}
+          </NPopconfirm>
+        </NSpace>
+      );
+    }
+  }
 ]) as Ref<DataTableColumns<ApiUserManagement.User>>;
 
 const tableData = ref<ApiUserManagement.User[]>([]);

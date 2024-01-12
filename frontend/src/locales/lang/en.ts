@@ -10,6 +10,7 @@ const locale: I18nType.Schema = {
     delete: 'Delete',
     deleteSuccess: 'Delete Success',
     batchDelete: 'Batch Delete',
+    confirmDelete: 'Confirm Delete?',
     confirm: 'Confirm',
     cancel: 'Cancel',
     pleaseCheckValue: 'Please check the value is valid',
