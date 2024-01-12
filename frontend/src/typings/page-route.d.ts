@@ -15,11 +15,23 @@ declare namespace PageRoute {
    * the route key
    * @translate 页面路由
    */
-  type RouteKey = '403' | '404' | '500' | 'not-found' | 'dashboard' | 'dashboard_analysis' | 'login';
+  type RouteKey =
+    | '403'
+    | '404'
+    | '500'
+    | 'not-found'
+    | 'dashboard'
+    | 'dashboard_analysis'
+    | 'login'
+    | 'user'
+    | 'user_list';
 
   /**
    * last degree route key, which has the page file
    * @translate 最后一级路由(该级路有对应的页面文件)
    */
-  type LastDegreeRouteKey = Extract<RouteKey, '403' | '404' | '500' | 'not-found' | 'dashboard_analysis' | 'login'>;
+  type LastDegreeRouteKey = Extract<
+    RouteKey,
+    '403' | '404' | '500' | 'not-found' | 'dashboard_analysis' | 'login' | 'user_list'
+  >;
 }

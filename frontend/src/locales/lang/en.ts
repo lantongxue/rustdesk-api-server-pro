@@ -13,18 +13,36 @@ const locale: I18nType.Schema = {
     confirm: 'Confirm',
     cancel: 'Cancel',
     pleaseCheckValue: 'Please check the value is valid',
-    action: 'Action'
+    action: 'Action',
+    refreshTable: 'Refresh Table',
+    yes: 'Yes',
+    no: 'No',
+    page: 'Page'
   },
   routes: {
     dashboard: {
       _value: 'Dashboard',
       analysis: 'Analysis'
     },
-    component: {
-      _value: 'Component',
-      button: 'Button',
-      card: 'Card',
-      table: 'Table'
+    user: {
+      _value: 'User Management',
+      list: 'User List'
+    }
+  },
+  dataMap: {
+    user: {
+      username: 'Username',
+      name: 'Nickname',
+      email: 'Email',
+      licensed_devices: 'Licensed Devices',
+      status: 'Status',
+      is_admin: 'Is Admin',
+      created_at: 'Created At',
+      statusLabel: {
+        disabled: 'Disabled',
+        unverified: 'Unverified',
+        normal: 'Normal'
+      }
     }
   },
   layout: {

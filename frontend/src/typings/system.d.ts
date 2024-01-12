@@ -322,18 +322,36 @@ declare namespace I18nType {
       cancel: string;
       pleaseCheckValue: string;
       action: string;
+      refreshTable: string;
+      yes: string;
+      no: string;
+      page: string;
     };
     routes: {
       dashboard: {
         _value: string;
         analysis: string;
       };
-      component: {
+      user: {
         _value: string;
-        button: string;
-        card: string;
-        table: string;
+        list: string;
       };
+    };
+    dataMap: {
+      user: {
+        username: string;
+        name: string;
+        email: string;
+        licensed_devices: string;
+        status: string;
+        is_admin: string;
+        created_at: string;
+        statusLabel: {
+          disabled: string;
+          unverified: string;
+          normal: string;
+        }
+      }
     };
     layout: {
       settingDrawer: {

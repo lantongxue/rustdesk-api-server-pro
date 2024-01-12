@@ -34,3 +34,22 @@ declare namespace ApiDashboard {
     value: number;
   }
 }
+
+declare namespace ApiUserManagement {
+  interface UserListResponse {
+    total: number;
+    list: User[];
+  }
+  interface User {
+    id: number;
+    username: string;
+    name: string;
+    email: string;
+    licensed_devices: number;
+    note: string;
+    status: number;
+    is_admin: boolean;
+    created_at: string;
+  }
+
+}

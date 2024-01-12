@@ -29,14 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
+import { fetchPieCharts, fetchLineCharts } from '@/service';
 import { type ECOption, useEcharts } from '@/composables';
 import alipay from '@/assets/images/donet/alipay.jpeg';
 import wechat from '@/assets/images/donet/wechat.jpeg';
 import { $t } from '@/locales';
-import { onMounted } from 'vue';
-import { fetchPieCharts, fetchLineCharts } from '@/service';
 
 defineOptions({ name: 'DashboardAnalysisTopCard' });
 
@@ -108,7 +107,7 @@ const pieOptions = ref<ECOption>({
 const { domRef: pieRef } = useEcharts(pieOptions);
 
 async function fetchChartsData() {
-  const line = await fetchLineCharts()
+  const line = await fetchLineCharts();
   lineOptions.value.xAxis = [
     {
       type: 'category',
@@ -178,8 +177,8 @@ async function fetchChartsData() {
       data: line.data?.peer
     }
   ];
-  
-  const pie = await fetchPieCharts()
+
+  const pie = await fetchPieCharts();
   pieOptions.value.series = [
     {
       name: $t('page.dashboard.operatingSystem'),
@@ -197,17 +196,14 @@ async function fetchChartsData() {
           fontSize: '12'
         }
       },
-      data: pie.data
+      data: (pie.data) as []
     }
   ];
-  //useEcharts(pieOptions).domRef.value = pieRef.value;
 }
 
-
 onMounted(() => {
-  fetchChartsData()
-})
-
+  fetchChartsData();
+});
 </script>
 
 <style scoped></style>

@@ -9,5 +9,6 @@ export const views: Record<
   500: () => import('./_builtin/500/index.vue'),
   'not-found': () => import('./_builtin/not-found/index.vue'),
   dashboard_analysis: () => import('./dashboard/analysis/index.vue'),
-  login: () => import('./login/index.vue')
+  login: () => import('./login/index.vue'),
+  user_list: () => import('./user/list/index.vue')
 };

@@ -13,18 +13,36 @@ const locale: I18nType.Schema = {
     confirm: '确认',
     cancel: '取消',
     pleaseCheckValue: '请检查输入的值是否合法',
-    action: '操作'
+    action: '操作',
+    refreshTable: '刷新表格',
+    yes: '是',
+    no: '否',
+    page: '页'
   },
   routes: {
     dashboard: {
       _value: '仪表盘',
       analysis: '分析页'
     },
-    component: {
-      _value: '组件示例',
-      button: '按钮',
-      card: '卡片',
-      table: '表格'
+    user: {
+      _value: '用户管理',
+      list: '用户列表'
+    }
+  },
+  dataMap: {
+    user: {
+      username: '用户名',
+      name: '昵称',
+      email: '邮箱',
+      licensed_devices: '授权设备数量',
+      status: '状态',
+      is_admin: '管理员',
+      created_at: '创建时间',
+      statusLabel: {
+        disabled: '禁用',
+        unverified: '未验证',
+        normal: '正常'
+      }
     }
   },
   layout: {
