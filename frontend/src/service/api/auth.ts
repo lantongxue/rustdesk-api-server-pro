@@ -4,13 +4,13 @@ import { request } from '../request';
  * 登录
  * @param data
  */
-export function fetchLogin(data: object) {
+export function fetchLogin(data: any) {
   return request.post<ApiAuth.Token>('/auth/login', data);
 }
 
 /** 获取用户信息 */
 export function fetchUserInfo() {
-  return request.get<ApiAuth.UserInfo>('/user/info');
+  return request.get<ApiAuth.UserInfo>('/userinfo');
 }
 
 /**

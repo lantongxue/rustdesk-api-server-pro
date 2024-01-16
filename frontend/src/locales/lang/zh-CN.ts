@@ -172,7 +172,13 @@ const locale: I18nType.Schema = {
   backend: {
     CaptchaError: '验证码错误',
     UserNotExists: '用户不存在',
-    UsernameOrPasswordError: '账号或密码错误'
+    UsernameOrPasswordError: '账号或密码错误',
+    UsernameEmpty: '用户名不能为空',
+    PasswordEmpty: '密码不能为空',
+    UserAddSuccess: '用户创建成功',
+    DataError: '数据错误',
+    UserUpdateSuccess: '用户修改成功',
+    UserDeleteSuccess: '用户删除成功'
   }
 };
 

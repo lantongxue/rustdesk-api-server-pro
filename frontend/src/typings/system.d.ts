@@ -481,6 +481,12 @@ declare namespace I18nType {
       CaptchaError: string;
       UserNotExists: string;
       UsernameOrPasswordError: string;
+      UsernameEmpty: string;
+      PasswordEmpty: string;
+      UserAddSuccess: string;
+      DataError: string;
+      UserUpdateSuccess: string;
+      UserDeleteSuccess: string;
     };
   };
 

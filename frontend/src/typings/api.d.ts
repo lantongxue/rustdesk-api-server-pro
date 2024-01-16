@@ -43,6 +43,7 @@ declare namespace ApiUserManagement {
   interface User {
     id: number;
     username: string;
+    password: string;
     name: string;
     email: string;
     licensed_devices: number;

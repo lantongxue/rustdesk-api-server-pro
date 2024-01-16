@@ -1,0 +1,181 @@
+<template>
+  <n-modal v-model:show="modalVisible" preset="card" :title="title" class="w-700px">
+    <n-form ref="formRef" label-placement="left" :label-width="80" :model="formModel" :rules="rules">
+      <n-grid :cols="24" :x-gap="18">
+        <n-form-item-grid-item :span="12" label="用户名" path="username" v-if="type == 'add'">
+          <n-input v-model:value="formModel.username" />
+        </n-form-item-grid-item>
+        <n-form-item-grid-item :span="12" label="密码" path="password">
+          <n-input v-model:value="formModel.password" type="password" clearable />
+        </n-form-item-grid-item>
+        <n-form-item-grid-item :span="12" label="昵称" path="name">
+          <n-input v-model:value="formModel.name" clearable />
+        </n-form-item-grid-item>
+        <n-form-item-grid-item :span="12" label="邮箱" path="email">
+          <n-input v-model:value="formModel.email" />
+        </n-form-item-grid-item>
+        <n-form-item-grid-item :span="12" label="授权设备数量" path="licensed_devices">
+          <n-input-number v-model:value="formModel.licensed_devices" />
+        </n-form-item-grid-item>
+        <n-form-item-grid-item :span="12" label="状态" path="status">
+          <n-select v-model:value="formModel.status" :options="userStatusOptions" />
+        </n-form-item-grid-item>
+        <n-form-item-grid-item :span="12" label="管理员" path="is_admin">
+          <n-switch v-model:value="formModel.is_admin">
+            <template #checked>是</template>
+            <template #unchecked>否</template>
+          </n-switch>
+        </n-form-item-grid-item>
+      </n-grid>
+      <n-space class="w-full pt-16px" :size="24" justify="end">
+        <n-button class="w-72px" @click="closeModal">取消</n-button>
+        <n-button class="w-72px" type="primary" @click="handleSubmit">确定</n-button>
+      </n-space>
+    </n-form>
+  </n-modal>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, reactive, watch } from 'vue';
+import type { FormInst, FormRules } from 'naive-ui';
+import { createRequiredFormRule } from '@/utils';
+import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
+
+export interface Props {
+  /** 弹窗可见性 */
+  visible: boolean;
+  /**
+   * 弹窗类型
+   * add: 新增
+   * edit: 编辑
+   */
+  type?: 'add' | 'edit';
+  /** 编辑的表格行数据 */
+  editData?: ApiUserManagement.User | null;
+}
+
+export type ModalType = NonNullable<Props['type']>;
+
+defineOptions({ name: 'UserEditModal' });
+
+const props = withDefaults(defineProps<Props>(), {
+  type: 'add',
+  editData: null
+});
+
+interface Emits {
+  (e: 'update:visible', visible: boolean): void;
+}
+
+const emit = defineEmits<Emits>();
+
+const modalVisible = computed({
+  get() {
+    return props.visible;
+  },
+  set(visible) {
+    emit('update:visible', visible);
+  }
+});
+const closeModal = () => {
+  modalVisible.value = false;
+};
+
+const title = computed(() => {
+  const titles: Record<ModalType, string> = {
+    add: '添加用户',
+    edit: '编辑用户'
+  };
+  return titles[props.type];
+});
+
+const userStatusOptions: SelectMixedOption[] = [
+  {
+    value: -1,
+    label: '禁用'
+  },
+  {
+    value: 0,
+    label: '未验证'
+  },
+  {
+    value: 1,
+    label: '正常'
+  },
+]
+
+const formRef = ref<HTMLElement & FormInst>();
+
+const formModel = reactive<ApiUserManagement.User>(createDefaultFormModel());
+
+const REGEXP_EMAIL = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+
+const rules: FormRules = {
+  name: createRequiredFormRule('请选择性别'),
+  email: [{ pattern: REGEXP_EMAIL, message: '邮箱格式错误', trigger: 'blur' }],
+  licensed_devices: createRequiredFormRule('请选择用户状态'),
+  status: createRequiredFormRule('请选择用户状态'),
+  is_admin: createRequiredFormRule('请选择用户状态')
+};
+
+function updateRules() {
+  if(props.type === 'add') {
+    rules['username'] = createRequiredFormRule('请输入用户名')
+    rules['password'] = createRequiredFormRule('请输入用户名')
+  } else {
+    delete rules['username'];
+    delete rules['password'];
+  }
+}
+
+function createDefaultFormModel(): any {
+  return {
+    id: 0,
+    username: "",
+    password: "",
+    name: "",
+    email: "",
+    licensed_devices: 0,
+    status: 1,
+    is_admin: false
+  };
+}
+
+function handleUpdateFormModel(model: Partial<ApiUserManagement.User>) {
+  Object.assign(formModel, model);
+}
+
+function handleUpdateFormModelByModalType() {
+  const handlers: Record<ModalType, () => void> = {
+    add: () => {
+      const defaultFormModel = createDefaultFormModel();
+      handleUpdateFormModel(defaultFormModel);
+    },
+    edit: () => {
+      if (props.editData) {
+        handleUpdateFormModel(props.editData);
+      }
+    }
+  };
+
+  handlers[props.type]();
+}
+
+async function handleSubmit() {
+  await formRef.value?.validate();
+  window.$message?.success('新增成功!');
+  closeModal();
+}
+
+watch(
+  () => props.visible,
+  newValue => {
+    if (newValue) {
+      updateRules();
+      handleUpdateFormModelByModalType();
+    }
+  }
+);
+</script>
+
+<style scoped></style>

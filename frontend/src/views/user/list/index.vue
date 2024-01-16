@@ -4,7 +4,7 @@
       <div class="flex-col h-full">
         <n-space class="pb-12px" justify="space-between">
           <n-space>
-            <n-button type="primary">
+            <n-button type="primary" @click="handleAddTable">
               <icon-ic-round-plus class="mr-4px text-20px" />
               {{ $t('common.add') }}
             </n-button>
@@ -30,6 +30,7 @@
           flex-height
           class="flex-1-hidden"
         />
+        <user-edit-modal v-model:visible="visible" :type="modalType" :edit-data="editData" />
       </div>
     </n-card>
   </div>
@@ -39,12 +40,15 @@ import { reactive, ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
 import type { DataTableColumns, PaginationProps } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
-import { useLoading } from '@/hooks';
+import { useBoolean, useLoading } from '@/hooks';
 import { fetchUserList } from '@/service/api/user';
 import { $t } from '@/locales';
 import { PageSizes } from '@/constants';
+import UserEditModal from './components/edit.vue'
+import type { ModalType } from './components/edit.vue';
 
 const { loading, startLoading, endLoading } = useLoading(false);
+const { bool: visible, setTrue: openModal } = useBoolean();
 
 const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
   {
@@ -123,7 +127,7 @@ const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
     render: row => {
       return (
         <NSpace justify={'center'}>
-          <NButton size={'small'}>
+          <NButton size={'small'} onClick={() => handleEditTable(row)}>
             {$t('common.edit')}
           </NButton>
           <NPopconfirm negativeText={$t('common.cancel')} positiveText={$t('common.confirm')}>
@@ -137,6 +141,10 @@ const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
     }
   }
 ]) as Ref<DataTableColumns<ApiUserManagement.User>>;
+
+const modalType = ref<ModalType>('add');
+
+const editData = ref<ApiUserManagement.User | null>(null);
 
 const tableData = ref<ApiUserManagement.User[]>([]);
 
@@ -173,6 +181,18 @@ async function getTableData() {
     endLoading();
   }
 }
+
+function handleAddTable() {
+  modalType.value = 'add';
+  openModal();
+}
+
+function handleEditTable(row: any) {
+  editData.value = row;
+  modalType.value = 'edit';
+  openModal();
+}
+
 
 onMounted(() => {
   getTableData();

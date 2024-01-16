@@ -172,7 +172,13 @@ const locale: I18nType.Schema = {
   backend: {
     CaptchaError: 'CAPTCHA error',
     UserNotExists: 'The user does not exist',
-    UsernameOrPasswordError: 'Incorrect account or password'
+    UsernameOrPasswordError: 'Incorrect account or password',
+    UsernameEmpty: 'User name cannot be empty',
+    PasswordEmpty: 'Password cannot be empty',
+    UserAddSuccess: 'User created successfully',
+    DataError: 'data error',
+    UserUpdateSuccess: 'User modified successfully',
+    UserDeleteSuccess: 'User deleted successfully'
   }
 };
 
