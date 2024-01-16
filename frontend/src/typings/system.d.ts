@@ -321,7 +321,7 @@ declare namespace I18nType {
       confirmDelete: string;
       confirm: string;
       cancel: string;
-      pleaseCheckValue: string;
+      close: string;
       action: string;
       refreshTable: string;
       yes: string;
@@ -341,6 +341,7 @@ declare namespace I18nType {
     dataMap: {
       user: {
         username: string;
+        password: string;
         name: string;
         email: string;
         licensed_devices: string;
@@ -351,8 +352,8 @@ declare namespace I18nType {
           disabled: string;
           unverified: string;
           normal: string;
-        }
-      }
+        };
+      };
     };
     layout: {
       settingDrawer: {
@@ -423,15 +424,6 @@ declare namespace I18nType {
         systemTheme: {
           moreColors: string;
         };
-        themeConfiguration: {
-          title: string;
-          copy: string;
-          reset: string;
-          resetSuccess: string;
-          operateSuccess: string;
-          copySuccess: string;
-          confirmCopy: string;
-        };
       };
       header: {
         search: string;
@@ -475,6 +467,10 @@ declare namespace I18nType {
         visitsCount: string;
         operatingSystem: string;
         oneWeek: string;
+      };
+      users: {
+        addUser: string;
+        editUser: string;
       };
     };
     backend: {

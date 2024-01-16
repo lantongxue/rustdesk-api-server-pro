@@ -13,7 +13,7 @@ const locale: I18nType.Schema = {
     confirmDelete: '确认删除？',
     confirm: '确认',
     cancel: '取消',
-    pleaseCheckValue: '请检查输入的值是否合法',
+    close: '关闭',
     action: '操作',
     refreshTable: '刷新表格',
     yes: '是',
@@ -33,6 +33,7 @@ const locale: I18nType.Schema = {
   dataMap: {
     user: {
       username: '用户名',
+      password: '密码',
       name: '昵称',
       email: '邮箱',
       licensed_devices: '授权设备数量',
@@ -114,15 +115,6 @@ const locale: I18nType.Schema = {
       },
       systemTheme: {
         moreColors: '更多颜色'
-      },
-      themeConfiguration: {
-        title: '主题配置',
-        copy: '拷贝当前配置',
-        reset: '重置当前配置',
-        resetSuccess: '已重置配置，请重新拷贝！',
-        operateSuccess: '操作成功',
-        copySuccess: '复制成功,请替换 src/settings/theme.json的内容！',
-        confirmCopy: '确认'
       }
     },
     header: {
@@ -167,6 +159,10 @@ const locale: I18nType.Schema = {
       visitsCount: '访问次数',
       operatingSystem: '操作系统',
       oneWeek: '一周内'
+    },
+    users: {
+      addUser: '添加用户',
+      editUser: '编辑用户'
     }
   },
   backend: {

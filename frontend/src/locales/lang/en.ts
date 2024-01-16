@@ -13,7 +13,7 @@ const locale: I18nType.Schema = {
     confirmDelete: 'Confirm Delete?',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    pleaseCheckValue: 'Please check the value is valid',
+    close: 'Close',
     action: 'Action',
     refreshTable: 'Refresh Table',
     yes: 'Yes',
@@ -33,6 +33,7 @@ const locale: I18nType.Schema = {
   dataMap: {
     user: {
       username: 'Username',
+      password: 'Password',
       name: 'Nickname',
       email: 'Email',
       licensed_devices: 'Licensed Devices',
@@ -114,15 +115,6 @@ const locale: I18nType.Schema = {
       },
       systemTheme: {
         moreColors: 'More colors'
-      },
-      themeConfiguration: {
-        title: 'Theme configuration',
-        copy: 'Copy the current configuration',
-        reset: 'Reset the current configuration',
-        resetSuccess: 'The configuration has been reset, please copy it again!',
-        operateSuccess: 'Successful operation',
-        copySuccess: 'Copy success, please replace the content of src/settings/theme.json!',
-        confirmCopy: 'Confirm'
       }
     },
     header: {
@@ -167,6 +159,10 @@ const locale: I18nType.Schema = {
       visitsCount: 'Visits Count',
       operatingSystem: 'Operating System',
       oneWeek: 'One Week'
+    },
+    users: {
+      addUser: 'Add User',
+      editUser: 'Edit User'
     }
   },
   backend: {
