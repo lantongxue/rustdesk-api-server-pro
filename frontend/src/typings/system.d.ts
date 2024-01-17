@@ -36,6 +36,7 @@ declare namespace Service {
     error: null;
     /** 请求数据 */
     data: T;
+    message: string;
   }
 
   /** 自定义的请求失败结果 */

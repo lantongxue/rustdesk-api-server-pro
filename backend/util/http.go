@@ -24,7 +24,7 @@ func DownloadFile(remoteAddr, filename, proxyServer string, showConsoleProgressB
 		}
 		scheme := strings.ToLower(proxyUrl.Scheme)
 		allow_schemes := []string{"http", "https", "socks5"}
-		if !InStringArray(allow_schemes, scheme) {
+		if !InArray(allow_schemes, scheme) {
 			return errors.New("only support http, https, socks5 proxy protocols")
 		}
 

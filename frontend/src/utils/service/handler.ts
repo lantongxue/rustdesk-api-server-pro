@@ -1,5 +1,9 @@
 /** 统一失败和成功的请求结果的数据类型 */
-export async function handleServiceResult<T = any>(error: Service.RequestError | null, data: any) {
+export async function handleServiceResult<T = any>(
+  error: Service.RequestError | null,
+  data: any,
+  message: string = ''
+) {
   if (error) {
     const fail: Service.FailedResult = {
       error,
@@ -9,7 +13,8 @@ export async function handleServiceResult<T = any>(error: Service.RequestError |
   }
   const success: Service.SuccessResult<T> = {
     error: null,
-    data
+    data,
+    message
   };
   return success;
 }
@@ -26,7 +31,8 @@ export function adapter<T extends Service.ServiceAdapter>(
     if (flag) {
       result = {
         error: item.error,
-        data: null
+        data: null,
+        message: ''
       };
     }
     return flag;
@@ -36,7 +42,8 @@ export function adapter<T extends Service.ServiceAdapter>(
     const adapterFunArgs = args.map(item => item.data);
     result = {
       error: null,
-      data: adapterFun(...adapterFunArgs)
+      data: adapterFun(...adapterFunArgs),
+      message: ''
     };
   }
 

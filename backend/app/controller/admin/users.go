@@ -149,7 +149,7 @@ func (c *UsersController) HandleEdit() mvc.Result {
 		user.Password = p
 	}
 
-	_, err = c.Db.Where("id = ?", form.Id).AllCols().Update(user)
+	_, err = c.Db.Where("id = ?", form.Id).MustCols("licensed_devices", "status", "is_admin").Update(user)
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}
@@ -159,14 +159,15 @@ func (c *UsersController) HandleEdit() mvc.Result {
 
 func (c *UsersController) HandleDelete() mvc.Result {
 	type deleteParams struct {
-		Ids []string `form:"ids[]"`
+		Ids []int `json:"ids"`
 	}
 	var params deleteParams
-	err := c.Ctx.ReadForm(&params)
+	err := c.Ctx.ReadJSON(&params)
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}
-	_, err = c.Db.In("id", params.Ids).Delete(&model.User{})
+	ids := util.RemoveElement(params.Ids, 1)
+	_, err = c.Db.In("id", ids).Delete(&model.User{})
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}
