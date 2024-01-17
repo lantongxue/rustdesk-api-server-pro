@@ -41,6 +41,8 @@ import type { FormInst, FormRules } from 'naive-ui';
 import type { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 import { createRequiredFormRule } from '@/utils';
 import { $t } from '@/locales';
+import { UserStatus } from '@/constants/business';
+import { addUser, editUser } from '@/service/api/user';
 
 export interface Props {
   /** 弹窗可见性 */
@@ -66,6 +68,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 interface Emits {
   (e: 'update:visible', visible: boolean): void;
+  (e: 'update:refresh'): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -80,6 +83,7 @@ const modalVisible = computed({
 });
 const closeModal = () => {
   modalVisible.value = false;
+  handleUpdateFormModel(createDefaultFormModel());
 };
 
 const title = computed(() => {
@@ -90,20 +94,13 @@ const title = computed(() => {
   return titles[props.type];
 });
 
-const userStatusOptions: SelectMixedOption[] = [
-  {
-    value: -1,
-    label: $t('dataMap.user.statusLabel.disabled')
-  },
-  {
-    value: 0,
-    label: $t('dataMap.user.statusLabel.unverified')
-  },
-  {
-    value: 1,
-    label: $t('dataMap.user.statusLabel.normal')
-  }
-];
+const userStatusOptions: SelectMixedOption[] = [];
+UserStatus.forEach((value, key) => {
+  userStatusOptions.push({
+    label: value,
+    value: key
+  });
+});
 
 const formRef = ref<HTMLElement & FormInst>();
 
@@ -112,22 +109,22 @@ const formModel = reactive<ApiUserManagement.User>(createDefaultFormModel());
 const REGEXP_EMAIL = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
 const rules: FormRules = {
-  name: createRequiredFormRule('请输入昵称'),
-  email: [{ pattern: REGEXP_EMAIL, message: '邮箱格式错误', trigger: 'blur' }],
-  status: createRequiredFormRule('请选择用户状态')
+  name: createRequiredFormRule($t('page.users.inputNickname')),
+  email: [{ pattern: REGEXP_EMAIL, message: $t('page.users.emailFormatError'), trigger: 'blur' }],
+  status: createRequiredFormRule($t('page.users.selectUserStatus'))
 };
 
 function updateRules() {
   if (props.type === 'add') {
-    rules.username = createRequiredFormRule('请输入用户名');
-    rules.password = createRequiredFormRule('请输入密码');
+    rules.username = createRequiredFormRule($t('page.users.inputUsername'));
+    rules.password = createRequiredFormRule($t('page.users.inputPassword'));
   } else {
     delete rules.username;
     delete rules.password;
   }
 }
 
-function createDefaultFormModel(): any {
+function createDefaultFormModel(): ApiUserManagement.User {
   return {
     id: 0,
     username: '',
@@ -136,11 +133,13 @@ function createDefaultFormModel(): any {
     email: '',
     licensed_devices: 0,
     status: 1,
-    is_admin: false
+    note: '',
+    is_admin: false,
+    created_at: ''
   };
 }
 
-function handleUpdateFormModel(model: Partial<ApiUserManagement.User>) {
+function handleUpdateFormModel(model: ApiUserManagement.User) {
   Object.assign(formModel, model);
 }
 
@@ -162,7 +161,15 @@ function handleUpdateFormModelByModalType() {
 
 async function handleSubmit() {
   await formRef.value?.validate();
-  window.$message?.success('新增成功!');
+  const requestMethod = props.type === 'add' ? addUser : editUser;
+  const res = await requestMethod(formModel);
+  if (res.error === null) {
+    const k = `backend.${res.message}` as I18nType.I18nKey;
+    window.$message?.success($t(k));
+  } else {
+    window.$message?.error(res.error.msg);
+  }
+  emit('update:refresh');
   closeModal();
 }
 

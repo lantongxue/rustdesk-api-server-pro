@@ -36,6 +36,7 @@ declare namespace Service {
     error: null;
     /** 请求数据 */
     data: T;
+    message: string;
   }
 
   /** 自定义的请求失败结果 */
@@ -471,6 +472,11 @@ declare namespace I18nType {
       users: {
         addUser: string;
         editUser: string;
+        inputUsername: string;
+        inputPassword: string;
+        inputNickname: string;
+        emailFormatError: string;
+        selectUserStatus: string;
       };
     };
     backend: {

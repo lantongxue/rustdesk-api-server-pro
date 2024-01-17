@@ -8,7 +8,7 @@
               <icon-ic-round-plus class="mr-4px text-20px" />
               {{ $t('common.add') }}
             </n-button>
-            <n-button type="error">
+            <n-button type="error" @click="handleBatchDelete">
               <icon-ic-round-delete class="mr-4px text-20px" />
               {{ $t('common.delete') }}
             </n-button>
@@ -25,12 +25,18 @@
           :data="tableData"
           :remote="true"
           :loading="loading"
+          :checked-row-keys="selectedRows"
           :pagination="pagination"
           :row-key="row => row.id"
           flex-height
           class="flex-1-hidden"
         />
-        <user-edit-modal v-model:visible="visible" :type="modalType" :edit-data="editData" />
+        <user-edit-modal
+          v-model:visible="visible"
+          :type="modalType"
+          :edit-data="editData"
+          @update:refresh="getTableData()"
+        />
       </div>
     </n-card>
   </div>
@@ -38,13 +44,14 @@
 <script setup lang="tsx">
 import { reactive, ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
-import type { DataTableColumns, PaginationProps } from 'naive-ui';
+import type { DataTableColumns, PaginationProps, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
-import { useBoolean, useLoading } from '@/hooks';
-import { fetchUserList } from '@/service/api/user';
-import { $t } from '@/locales';
 import { PageSizes } from '@/constants';
-import UserEditModal from './components/edit.vue'
+import { useBoolean, useLoading } from '@/hooks';
+import { fetchUserList, delUser } from '@/service/api/user';
+import { $t } from '@/locales';
+import { UserStatus } from '@/constants/business';
+import UserEditModal from './components/edit.vue';
 import type { ModalType } from './components/edit.vue';
 
 const { loading, startLoading, endLoading } = useLoading(false);
@@ -53,7 +60,10 @@ const { bool: visible, setTrue: openModal } = useBoolean();
 const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
   {
     type: 'selection',
-    align: 'center'
+    align: 'center',
+    disabled: row => {
+      return row.id === 1;
+    }
   },
   {
     key: 'id',
@@ -85,22 +95,18 @@ const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
     title: $t('dataMap.user.status'),
     align: 'center',
     render: row => {
-      if (row.status) {
-        const tagTypes: any = {
-          '0': '',
-          '-1': 'error',
-          '1': 'success'
-        };
+      const tagTypes: any = {
+        '0': '',
+        '-1': 'error',
+        '1': 'success'
+      };
 
-        const userStatusLabels: any = {
-          '0': $t('dataMap.user.statusLabel.disabled'),
-          '-1': $t('dataMap.user.statusLabel.unverified'),
-          '1': $t('dataMap.user.statusLabel.normal')
-        };
-
-        return <NTag bordered={false} type={tagTypes[row.status.toString()]}>{userStatusLabels[row.status.toString()]}</NTag>;
-      }
-      return <span></span>;
+      const label = UserStatus.get(row.status);
+      return (
+        <NTag bordered={false} type={tagTypes[row.status.toString()]}>
+          {label}
+        </NTag>
+      );
     }
   },
   {
@@ -109,10 +115,13 @@ const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
     align: 'center',
     render: row => {
       if (row.is_admin) {
-        return <NTag bordered={false} type={'success'}>{$t('common.yes')}</NTag>;
-      } else {
-        return <NTag bordered={false}>{$t('common.no')}</NTag>;
+        return (
+          <NTag bordered={false} type={'success'}>
+            {$t('common.yes')}
+          </NTag>
+        );
       }
+      return <NTag bordered={false}>{$t('common.no')}</NTag>;
     }
   },
   {
@@ -130,17 +139,28 @@ const columns: Ref<DataTableColumns<ApiUserManagement.User>> = ref([
           <NButton size={'small'} onClick={() => handleEditTable(row)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm negativeText={$t('common.cancel')} positiveText={$t('common.confirm')}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => <NButton size={'small'} type={'error'}>{$t('common.delete')}</NButton>
-            }}
-          </NPopconfirm>
+          {row.id === 1 ? null : (
+            <NPopconfirm
+              negativeText={$t('common.cancel')}
+              positiveText={$t('common.confirm')}
+              onPositiveClick={() => handleDeleteTable(row)}
+            >
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton size={'small'} type={'error'}>
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          )}
         </NSpace>
       );
     }
   }
 ]) as Ref<DataTableColumns<ApiUserManagement.User>>;
+const selectedRows = ref<DataTableRowKey[]>([]);
 
 const modalType = ref<ModalType>('add');
 
@@ -193,9 +213,29 @@ function handleEditTable(row: any) {
   openModal();
 }
 
+async function handleDeleteTable(row: any) {
+  const res = await delUser({ ids: [row.id] });
+  if (res.error === null) {
+    const k = `backend.${res.message}` as I18nType.I18nKey;
+    window.$message?.success($t(k));
+    await getTableData();
+  } else {
+    window.$message?.error(res.error.msg);
+  }
+}
+
+async function handleBatchDelete() {
+  const res = await delUser({ ids: selectedRows.value });
+  if (res.error === null) {
+    const k = `backend.${res.message}` as I18nType.I18nKey;
+    window.$message?.success($t(k));
+    await getTableData();
+  } else {
+    window.$message?.error(res.error.msg);
+  }
+}
 
 onMounted(() => {
   getTableData();
 });
-
 </script>

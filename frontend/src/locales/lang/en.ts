@@ -162,7 +162,12 @@ const locale: I18nType.Schema = {
     },
     users: {
       addUser: 'Add User',
-      editUser: 'Edit User'
+      editUser: 'Edit User',
+      inputUsername: 'Input Username',
+      inputPassword: 'Input Password',
+      inputNickname: 'Input Nickname',
+      emailFormatError: 'Email format error',
+      selectUserStatus: 'Please select user status'
     }
   },
   backend: {

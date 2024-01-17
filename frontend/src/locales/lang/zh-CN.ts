@@ -162,7 +162,12 @@ const locale: I18nType.Schema = {
     },
     users: {
       addUser: '添加用户',
-      editUser: '编辑用户'
+      editUser: '编辑用户',
+      inputUsername: '请输入用户名',
+      inputPassword: '请输入密码',
+      inputNickname: '请输入昵称',
+      emailFormatError: '邮箱格式错误',
+      selectUserStatus: '请选择用户状态'
     }
   },
   backend: {
