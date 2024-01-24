@@ -28,6 +28,7 @@
           :checked-row-keys="selectedRows"
           :pagination="pagination"
           :row-key="row => row.id"
+          v-model:checked-row-keys="selectedRows"
           flex-height
           class="flex-1-hidden"
         />
