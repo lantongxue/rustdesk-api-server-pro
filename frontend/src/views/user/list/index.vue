@@ -14,7 +14,7 @@
             </n-button>
           </n-space>
           <n-space align="center" :size="18">
-            <n-input v-model:value="search.kw" size="small" />
+            <n-input v-model:value="search.kw" :placeholder="$t('page.users.searchPlaceholder')" size="small" />
             <n-button size="small" type="primary" @click="getTableData()">
               <icon-mdi-search class="mr-4px text-16px" :class="{ 'animate-spin': loading }" />
               {{ $t('common.search') }}

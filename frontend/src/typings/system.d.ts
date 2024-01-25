@@ -478,6 +478,7 @@ declare namespace I18nType {
         inputNickname: string;
         emailFormatError: string;
         selectUserStatus: string;
+        searchPlaceholder: string;
       };
     };
     backend: {

@@ -168,7 +168,8 @@ const locale: I18nType.Schema = {
       inputPassword: '请输入密码',
       inputNickname: '请输入昵称',
       emailFormatError: '邮箱格式错误',
-      selectUserStatus: '请选择用户状态'
+      selectUserStatus: '请选择用户状态',
+      searchPlaceholder: '用户名、昵称、邮箱'
     }
   },
   backend: {

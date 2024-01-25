@@ -168,7 +168,8 @@ const locale: I18nType.Schema = {
       inputPassword: 'Input Password',
       inputNickname: 'Input Nickname',
       emailFormatError: 'Email format error',
-      selectUserStatus: 'Please select user status'
+      selectUserStatus: 'Please select user status',
+      searchPlaceholder: 'Username\\Nickname\\Email'
     }
   },
   backend: {
