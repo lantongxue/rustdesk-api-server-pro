@@ -15,6 +15,7 @@ const locale: I18nType.Schema = {
     cancel: '取消',
     close: '关闭',
     action: '操作',
+    search: '搜索',
     refreshTable: '刷新表格',
     yes: '是',
     no: '否',

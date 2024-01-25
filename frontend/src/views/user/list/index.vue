@@ -14,7 +14,12 @@
             </n-button>
           </n-space>
           <n-space align="center" :size="18">
-            <n-button size="small" type="primary" @click="getTableData">
+            <n-input v-model:value="search.kw" size="small" />
+            <n-button size="small" type="primary" @click="getTableData()">
+              <icon-mdi-search class="mr-4px text-16px" :class="{ 'animate-spin': loading }" />
+              {{ $t('common.search') }}
+            </n-button>
+            <n-button size="small" type="warning" @click="getTableData(true)">
               <icon-mdi-refresh class="mr-4px text-16px" :class="{ 'animate-spin': loading }" />
               {{ $t('common.refreshTable') }}
             </n-button>
@@ -170,7 +175,8 @@ const tableData = ref<ApiUserManagement.User[]>([]);
 
 const search = ref({
   page: 1,
-  pageSize: 10
+  pageSize: 10,
+  kw: ''
 });
 
 const pagination: PaginationProps = reactive({
@@ -192,10 +198,13 @@ const pagination: PaginationProps = reactive({
   }
 });
 
-async function getTableData() {
+async function getTableData(reset: boolean = false) {
+  if (reset) {
+    search.value.kw = '';
+  }
   startLoading();
   const res = await fetchUserList(search.value);
-  if (res.data?.total && res.data?.total > 0) {
+  if (res.error === null) {
     tableData.value = res.data?.list;
     pagination.itemCount = res.data?.total;
     endLoading();

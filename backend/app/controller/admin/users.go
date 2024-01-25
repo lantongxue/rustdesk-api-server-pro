@@ -1,13 +1,14 @@
 package admin
 
 import (
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"rustdesk-api-server-pro/app/form/admin"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
 	"rustdesk-api-server-pro/util"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
 	"xorm.io/xorm"
 )
 
@@ -25,9 +26,14 @@ func (c *UsersController) BeforeActivation(b mvc.BeforeActivation) {
 func (c *UsersController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("page", 1)
 	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
+	kw := c.Ctx.URLParamDefault("kw", "")
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.User{})
+		if kw != "" {
+			kw = "%" + kw + "%"
+			q.Where("username like ? or name like ? or email like ?", kw, kw, kw)
+		}
 		return q
 	}
 

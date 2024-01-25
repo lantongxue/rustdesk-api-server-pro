@@ -15,6 +15,7 @@ const locale: I18nType.Schema = {
     cancel: 'Cancel',
     close: 'Close',
     action: 'Action',
+    search: 'Search',
     refreshTable: 'Refresh Table',
     yes: 'Yes',
     no: 'No',

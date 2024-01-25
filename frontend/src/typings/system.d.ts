@@ -324,6 +324,7 @@ declare namespace I18nType {
       cancel: string;
       close: string;
       action: string;
+      search: string;
       refreshTable: string;
       yes: string;
       no: string;

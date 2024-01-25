@@ -2,10 +2,11 @@ package admin
 
 import (
 	"fmt"
+	"rustdesk-api-server-pro/app/model"
+
 	"github.com/golang-module/carbon/v2"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
-	"rustdesk-api-server-pro/app/model"
 )
 
 type DashboardController struct {
@@ -30,6 +31,9 @@ func (c *DashboardController) GetDashboardStat() mvc.Result {
 	}
 
 	visitsCount, err := c.Db.Count(&model.Audit{})
+	if err != nil {
+		return c.Error(nil, err.Error())
+	}
 
 	return c.Success(iris.Map{
 		"userCount":   userCount,
