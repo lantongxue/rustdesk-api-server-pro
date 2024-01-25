@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-hidden">
-    <n-card title="用户管理" :bordered="false" class="h-full rounded-8px shadow-sm">
+    <n-card :title="$t('routes.user._value')" :bordered="false" class="h-full rounded-8px shadow-sm">
       <div class="flex-col h-full">
         <n-space class="pb-12px" justify="space-between">
           <n-space>
