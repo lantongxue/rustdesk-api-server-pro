@@ -28,7 +28,8 @@ const locale: I18nType.Schema = {
     },
     user: {
       _value: 'User Management',
-      list: 'User List'
+      list: 'User List',
+      session: 'Sessions'
     }
   },
   dataMap: {
@@ -46,6 +47,10 @@ const locale: I18nType.Schema = {
         unverified: 'Unverified',
         normal: 'Normal'
       }
+    },
+    session: {
+      expired: 'Expired At',
+      created_at: 'Created At'
     }
   },
   layout: {
@@ -170,6 +175,10 @@ const locale: I18nType.Schema = {
       emailFormatError: 'Email format error',
       selectUserStatus: 'Please select user status',
       searchPlaceholder: 'Username\\Nickname\\Email'
+    },
+    session: {
+      kill: 'Kill',
+      confirmKill: 'Confirm Kill?'
     }
   },
   backend: {
@@ -181,7 +190,8 @@ const locale: I18nType.Schema = {
     UserAddSuccess: 'User created successfully',
     DataError: 'data error',
     UserUpdateSuccess: 'User modified successfully',
-    UserDeleteSuccess: 'User deleted successfully'
+    UserDeleteSuccess: 'User deleted successfully',
+    SessionKillSuccess: 'Session killed successfully'
   }
 };
 

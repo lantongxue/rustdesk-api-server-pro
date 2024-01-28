@@ -26,11 +26,11 @@
           </n-space>
         </n-space>
         <n-data-table
+          v-model:checked-row-keys="selectedRows"
           :columns="columns"
           :data="tableData"
           :remote="true"
           :loading="loading"
-          :checked-row-keys="selectedRows"
           :pagination="pagination"
           :row-key="row => row.id"
           flex-height

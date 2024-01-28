@@ -44,7 +44,7 @@ func (c *AuditController) HandleList() mvc.Result {
 
 	pagination := db.NewPagination(currentPage, pageSize)
 	auditList := make([]Audit, 0)
-	err := pagination.Paginate(query, nil, &auditList)
+	err := pagination.Paginate(query, &Audit{}, &auditList)
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}

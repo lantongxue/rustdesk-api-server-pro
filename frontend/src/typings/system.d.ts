@@ -338,6 +338,7 @@ declare namespace I18nType {
       user: {
         _value: string;
         list: string;
+        session: string;
       };
     };
     dataMap: {
@@ -355,6 +356,10 @@ declare namespace I18nType {
           unverified: string;
           normal: string;
         };
+      };
+      session: {
+        expired: string;
+        created_at: string;
       };
     };
     layout: {
@@ -480,6 +485,10 @@ declare namespace I18nType {
         selectUserStatus: string;
         searchPlaceholder: string;
       };
+      session: {
+        kill: string;
+        confirmKill: string;
+      };
     };
     backend: {
       CaptchaError: string;
@@ -491,6 +500,7 @@ declare namespace I18nType {
       DataError: string;
       UserUpdateSuccess: string;
       UserDeleteSuccess: string;
+      SessionKillSuccess: string;
     };
   };
 

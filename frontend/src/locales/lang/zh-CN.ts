@@ -28,7 +28,8 @@ const locale: I18nType.Schema = {
     },
     user: {
       _value: '用户管理',
-      list: '用户列表'
+      list: '用户列表',
+      session: '会话管理'
     }
   },
   dataMap: {
@@ -46,6 +47,10 @@ const locale: I18nType.Schema = {
         unverified: '未验证',
         normal: '正常'
       }
+    },
+    session: {
+      expired: '过期时间',
+      created_at: '创建时间'
     }
   },
   layout: {
@@ -170,6 +175,10 @@ const locale: I18nType.Schema = {
       emailFormatError: '邮箱格式错误',
       selectUserStatus: '请选择用户状态',
       searchPlaceholder: '用户名、昵称、邮箱'
+    },
+    session: {
+      kill: '终结',
+      confirmKill: '是否终结该会话？'
     }
   },
   backend: {
@@ -181,7 +190,8 @@ const locale: I18nType.Schema = {
     UserAddSuccess: '用户创建成功',
     DataError: '数据错误',
     UserUpdateSuccess: '用户修改成功',
-    UserDeleteSuccess: '用户删除成功'
+    UserDeleteSuccess: '用户删除成功',
+    SessionKillSuccess: '会话终结成功'
   }
 };
 

@@ -17,7 +17,7 @@ type SessionsController struct {
 
 func (c *SessionsController) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/sessions/list", "HandleList")
-	b.Handle("GET", "/sessions/kill", "HandleKill")
+	b.Handle("POST", "/sessions/kill", "HandleKill")
 }
 
 func (c *SessionsController) HandleList() mvc.Result {
@@ -43,7 +43,7 @@ func (c *SessionsController) HandleList() mvc.Result {
 
 	pagination := db.NewPagination(currentPage, pageSize)
 	sessionList := make([]Session, 0)
-	err := pagination.Paginate(query, nil, &sessionList)
+	err := pagination.Paginate(query, &Session{}, &sessionList)
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}

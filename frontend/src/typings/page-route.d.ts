@@ -24,7 +24,8 @@ declare namespace PageRoute {
     | 'dashboard_analysis'
     | 'login'
     | 'user'
-    | 'user_list';
+    | 'user_list'
+    | 'user_sessions';
 
   /**
    * last degree route key, which has the page file
@@ -32,6 +33,6 @@ declare namespace PageRoute {
    */
   type LastDegreeRouteKey = Extract<
     RouteKey,
-    '403' | '404' | '500' | 'not-found' | 'dashboard_analysis' | 'login' | 'user_list'
+    '403' | '404' | '500' | 'not-found' | 'dashboard_analysis' | 'login' | 'user_list' | 'user_sessions'
   >;
 }

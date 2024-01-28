@@ -52,4 +52,15 @@ declare namespace ApiUserManagement {
     is_admin: boolean;
     created_at: string;
   }
+  interface SessionListResponse {
+    total: number;
+    list: Session[];
+  }
+  interface Session {
+    id: number;
+    username: string;
+    rustdesk_id: string;
+    expired: string;
+    created_at: string;
+  }
 }

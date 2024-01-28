@@ -13,6 +13,17 @@ const component: AuthRoute.Route = {
         requiresAuth: true,
         icon: 'gravity-ui:person'
       }
+    },
+    {
+      name: 'user_sessions',
+      path: '/user/sessions',
+      component: 'self',
+      meta: {
+        title: '会话列表',
+        i18nTitle: 'routes.user.session',
+        requiresAuth: true,
+        icon: 'gravity-ui:person'
+      }
     }
   ],
   meta: {
