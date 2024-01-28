@@ -22,7 +22,7 @@ const component: AuthRoute.Route = {
         title: '会话列表',
         i18nTitle: 'routes.user.session',
         requiresAuth: true,
-        icon: 'gravity-ui:person'
+        icon: 'carbon:mobile-session'
       }
     }
   ],
