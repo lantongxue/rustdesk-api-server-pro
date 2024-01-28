@@ -41,11 +41,7 @@ func (c *UsersController) HandleList() mvc.Result {
 	userList := make([]model.User, 0)
 	err := pagination.Paginate(query, &model.User{}, &userList)
 	if err != nil {
-		return mvc.Response{
-			Object: iris.Map{
-				"error": err.Error(),
-			},
-		}
+		return c.Error(nil, err.Error())
 	}
 
 	list := make([]iris.Map, 0)
