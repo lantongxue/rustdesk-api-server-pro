@@ -21,13 +21,7 @@ var (
 
 func GetRustdeskServerBinDir() string {
 	pwd, _ := os.Getwd()
-	switch runtime.GOOS {
-	case "windows":
-		return path.Join(pwd, "rustdesk-server", "x86_64")
-	case "linux":
-		return path.Join(pwd, "rustdesk-server", "amd64")
-	}
-	return ""
+	return path.Join(pwd, "rustdesk-server")
 }
 
 func GetRustdeskServerBin() (hbbr, hbbs string) {

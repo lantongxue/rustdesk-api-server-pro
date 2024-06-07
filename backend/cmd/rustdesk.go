@@ -3,9 +3,12 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path"
 	"runtime"
+	"rustdesk-api-server-pro/helper/github"
 	"rustdesk-api-server-pro/helper/rustdesk"
 	"rustdesk-api-server-pro/util"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -15,10 +18,10 @@ var rustdeskServerCmd = &cobra.Command{
 	Short: "About rustdesk-server command",
 }
 
-var rustdeskInitCmd = &cobra.Command{
-	Use:   "init",
+var rustdeskInstallCmd = &cobra.Command{
+	Use:   "install",
 	Short: "Download and run rustdesk-server",
-	Long:  "This command will be download rustdesk-server from https://github.com/rustdesk/rustdesk-server and run it.",
+	Long:  "This command will be download rustdesk-server from https://github.com/rustdesk/rustdesk-server/releases and run it.",
 	Run: func(cmd *cobra.Command, args []string) {
 		hbbr, hbbs := rustdesk.GetRustdeskServerBin()
 		if util.FileExists(hbbr) && util.FileExists(hbbs) {
@@ -26,37 +29,58 @@ var rustdeskInitCmd = &cobra.Command{
 			os.Exit(0)
 		}
 
-		var serverProgramZip string = ""
-		switch runtime.GOOS {
-		case "windows":
-			serverProgramZip = "rustdesk-server-windows-x86_64.zip"
-		case "linux":
-			serverProgramZip = "rustdesk-server-linux-amd64.zip"
-		default:
-			fmt.Println("Your operating system is not supported")
+		repo := "rustdesk/rustdesk-server"
+		release := &github.Release{}
+		rustdeskServerVersion := cmd.Flag("version").Value.String()
+		if rustdeskServerVersion == "latest" {
+			release = github.GetLatestRelease(repo)
+		} else {
+			release = github.GetReleaseByTag(repo, rustdeskServerVersion)
+		}
+		matchedAsset := github.Asset{}
+		arch := runtime.GOARCH
+		for _, asset := range release.Assets {
+			if runtime.GOOS == "windows" {
+				if strings.Contains(asset.Name, "windows") {
+					matchedAsset = asset
+					arch = "x86_64"
+					break
+				}
+			}
+			if runtime.GOOS == "linux" {
+				if asset.Name == "rustdesk-server-linux-amd64.zip" {
+					matchedAsset = asset
+					arch = "amd64"
+					break
+				}
+			}
+		}
+		if matchedAsset.Name == "" {
+			fmt.Println("Your operating system is not supported, only support windows and linux")
 			os.Exit(0)
 		}
 
 		// Unzip the rustdesk-server zip if it already exists locally, otherwise download it from github
-		if !util.FileExists(serverProgramZip) {
-			rustdeskServerVersion := cmd.Flag("version").Value.String()
-			serverProgramUrl := fmt.Sprintf("https://github.com/rustdesk/rustdesk-server/releases/download/%s/", rustdeskServerVersion)
-
-			serverProgramUrl += serverProgramZip
+		if !util.FileExists(matchedAsset.Name) {
 			proxyServer := cmd.Flag("proxy").Value.String()
-			err := util.DownloadFile(serverProgramUrl, serverProgramZip, proxyServer, true)
+			util.SetHttpProxy(proxyServer)
+			err := util.DownloadFile(matchedAsset.BrowserDownloadURL, matchedAsset.Name, true)
 			if err != nil {
 				fmt.Println("rustdesk-server download error: ", err)
 				os.Exit(0)
 			}
 		}
 
-		fmt.Println("unzipping", serverProgramZip)
-		err := util.Unzip(serverProgramZip, "rustdesk-server")
+		fmt.Println("unzipping", matchedAsset.Name)
+		err := util.Unzip(matchedAsset.Name, rustdesk.GetRustdeskServerBinDir())
 		if err != nil {
-			fmt.Println(serverProgramZip, "unzipped error: ", err)
+			fmt.Println(matchedAsset.Name, "unzipped error: ", err)
 			os.Exit(0)
 		}
+		src := path.Join(rustdesk.GetRustdeskServerBinDir(), arch)
+		util.MoveFiles(src, rustdesk.GetRustdeskServerBinDir())
+		os.Remove(matchedAsset.Name)
+		os.RemoveAll(src)
 		fmt.Println("The rustdesk-server has been initialized.")
 	},
 }
@@ -128,14 +152,32 @@ var rustdeskKeysCmd = &cobra.Command{
 	},
 }
 
+var rustdeskListCmd = &cobra.Command{
+	Use:                   "list",
+	Short:                 "List the releases rustdesk-server",
+	DisableFlagsInUseLine: true,
+	Run: func(cmd *cobra.Command, args []string) {
+		proxyServer := cmd.Flag("proxy").Value.String()
+		util.SetHttpProxy(proxyServer)
+		releases := github.GetReleases("rustdesk/rustdesk-server")
+		fmt.Printf("%-20s%s\n", "Version", "Published")
+		for _, release := range *releases {
+			fmt.Printf("%-20s%s\n", release.TagName, release.PublishedAt)
+		}
+	},
+}
+
 func init() {
-	rustdeskInitCmd.Flags().StringP("proxy", "p", "", "Setting up a proxy to download rustdesk-server program (e.g [http|https|socks5]://proxy-host:port)")
-	rustdeskInitCmd.Flags().StringP("version", "v", "1.1.9", "Setting the rustdesk-server program version")
-	rustdeskServerCmd.AddCommand(rustdeskInitCmd)
+	rustdeskInstallCmd.Flags().StringP("proxy", "p", "", "Setting up a proxy to download rustdesk-server program (e.g [http|https|socks5]://proxy-host:port)")
+	rustdeskInstallCmd.Flags().StringP("version", "v", "latest", "Setting the rustdesk-server program version")
+	rustdeskServerCmd.AddCommand(rustdeskInstallCmd)
 	rustdeskServerCmd.AddCommand(rustdeskStartCmd)
 	rustdeskServerCmd.AddCommand(rustdeskStopCmd)
 	rustdeskServerCmd.AddCommand(rustdeskRestartCmd)
 	rustdeskServerCmd.AddCommand(rustdeskStatusCmd)
 	rustdeskServerCmd.AddCommand(rustdeskKeysCmd)
+
+	rustdeskListCmd.Flags().StringP("proxy", "p", "", "Setting up a proxy to download rustdesk-server program (e.g [http|https|socks5]://proxy-host:port)")
+	rustdeskServerCmd.AddCommand(rustdeskListCmd)
 	RootCmd.AddCommand(rustdeskServerCmd)
 }

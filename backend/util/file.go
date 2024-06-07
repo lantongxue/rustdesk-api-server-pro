@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"path/filepath"
 )
 
@@ -63,6 +64,24 @@ func Unzip(file, dst string) error {
 		fileInArchive.Close()
 
 		fmt.Println("unzipped", dstPath)
+	}
+	return nil
+}
+
+func MoveFiles(src, dst string) error {
+	files, err := os.ReadDir(src)
+	if err != nil {
+		return err
+	}
+	for _, file := range files {
+		srcPath := path.Join(src, file.Name())
+		dstPath := path.Join(dst, file.Name())
+		if err := os.MkdirAll(dst, 0755); err != nil {
+			return err
+		}
+		if err := os.Rename(srcPath, dstPath); err != nil {
+			return err
+		}
 	}
 	return nil
 }
