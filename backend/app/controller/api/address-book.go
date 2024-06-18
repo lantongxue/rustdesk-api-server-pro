@@ -34,9 +34,7 @@ func (c *AddressBookController) GetAb() mvc.Result {
 		}
 		tagColors[tag.Tag] = colorCode
 	}
-	if len(tagColors) == 0 {
-		tagColors = nil
-	}
+
 	peerList := make([]model.Peer, 0)
 	err = c.Db.Where("user_id = ?", user.Id).Find(&peerList)
 	if err != nil {
@@ -64,7 +62,7 @@ func (c *AddressBookController) GetAb() mvc.Result {
 		})
 	}
 
-	b, err := json.Marshal(tagColors)
+	tagColorsJson, err := json.Marshal(tagColors)
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{
@@ -73,10 +71,10 @@ func (c *AddressBookController) GetAb() mvc.Result {
 		}
 	}
 
-	b, err = json.Marshal(iris.Map{
+	dataJson, err := json.Marshal(iris.Map{
 		"tags":       tags,
 		"peers":      peers,
-		"tag_colors": string(b),
+		"tag_colors": string(tagColorsJson),
 	})
 	if err != nil {
 		return mvc.Response{
@@ -89,7 +87,7 @@ func (c *AddressBookController) GetAb() mvc.Result {
 	return mvc.Response{
 		Object: iris.Map{
 			"licensed_devices": user.LicensedDevices,
-			"data":             string(b),
+			"data":             string(dataJson),
 		},
 	}
 }

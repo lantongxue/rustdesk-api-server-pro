@@ -117,7 +117,11 @@ var rustdeskRestartCmd = &cobra.Command{
 		rustdesk.StopServer()
 		fmt.Println("rustdesk-server stopped")
 
-		rustdesk.StartServer()
+		_, err := rustdesk.StartServer()
+		if err != nil {
+			fmt.Println("rustdesk-server start failed:", err.Error())
+			return
+		}
 		fmt.Println("rustdesk-server started")
 	},
 }

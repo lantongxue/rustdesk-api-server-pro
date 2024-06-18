@@ -18,3 +18,7 @@ Authorization: Bearer QkW914xymEh20atplVjAA8ZQ1tsKJcw3hmM7paj2ZSg=
 
 {"id":"216456628","uuid":"OWFlNTA4YjQtZWVjYy00MjU0LThiYmItNTRjYjVmYTRkNDJl"}
 
+### ab
+GET http://localhost:8080/api/ab
+Content-Type: application/json; charset=utf-8
+Authorization: Bearer yC37jv8ZJXufyIXa-2LuxKVp1pcpPdFHgVAR9-aFRcA=

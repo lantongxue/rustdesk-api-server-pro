@@ -47,7 +47,7 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 
 	return mvc.Response{
 		Object: iris.Map{
-			"modified_at": time.Now().Unix(),
+			"modified_at": time.Now().Add(time.Duration(60) * time.Second).Unix(),
 		},
 	}
 }

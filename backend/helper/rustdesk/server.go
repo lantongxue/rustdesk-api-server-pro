@@ -50,7 +50,11 @@ func StartServer() (bool, error) {
 		fmt.Println("hbbr start error:", err.Error())
 		return false, err
 	}
-	os.WriteFile(hbbrPidFile, []byte(strconv.Itoa(pHbbr.Process.Pid)), os.ModePerm)
+	err = os.WriteFile(hbbrPidFile, []byte(strconv.Itoa(pHbbr.Process.Pid)), os.ModePerm)
+	if err != nil {
+		fmt.Println("write hbbr pid file error:", err.Error())
+		return false, err
+	}
 
 	pHbbs := exec.Command(hbbs)
 	pHbbs.Dir = serverBinDir
@@ -59,7 +63,11 @@ func StartServer() (bool, error) {
 		fmt.Println("hbbs start error:", err.Error())
 		return false, err
 	}
-	os.WriteFile(hbbsPidFile, []byte(strconv.Itoa(pHbbs.Process.Pid)), os.ModePerm)
+	err = os.WriteFile(hbbsPidFile, []byte(strconv.Itoa(pHbbs.Process.Pid)), os.ModePerm)
+	if err != nil {
+		fmt.Println("write hbbs pid file error:", err.Error())
+		return false, err
+	}
 	return true, nil
 }
 
