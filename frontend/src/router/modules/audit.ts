@@ -1,4 +1,4 @@
-const component: AuthRoute.Route = {
+const audit: AuthRoute.Route = {
   name: 'audit',
   path: '/audit',
   component: 'self',
@@ -11,4 +11,4 @@ const component: AuthRoute.Route = {
   }
 };
 
-export default component;
+export default audit;
