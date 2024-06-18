@@ -20,6 +20,7 @@ declare namespace PageRoute {
     | '404'
     | '500'
     | 'not-found'
+    | 'audit'
     | 'dashboard'
     | 'dashboard_analysis'
     | 'login'
@@ -33,6 +34,6 @@ declare namespace PageRoute {
    */
   type LastDegreeRouteKey = Extract<
     RouteKey,
-    '403' | '404' | '500' | 'not-found' | 'dashboard_analysis' | 'login' | 'user_list' | 'user_sessions'
+    '403' | '404' | '500' | 'not-found' | 'audit' | 'dashboard_analysis' | 'login' | 'user_list' | 'user_sessions'
   >;
 }

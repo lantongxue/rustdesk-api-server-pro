@@ -30,6 +30,10 @@ const locale: I18nType.Schema = {
       _value: 'User Management',
       list: 'User List',
       session: 'Sessions'
+    },
+    audit: {
+      _value: 'Audit',
+      logs: 'Logs'
     }
   },
   dataMap: {
@@ -50,6 +54,16 @@ const locale: I18nType.Schema = {
     },
     session: {
       expired: 'Expired At',
+      created_at: 'Created At'
+    },
+    audit: {
+      username: 'Username',
+      action: 'Action',
+      conn_id: 'Connect Id',
+      rustdesk_id: 'Rustdesk ID',
+      ip: 'IP',
+      session_id: 'Session Id',
+      uuid: 'UUID',
       created_at: 'Created At'
     }
   },
@@ -179,6 +193,9 @@ const locale: I18nType.Schema = {
     session: {
       kill: 'Kill',
       confirmKill: 'Confirm Kill?'
+    },
+    audit: {
+      logsSearchPlaceholder: 'Username\\Action\\RustdeskID\\IP'
     }
   },
   backend: {

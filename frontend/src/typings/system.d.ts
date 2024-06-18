@@ -340,6 +340,10 @@ declare namespace I18nType {
         list: string;
         session: string;
       };
+      audit: {
+        _value: string;
+        logs: string;
+      };
     };
     dataMap: {
       user: {
@@ -359,6 +363,16 @@ declare namespace I18nType {
       };
       session: {
         expired: string;
+        created_at: string;
+      };
+      audit: {
+        username: string;
+        action: string;
+        conn_id: string;
+        rustdesk_id: string;
+        ip: string;
+        session_id: string;
+        uuid: string;
         created_at: string;
       };
     };
@@ -488,6 +502,9 @@ declare namespace I18nType {
       session: {
         kill: string;
         confirmKill: string;
+      };
+      audit: {
+        logsSearchPlaceholder: string;
       };
     };
     backend: {

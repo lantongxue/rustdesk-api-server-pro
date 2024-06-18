@@ -21,18 +21,16 @@ func (c *AuditController) BeforeActivation(b mvc.BeforeActivation) {
 func (c *AuditController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("page", 1)
 	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
-	act := c.Ctx.URLParamDefault("act", "")
-	username := c.Ctx.URLParamDefault("username", "")
+	kw := c.Ctx.URLParamDefault("kw", "")
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.Audit{})
 		q.Join("INNER", &model.User{}, "audit.user_id = user.id")
-		if act != "" {
-			q.Where("audit.action = ?", act)
-		}
-		if username != "" {
-			username = "%" + username + "%"
-			q.Where("user.username like ?", username)
+		if kw != "" {
+			q.Or("audit.action = ?", kw)
+			q.Or("audit.my_id = ?", kw)
+			q.Or("audit.ip = ?", kw)
+			q.Or("user.username like ?", "%"+kw+"%")
 		}
 		return q
 	}

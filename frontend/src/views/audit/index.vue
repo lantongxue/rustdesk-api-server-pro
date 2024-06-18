@@ -1,18 +1,12 @@
 <template>
   <div class="overflow-hidden">
-    <n-card :title="$t('routes.user.session')" :bordered="false" class="h-full rounded-8px shadow-sm">
+    <n-card :title="$t('routes.audit.logs')" :bordered="false" class="h-full rounded-8px shadow-sm">
       <div class="flex-col h-full">
-        <n-space class="pb-12px" justify="space-between">
-          <n-space>
-            <n-button type="error" @click="handleBatchKill">
-              <icon-ic-round-delete class="mr-4px text-20px" />
-              {{ $t('page.session.kill') }}
-            </n-button>
-          </n-space>
+        <n-space class="pb-12px" justify="end">
           <n-space>
             <n-input
               v-model:value="search.kw"
-              :placeholder="$t('dataMap.user.username')"
+              :placeholder="$t('page.audit.logsSearchPlaceholder')"
               size="small"
               style="width: 300px"
             />
@@ -45,15 +39,15 @@
 import { reactive, ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
 import type { DataTableColumns, PaginationProps, DataTableRowKey } from 'naive-ui';
-import { NButton, NPopconfirm, NSpace } from 'naive-ui';
+import { NButton, NSpace } from 'naive-ui';
 import { PageSizes } from '@/constants';
 import { useLoading } from '@/hooks';
-import { fetchSessionList, killSession } from '@/service/api/user';
+import { fetchLogs } from '@/service/api/audit';
 import { $t } from '@/locales';
 
 const { loading, startLoading, endLoading } = useLoading(false);
 
-const columns: Ref<DataTableColumns<ApiUserManagement.Session>> = ref([
+const columns: Ref<DataTableColumns<ApiAudit.Audit>> = ref([
   {
     type: 'selection',
     align: 'center'
@@ -65,53 +59,48 @@ const columns: Ref<DataTableColumns<ApiUserManagement.Session>> = ref([
   },
   {
     key: 'username',
-    title: $t('dataMap.user.username'),
+    title: $t('dataMap.audit.username'),
+    align: 'center'
+  },
+  {
+    key: 'action',
+    title: $t('dataMap.audit.action'),
+    align: 'center'
+  },
+  {
+    key: 'conn_id',
+    title: $t('dataMap.audit.conn_id'),
     align: 'center'
   },
   {
     key: 'rustdesk_id',
-    title: 'Rustdesk Id',
+    title: $t('dataMap.audit.rustdesk_id'),
     align: 'center'
   },
   {
-    key: 'expired',
-    title: $t('dataMap.session.expired'),
+    key: 'ip',
+    title: $t('dataMap.audit.ip'),
+    align: 'center'
+  },
+  {
+    key: 'session_id',
+    title: $t('dataMap.audit.session_id'),
+    align: 'center'
+  },
+  {
+    key: 'uuid',
+    title: $t('dataMap.audit.uuid'),
     align: 'center'
   },
   {
     key: 'created_at',
-    title: $t('dataMap.session.created_at'),
+    title: $t('dataMap.audit.created_at'),
     align: 'center'
-  },
-  {
-    key: 'actions',
-    title: $t('common.action'),
-    align: 'center',
-    render: row => {
-      return (
-        <NSpace justify={'center'}>
-          <NPopconfirm
-            negativeText={$t('common.cancel')}
-            positiveText={$t('common.confirm')}
-            onPositiveClick={() => handleKill(row)}
-          >
-            {{
-              default: () => $t('page.session.confirmKill'),
-              trigger: () => (
-                <NButton size={'small'} type={'error'}>
-                  {$t('page.session.kill')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
-        </NSpace>
-      );
-    }
   }
-]) as Ref<DataTableColumns<ApiUserManagement.Session>>;
+]) as Ref<DataTableColumns<ApiAudit.Audit>>;
 const selectedRows = ref<DataTableRowKey[]>([]);
 
-const tableData = ref<ApiUserManagement.Session[]>([]);
+const tableData = ref<ApiAudit.Audit[]>([]);
 
 const search = ref({
   page: 1,
@@ -143,33 +132,11 @@ async function getTableData(reset: boolean = false) {
     search.value.kw = '';
   }
   startLoading();
-  const res = await fetchSessionList(search.value);
+  const res = await fetchLogs(search.value);
   if (res.error === null) {
     tableData.value = res.data?.list;
     pagination.itemCount = res.data?.total;
     endLoading();
-  }
-}
-
-async function handleKill(row: any) {
-  const res = await killSession({ ids: [row.id] });
-  if (res.error === null) {
-    const k = `backend.${res.message}` as I18nType.I18nKey;
-    window.$message?.success($t(k));
-    await getTableData();
-  } else {
-    window.$message?.error(res.error.msg);
-  }
-}
-
-async function handleBatchKill() {
-  const res = await killSession({ ids: selectedRows.value });
-  if (res.error === null) {
-    const k = `backend.${res.message}` as I18nType.I18nKey;
-    window.$message?.success($t(k));
-    await getTableData();
-  } else {
-    window.$message?.error(res.error.msg);
   }
 }
 

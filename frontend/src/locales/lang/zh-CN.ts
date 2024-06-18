@@ -30,6 +30,10 @@ const locale: I18nType.Schema = {
       _value: '用户管理',
       list: '用户列表',
       session: '会话管理'
+    },
+    audit: {
+      _value: '日志审计',
+      logs: '日志管理'
     }
   },
   dataMap: {
@@ -50,6 +54,16 @@ const locale: I18nType.Schema = {
     },
     session: {
       expired: '过期时间',
+      created_at: '创建时间'
+    },
+    audit: {
+      username: '用户名',
+      action: '行为',
+      conn_id: '连接ID',
+      rustdesk_id: 'RustdeskID',
+      ip: 'IP',
+      session_id: '会话ID',
+      uuid: 'UUID',
       created_at: '创建时间'
     }
   },
@@ -179,6 +193,9 @@ const locale: I18nType.Schema = {
     session: {
       kill: '终结',
       confirmKill: '是否终结该会话？'
+    },
+    audit: {
+      logsSearchPlaceholder: '用户名、行为、RustdeskID、IP'
     }
   },
   backend: {

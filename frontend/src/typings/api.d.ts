@@ -64,3 +64,21 @@ declare namespace ApiUserManagement {
     created_at: string;
   }
 }
+
+declare namespace ApiAudit {
+  interface AuditListResponse {
+    total: number;
+    list: Audit[];
+  }
+  interface Audit {
+    id: number;
+    username: string;
+    action: string;
+    conn_id: string;
+    rustdesk_id: string;
+    ip: string;
+    session_id: string;
+    uuid: number;
+    created_at: string;
+  }
+}

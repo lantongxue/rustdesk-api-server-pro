@@ -13,8 +13,13 @@
               {{ $t('common.delete') }}
             </n-button>
           </n-space>
-          <n-space align="center" :size="18">
-            <n-input v-model:value="search.kw" :placeholder="$t('page.users.searchPlaceholder')" size="small" />
+          <n-space>
+            <n-input
+              v-model:value="search.kw"
+              :placeholder="$t('page.users.searchPlaceholder')"
+              size="small"
+              style="width: 300px"
+            />
             <n-button size="small" type="primary" @click="getTableData()">
               <icon-mdi-search class="mr-4px text-16px" :class="{ 'animate-spin': loading }" />
               {{ $t('common.search') }}
