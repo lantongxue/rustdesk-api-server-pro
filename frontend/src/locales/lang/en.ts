@@ -32,8 +32,7 @@ const locale: I18nType.Schema = {
       session: 'Sessions'
     },
     audit: {
-      _value: 'Audit',
-      logs: 'Logs'
+      _value: 'Audit'
     }
   },
   dataMap: {

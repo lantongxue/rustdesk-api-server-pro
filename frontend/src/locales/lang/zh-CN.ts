@@ -32,8 +32,7 @@ const locale: I18nType.Schema = {
       session: '会话管理'
     },
     audit: {
-      _value: '日志审计',
-      logs: '日志管理'
+      _value: '日志审计'
     }
   },
   dataMap: {

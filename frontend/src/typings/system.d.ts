@@ -342,7 +342,6 @@ declare namespace I18nType {
       };
       audit: {
         _value: string;
-        logs: string;
       };
     };
     dataMap: {
