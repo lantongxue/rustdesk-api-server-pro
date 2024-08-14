@@ -26,7 +26,7 @@ func (c *AuthController) PostAuthLogin() mvc.Result {
 	}
 
 	if !captcha.VerifyCode(loginForm.CaptchaId, loginForm.Code) {
-		return c.Error(nil, "CaptchaError")
+		return c.Error(nil, "验证码错误")
 	}
 
 	var user model.User
@@ -36,11 +36,11 @@ func (c *AuthController) PostAuthLogin() mvc.Result {
 	}
 
 	if !get {
-		return c.Error(nil, "UserNotExists")
+		return c.Error(nil, "用户不存在")
 	}
 
 	if !util.PasswordVerify(loginForm.Password, user.Password) {
-		return c.Error(nil, "UsernameOrPasswordError")
+		return c.Error(nil, "用户名或密码错误")
 	}
 
 	// make other tokens expired

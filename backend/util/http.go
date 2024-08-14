@@ -25,8 +25,8 @@ func HttpClient() (*http.Client, error) {
 			return nil, err
 		}
 		scheme := strings.ToLower(proxyUrl.Scheme)
-		allow_schemes := []string{"http", "https", "socks5"}
-		if !InArray(allow_schemes, scheme) {
+		allowSchemes := []string{"http", "https", "socks5"}
+		if !InArray(allowSchemes, scheme) {
 			return nil, errors.New("only support http, https, socks5 proxy protocols")
 		}
 
