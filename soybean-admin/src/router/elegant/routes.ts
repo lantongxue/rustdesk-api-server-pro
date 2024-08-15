@@ -40,6 +40,17 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'audit',
+    path: '/audit',
+    component: 'layout.base$view.audit',
+    meta: {
+      title: 'audit',
+      icon: 'ph:warning-bold',
+      i18nKey: 'route.audit',
+      order: 3
+    }
+  },
+  {
     name: 'home',
     path: '/home',
     component: 'layout.base$view.home',
@@ -74,5 +85,40 @@ export const generatedRoutes: GeneratedRoute[] = [
       constant: true,
       hideInMenu: true
     }
+  },
+  {
+    name: 'user',
+    path: '/user',
+    component: 'layout.base',
+    meta: {
+      title: 'user',
+      icon: 'majesticons:users-line',
+      i18nKey: 'route.user',
+      order: 2
+    },
+    children: [
+      {
+        name: 'user_list',
+        path: '/user/list',
+        component: 'view.user_list',
+        meta: {
+          title: 'user_list',
+          i18nKey: 'route.user_list',
+          requiresAuth: true,
+          icon: 'gravity-ui:person'
+        }
+      },
+      {
+        name: 'user_sessions',
+        path: '/user/sessions',
+        component: 'view.user_sessions',
+        meta: {
+          title: 'user_sessions',
+          i18nKey: 'route.user_sessions',
+          requiresAuth: true,
+          icon: 'carbon:mobile-session'
+        }
+      }
+    ]
   }
 ];

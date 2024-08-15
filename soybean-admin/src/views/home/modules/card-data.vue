@@ -43,7 +43,7 @@ const cardData = computed<CardData[]>(() => [
     key: 'peerCount',
     title: $t('page.home.peerCount'),
     value: stat.value.peerCount,
-    unit: '$',
+    unit: '',
     color: {
       start: '#865ec0',
       end: '#5144b4'

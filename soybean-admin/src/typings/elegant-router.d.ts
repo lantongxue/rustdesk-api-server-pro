@@ -20,9 +20,13 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
+    "audit": "/audit";
     "home": "/home";
     "iframe-page": "/iframe-page/:url";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
+    "user": "/user";
+    "user_list": "/user/list";
+    "user_sessions": "/user/sessions";
   };
 
   /**
@@ -57,9 +61,11 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
+    | "audit"
     | "home"
     | "iframe-page"
     | "login"
+    | "user"
   >;
 
   /**
@@ -81,7 +87,10 @@ declare module "@elegant-router/types" {
     | "500"
     | "iframe-page"
     | "login"
+    | "audit"
     | "home"
+    | "user_list"
+    | "user_sessions"
   >;
 
   /**
