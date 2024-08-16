@@ -100,6 +100,36 @@ declare namespace Api {
     }
   }
 
+  namespace UserManagement {
+    interface UserList {
+      total: number;
+      list: User[];
+    }
+    interface User {
+      id: number;
+      username: string;
+      password: string;
+      name: string;
+      email: string;
+      licensed_devices: number;
+      note: string;
+      status: number;
+      is_admin: boolean;
+      created_at: string;
+    }
+    interface Sessions {
+      total: number;
+      list: Session[];
+    }
+    interface Session {
+      id: number;
+      username: string;
+      rustdesk_id: string;
+      expired: string;
+      created_at: string;
+    }
+  }
+
   /**
    * namespace Route
    *
