@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-hidden">
-    <n-card :title="$t('routes.audit.logs')" :bordered="false" class="h-full rounded-8px shadow-sm">
+    <n-card :title="$t('routes.audit._value')" :bordered="false" class="h-full rounded-8px shadow-sm">
       <div class="flex-col h-full">
         <n-space class="pb-12px" justify="end">
           <n-space>

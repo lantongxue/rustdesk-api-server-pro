@@ -6,11 +6,7 @@
           <h3 class="text-16px">{{ $t('page.dashboard.userCount') }}</h3>
           <div class="flex justify-between pt-12px">
             <svg-icon icon="gravity-ui:person" class="text-32px" />
-            <count-to
-              :start-value="0"
-              :end-value="stat?.userCount"
-              class="text-30px text-white dark:text-dark"
-            />
+            <count-to :start-value="0" :end-value="stat?.userCount" class="text-30px text-white dark:text-dark" />
           </div>
         </gradient-bg>
       </n-grid-item>
@@ -19,11 +15,7 @@
           <h3 class="text-16px">{{ $t('page.dashboard.peerCount') }}</h3>
           <div class="flex justify-between pt-12px">
             <svg-icon icon="fluent:desktop-32-regular" class="text-32px" />
-            <count-to
-              :start-value="0"
-              :end-value="stat?.peerCount"
-              class="text-30px text-white dark:text-dark"
-            />
+            <count-to :start-value="0" :end-value="stat?.peerCount" class="text-30px text-white dark:text-dark" />
           </div>
         </gradient-bg>
       </n-grid-item>
@@ -32,11 +24,7 @@
           <h3 class="text-16px">{{ $t('page.dashboard.onlineCount') }}</h3>
           <div class="flex justify-between pt-12px">
             <svg-icon icon="fluent:desktop-checkmark-20-regular" class="text-32px" />
-            <count-to
-              :start-value="0"
-              :end-value="stat?.onlineCount"
-              class="text-30px text-white dark:text-dark"
-            />
+            <count-to :start-value="0" :end-value="stat?.onlineCount" class="text-30px text-white dark:text-dark" />
           </div>
         </gradient-bg>
       </n-grid-item>
@@ -45,11 +33,7 @@
           <h3 class="text-16px">{{ $t('page.dashboard.visitsCount') }}</h3>
           <div class="flex justify-between pt-12px">
             <svg-icon icon="ant-design:bar-chart-outlined" class="text-32px" />
-            <count-to
-              :start-value="0"
-              :end-value="stat?.visitsCount"
-              class="text-30px text-white dark:text-dark"
-            />
+            <count-to :start-value="0" :end-value="stat?.visitsCount" class="text-30px text-white dark:text-dark" />
           </div>
         </gradient-bg>
       </n-grid-item>
@@ -58,11 +42,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { GradientBg } from './components';
+import { ref, onMounted } from 'vue';
 import { fetchStat } from '@/service';
-import { onMounted } from 'vue';
-import { $t } from '~/src/locales';
+import { $t } from '@/locales';
+import { GradientBg } from './components';
 
 defineOptions({ name: 'DashboardAnalysisDataCard' });
 
@@ -71,16 +54,14 @@ const stat = ref<ApiDashboard.Stat>({
   peerCount: 0,
   onlineCount: 0,
   visitsCount: 0
-})
+});
 
-
-onMounted( async () => {
-  const d = (await fetchStat()).data
-  if (d != null) {
-    stat.value = d
+onMounted(async () => {
+  const d = (await fetchStat()).data;
+  if (d !== null) {
+    stat.value = d;
   }
-})
-
+});
 </script>
 
 <style scoped></style>

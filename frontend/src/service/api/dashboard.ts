@@ -8,8 +8,6 @@ export function fetchLineCharts() {
   return request.get<ApiDashboard.LineChart>('/dashboard/line/charts');
 }
 
-
 export function fetchPieCharts() {
   return request.get<ApiDashboard.PieChart[]>('/dashboard/pie/charts');
 }
-  

@@ -196,7 +196,7 @@ async function fetchChartsData() {
           fontSize: '12'
         }
       },
-      data: (pie.data) as []
+      data: pie.data as []
     }
   ];
 }

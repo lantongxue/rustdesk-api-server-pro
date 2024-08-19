@@ -114,8 +114,8 @@
     }
   },
   "simple-git-hooks": {
-    "commit-msg": "pnpm soy git-commit-verify",
-    "pre-commit": "pnpm typecheck && pnpm soy lint-staged"
+    "commit-msg": "cd frontend && pnpm soy git-commit-verify",
+    "pre-commit": "cd frontend && pnpm typecheck && pnpm soy lint-staged"
   },
   "soybean": {
     "useSoybeanToken": true
