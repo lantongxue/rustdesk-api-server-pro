@@ -33,18 +33,8 @@ declare namespace Api {
 
     /** common record */
     type CommonRecord<T = any> = {
-      /** record id */
       id: number;
-      /** record creator */
-      createBy: string;
-      /** record create time */
-      createTime: string;
-      /** record updater */
-      updateBy: string;
-      /** record update time */
-      updateTime: string;
-      /** record status */
-      status: EnableStatus | null;
+      created_at: string;
     } & T;
   }
 
@@ -101,12 +91,7 @@ declare namespace Api {
   }
 
   namespace UserManagement {
-    interface UserList {
-      total: number;
-      list: User[];
-    }
-    interface User {
-      id: number;
+    type User = Common.CommonRecord<{
       username: string;
       password: string;
       name: string;
@@ -115,8 +100,8 @@ declare namespace Api {
       note: string;
       status: number;
       is_admin: boolean;
-      created_at: string;
-    }
+    }>;
+    type UserList = Common.PaginatingQueryRecord<User>;
     interface Sessions {
       total: number;
       list: Session[];
