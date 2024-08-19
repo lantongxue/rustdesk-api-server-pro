@@ -100,7 +100,10 @@
     "vue-eslint-parser": "9.4.3",
     "vue-tsc": "2.0.29"
   },
-  "simple-git-hooks": {},
+  "simple-git-hooks": {
+    "commit-msg": "cd soybean-admin && pnpm sa git-commit-verify",
+    "pre-commit": "cd soybean-admin && pnpm typecheck && pnpm lint-staged"
+  },
   "lint-staged": {
     "*": "eslint --fix"
   },
