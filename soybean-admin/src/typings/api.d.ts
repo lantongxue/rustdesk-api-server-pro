@@ -102,17 +102,13 @@ declare namespace Api {
       is_admin: boolean;
     }>;
     type UserList = Common.PaginatingQueryRecord<User>;
-    interface Sessions {
-      total: number;
-      list: Session[];
-    }
-    interface Session {
-      id: number;
+
+    type Session = Common.CommonRecord<{
       username: string;
       rustdesk_id: string;
       expired: string;
-      created_at: string;
-    }
+    }>;
+    type SessionList = Common.PaginatingQueryRecord<Session>;
   }
 
   /**

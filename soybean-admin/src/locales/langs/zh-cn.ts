@@ -215,6 +215,37 @@ const local: App.I18n.Schema = {
   },
   datatable: {
     itemCount: '共 {total} 条'
+  },
+  dataMap: {
+    user: {
+      username: '用户名',
+      password: '密码',
+      name: '昵称',
+      email: '邮箱',
+      licensed_devices: '授权设备数量',
+      status: '状态',
+      is_admin: '管理员',
+      created_at: '创建时间',
+      statusLabel: {
+        disabled: '禁用',
+        unverified: '未验证',
+        normal: '正常'
+      }
+    },
+    session: {
+      expired: '过期时间',
+      created_at: '创建时间'
+    },
+    audit: {
+      username: '用户名',
+      action: '行为',
+      conn_id: '连接ID',
+      rustdesk_id: 'RustdeskID',
+      ip: 'IP',
+      session_id: '会话ID',
+      uuid: 'UUID',
+      created_at: '创建时间'
+    }
   }
 };
 

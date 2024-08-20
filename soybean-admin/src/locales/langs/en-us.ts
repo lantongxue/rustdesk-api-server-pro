@@ -215,6 +215,37 @@ const local: App.I18n.Schema = {
   },
   datatable: {
     itemCount: 'Total {total} items'
+  },
+  dataMap: {
+    user: {
+      username: 'Username',
+      password: 'Password',
+      name: 'Nickname',
+      email: 'Email',
+      licensed_devices: 'Licensed Devices',
+      status: 'Status',
+      is_admin: 'Is Admin',
+      created_at: 'Created At',
+      statusLabel: {
+        disabled: 'Disabled',
+        unverified: 'Unverified',
+        normal: 'Normal'
+      }
+    },
+    session: {
+      expired: 'Expired At',
+      created_at: 'Created At'
+    },
+    audit: {
+      username: 'Username',
+      action: 'Action',
+      conn_id: 'Connect Id',
+      rustdesk_id: 'Rustdesk ID',
+      ip: 'IP',
+      session_id: 'Session Id',
+      uuid: 'UUID',
+      created_at: 'Created At'
+    }
   }
 };
 

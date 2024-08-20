@@ -17,7 +17,7 @@ export function delUser(data: Api.UserManagement.User) {
 }
 
 export function fetchSessionList(params: any) {
-  return request<Api.UserManagement.Sessions>({ url: '/sessions/list', params });
+  return request<Api.UserManagement.SessionList>({ url: '/sessions/list', params });
 }
 
 export function killSession(data: Api.UserManagement.Session) {

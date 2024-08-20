@@ -446,6 +446,37 @@ declare namespace App {
       datatable: {
         itemCount: string;
       };
+      dataMap: {
+        user: {
+          username: string;
+          password: string;
+          name: string;
+          email: string;
+          licensed_devices: string;
+          status: string;
+          is_admin: string;
+          created_at: string;
+          statusLabel: {
+            disabled: string;
+            unverified: string;
+            normal: string;
+          };
+        };
+        session: {
+          expired: string;
+          created_at: string;
+        };
+        audit: {
+          username: string;
+          action: string;
+          conn_id: string;
+          rustdesk_id: string;
+          ip: string;
+          session_id: string;
+          uuid: string;
+          created_at: string;
+        };
+      };
     };
 
     type GetI18nKey<T extends Record<string, unknown>, K extends keyof T = keyof T> = K extends string

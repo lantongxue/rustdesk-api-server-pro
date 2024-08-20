@@ -62,7 +62,9 @@ func (c *AuditController) HandleList() mvc.Result {
 		})
 	}
 	return c.Success(iris.Map{
-		"total": pagination.TotalCount,
-		"list":  list,
+		"total":   pagination.TotalCount,
+		"records": list,
+		"current": currentPage,
+		"size":    pageSize,
 	}, "ok")
 }
