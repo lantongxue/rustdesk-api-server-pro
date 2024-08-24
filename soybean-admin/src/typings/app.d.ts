@@ -429,6 +429,25 @@ declare namespace App {
           operatingSystem: string;
           oneWeek: string;
         };
+        user: {
+          list: {
+            addUser: string;
+            editUser: string;
+            inputUsername: string;
+            inputPassword: string;
+            inputNickname: string;
+            emailFormatError: string;
+            selectUserStatus: string;
+            searchPlaceholder: string;
+          };
+          sessions: {
+            kill: string;
+            confirmKill: string;
+          };
+          audit: {
+            logsSearchPlaceholder: string;
+          };
+        };
       };
       dropdown: Record<Global.DropdownKey, string>;
       icon: {
@@ -476,6 +495,19 @@ declare namespace App {
           uuid: string;
           created_at: string;
         };
+      };
+      api: {
+        CaptchaError: string;
+        UserNotExists: string;
+        UsernameOrPasswordError: string;
+        UserExists: string;
+        UsernameEmpty: string;
+        PasswordEmpty: string;
+        UserAddSuccess: string;
+        DataError: string;
+        UserUpdateSuccess: string;
+        UserDeleteSuccess: string;
+        SessionKillSuccess: string;
       };
     };
 

@@ -192,6 +192,25 @@ const local: App.I18n.Schema = {
       visitsCount: '访问次数',
       operatingSystem: '操作系统',
       oneWeek: '一周内'
+    },
+    user: {
+      list: {
+        addUser: '添加用户',
+        editUser: '编辑用户',
+        inputUsername: '请输入用户名',
+        inputPassword: '请输入密码',
+        inputNickname: '请输入昵称',
+        emailFormatError: '邮箱格式错误',
+        selectUserStatus: '请选择用户状态',
+        searchPlaceholder: '用户名、昵称、邮箱'
+      },
+      sessions: {
+        kill: '终结',
+        confirmKill: '是否终结该会话？'
+      },
+      audit: {
+        logsSearchPlaceholder: '用户名、行为、RustdeskID、IP'
+      }
     }
   },
   dropdown: {
@@ -246,6 +265,19 @@ const local: App.I18n.Schema = {
       uuid: 'UUID',
       created_at: '创建时间'
     }
+  },
+  api: {
+    CaptchaError: '验证码错误',
+    UserNotExists: '用户不存在',
+    UsernameOrPasswordError: '账号或密码错误',
+    UserExists: '用户名已使用',
+    UsernameEmpty: '用户名不能为空',
+    PasswordEmpty: '密码不能为空',
+    UserAddSuccess: '用户新建成功',
+    DataError: '数据错误',
+    UserUpdateSuccess: '用户修改成功',
+    UserDeleteSuccess: '用户删除成功',
+    SessionKillSuccess: '会话终结成功'
   }
 };
 

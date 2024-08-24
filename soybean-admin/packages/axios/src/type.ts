@@ -95,11 +95,13 @@ export interface RequestInstance<S = Record<string, unknown>> extends RequestIns
 export type FlatResponseSuccessData<T = any> = {
   data: T;
   error: null;
+  message: string;
 };
 
 export type FlatResponseFailData<ResponseData = any> = {
   data: null;
   error: AxiosError<ResponseData>;
+  message: string;
 };
 
 export type FlatResponseData<T = any, ResponseData = any> =

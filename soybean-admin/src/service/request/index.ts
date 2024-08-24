@@ -62,7 +62,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
 
         window.$dialog?.error({
           title: $t('common.error'),
-          content: response.data.message,
+          content: $t(`api.${response.data.message}` as App.I18n.I18nKey),
           positiveText: $t('common.confirm'),
           maskClosable: false,
           closeOnEsc: false,
@@ -80,7 +80,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       return null;
     },
     transformBackendResponse(response) {
-      return response.data.data;
+      return { data: response.data.data, message: response.data.message };
     },
     onError(error) {
       // when the request is fail, you can show error message
@@ -100,7 +100,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
         return;
       }
 
-      showErrorMsg(request.state, message);
+      showErrorMsg(request.state, $t(`api.${message}` as App.I18n.I18nKey));
     }
   }
 );

@@ -192,6 +192,25 @@ const local: App.I18n.Schema = {
       visitsCount: 'Visits Count',
       operatingSystem: 'Operating System',
       oneWeek: 'One Week'
+    },
+    user: {
+      list: {
+        addUser: 'Add User',
+        editUser: 'Edit User',
+        inputUsername: 'Input Username',
+        inputPassword: 'Input Password',
+        inputNickname: 'Input Nickname',
+        emailFormatError: 'Email format error',
+        selectUserStatus: 'Please select user status',
+        searchPlaceholder: 'Username\\Nickname\\Email'
+      },
+      sessions: {
+        kill: 'Kill',
+        confirmKill: 'Confirm Kill?'
+      },
+      audit: {
+        logsSearchPlaceholder: 'Username\\Action\\RustdeskID\\IP'
+      }
     }
   },
   dropdown: {
@@ -246,6 +265,19 @@ const local: App.I18n.Schema = {
       uuid: 'UUID',
       created_at: 'Created At'
     }
+  },
+  api: {
+    CaptchaError: 'CAPTCHA error',
+    UserNotExists: 'The user does not exist',
+    UsernameOrPasswordError: 'Incorrect account or password',
+    UserExists: 'The username already used',
+    UsernameEmpty: 'User name cannot be empty',
+    PasswordEmpty: 'Password cannot be empty',
+    UserAddSuccess: 'User created successfully',
+    DataError: 'data error',
+    UserUpdateSuccess: 'User modified successfully',
+    UserDeleteSuccess: 'User deleted successfully',
+    SessionKillSuccess: 'Session killed successfully'
   }
 };
 

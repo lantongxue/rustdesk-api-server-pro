@@ -23,18 +23,10 @@ declare namespace Api {
     /** common search params of table */
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
 
-    /**
-     * enable status
-     *
-     * - "1": enabled
-     * - "2": disabled
-     */
-    type EnableStatus = '1' | '2';
-
     /** common record */
     type CommonRecord<T = any> = {
-      id: number;
-      created_at: string;
+      id?: number;
+      created_at?: string;
     } & T;
   }
 
@@ -91,6 +83,8 @@ declare namespace Api {
   }
 
   namespace UserManagement {
+    type UserStatus = -1 | 0 | 1;
+
     type User = Common.CommonRecord<{
       username: string;
       password: string;
@@ -98,7 +92,7 @@ declare namespace Api {
       email: string;
       licensed_devices: number;
       note: string;
-      status: number;
+      status: UserStatus;
       is_admin: boolean;
     }>;
     type UserList = Common.PaginatingQueryRecord<User>;

@@ -1,9 +1,11 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
-import { fetchUserList } from '@/service/api/user_management';
+import { delUser, fetchUserList } from '@/service/api/user_management';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import UserEdit from './components/edit.vue';
+import UserSearch from './components/search.vue';
 const appStore = useAppStore();
 
 const UserStatus: Map<number, string> = new Map<number, string>([
@@ -30,12 +32,7 @@ const {
     size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    status: null,
-    userName: null,
-    userGender: null,
-    nickName: null,
-    userPhone: null,
-    userEmail: null
+    kw: null
   },
   columns: () => [
     {
@@ -142,18 +139,30 @@ const {
   ]
 });
 
-const { handleAdd, handleEdit, checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getData);
+const {
+  drawerVisible,
+  operateType,
+  editingData,
+  handleAdd,
+  handleEdit,
+  checkedRowKeys,
+  onBatchDeleted,
+  onDeleted
+  // closeDrawer
+} = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const res = await delUser({ ids: checkedRowKeys.value });
+  if (res.error === null) {
+    onBatchDeleted();
+  }
 }
 
-function handleDeleteTable(row: Api.UserManagement.User) {
-  console.log(row);
-  onDeleted();
+async function handleDeleteTable(row: Api.UserManagement.User) {
+  const res = await delUser({ ids: [row.id] });
+  if (res.error === null) {
+    onDeleted();
+  }
 }
 
 function handleEditTable(row: Api.UserManagement.User) {
@@ -187,6 +196,12 @@ function handleEditTable(row: Api.UserManagement.User) {
         :row-key="row => row.id"
         :pagination="mobilePagination"
         class="sm:h-full"
+      />
+      <UserEdit
+        v-model:visible="drawerVisible"
+        :operate-type="operateType"
+        :row-data="editingData"
+        @submitted="getDataByPage"
       />
     </NCard>
   </div>

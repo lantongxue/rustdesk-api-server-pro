@@ -76,6 +76,10 @@ func (c *UsersController) HandleAdd() mvc.Result {
 	if form.Username == "" {
 		return c.Error(nil, "UsernameEmpty")
 	}
+	has, _ := c.Db.Where("username = ?", form.Username).Get(&model.User{})
+	if has {
+		return c.Error(nil, "UserExists")
+	}
 
 	if form.Password == "" {
 		return c.Error(nil, "PasswordEmpty")
