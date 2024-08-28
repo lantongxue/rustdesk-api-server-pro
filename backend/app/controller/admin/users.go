@@ -26,13 +26,22 @@ func (c *UsersController) BeforeActivation(b mvc.BeforeActivation) {
 func (c *UsersController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("page", 1)
 	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
-	kw := c.Ctx.URLParamDefault("kw", "")
+	username := c.Ctx.URLParamDefault("username", "")
+	name := c.Ctx.URLParamDefault("name", "")
+	email := c.Ctx.URLParamDefault("email", "")
+	is_admin := c.Ctx.URLParamDefault("is_admin", "")
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.User{})
-		if kw != "" {
-			kw = "%" + kw + "%"
-			q.Where("username like ? or name like ? or email like ?", kw, kw, kw)
+		if username != "" {
+			q.Where("username = ?", username)
+		}
+		if name != "" {
+			name = "%" + name + "%"
+			q.Where("name like ?", name)
+		}
+		if email != "" {
+			q.Where("email = ?", email)
 		}
 		return q
 	}

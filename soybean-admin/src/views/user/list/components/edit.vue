@@ -3,6 +3,7 @@ import { computed, reactive, watch } from 'vue';
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
 import { addUser, editUser } from '@/service/api/user_management';
+import { UserStatusOptions } from '@/constants/business';
 
 defineOptions({
   name: 'UserEdit'
@@ -27,21 +28,6 @@ const visible = defineModel<boolean>('visible', {
   default: false
 });
 
-const userStatusOptions = [
-  {
-    value: -1,
-    label: $t('dataMap.user.statusLabel.unverified')
-  },
-  {
-    value: 0,
-    label: $t('dataMap.user.statusLabel.disabled')
-  },
-  {
-    value: 1,
-    label: $t('dataMap.user.statusLabel.normal')
-  }
-];
-
 const { formRef, validate, restoreValidation } = useNaiveForm();
 
 const title = computed(() => {
@@ -54,7 +40,7 @@ const title = computed(() => {
 
 type Model = Pick<
   Api.UserManagement.User,
-  'username' | 'password' | 'name' | 'email' | 'licensed_devices' | 'note' | 'is_admin' | 'status'
+  'username' | 'password' | 'name' | 'email' | 'licensed_devices' | 'note' | 'is_admin' | 'admin_status' | 'status'
 >;
 
 const model: Model = reactive(createDefaultModel());
@@ -68,7 +54,8 @@ function createDefaultModel(): Model {
     licensed_devices: 0,
     note: '',
     status: 1,
-    is_admin: false
+    is_admin: false,
+    admin_status: 0
   };
 }
 
@@ -161,7 +148,7 @@ watch(visible, () => {
           </NSwitch>
         </NFormItem>
         <NFormItem v-if="!(operateType === 'edit' && model.is_admin)" :label="$t('dataMap.user.status')" path="status">
-          <NSelect v-model:value="model.status" :options="userStatusOptions" />
+          <NSelect v-model:value="model.status" :options="UserStatusOptions" />
         </NFormItem>
       </NForm>
       <template #footer>

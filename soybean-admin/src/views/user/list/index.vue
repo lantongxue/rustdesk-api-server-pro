@@ -4,15 +4,16 @@ import { delUser, fetchUserList } from '@/service/api/user_management';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { UserStatus } from '@/constants/business';
 import UserEdit from './components/edit.vue';
 import UserSearch from './components/search.vue';
 const appStore = useAppStore();
 
-const UserStatus: Map<number, string> = new Map<number, string>([
-  [0, $t('dataMap.user.statusLabel.disabled')],
-  [-1, $t('dataMap.user.statusLabel.unverified')],
-  [1, $t('dataMap.user.statusLabel.normal')]
-]);
+const tagTypes: any = {
+  '0': '',
+  '-1': 'error',
+  '1': 'success'
+};
 
 const {
   columns,
@@ -32,7 +33,7 @@ const {
     size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    kw: null
+    username: null
   },
   columns: () => [
     {
@@ -72,12 +73,6 @@ const {
       title: $t('dataMap.user.status'),
       align: 'center',
       render: row => {
-        const tagTypes: any = {
-          '0': '',
-          '-1': 'error',
-          '1': 'success'
-        };
-
         const label = UserStatus.get(row.status);
         return (
           <NTag bordered={false} type={tagTypes[row.status.toString()]}>

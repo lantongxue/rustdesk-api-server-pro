@@ -94,8 +94,14 @@ declare namespace Api {
       note: string;
       status: UserStatus;
       is_admin: boolean;
+      admin_status: number;
     }>;
     type UserList = Common.PaginatingQueryRecord<User>;
+
+    type UserSearchParams = CommonType.RecordNullable<
+      Pick<Api.UserManagement.User, 'username' | 'name' | 'email' | 'status' | 'admin_status' | 'created_at'> &
+        Api.Common.CommonSearchParams
+    >;
 
     type Session = Common.CommonRecord<{
       username: string;
