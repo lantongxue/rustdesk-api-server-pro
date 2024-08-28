@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { NDatePicker } from 'naive-ui';
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
 import { UserIsAdminOptions, UserStatusOptions } from '@/constants/business';
@@ -43,9 +42,11 @@ async function search() {
             <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.user.email')" path="email">
               <NInput v-model:value="model.email" />
             </NFormItemGi>
-            <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.user.created_at')" path="created_at">
+            <!--
+ <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.user.created_at')" path="created_at">
               <NDatePicker v-model:value="model.created_at" type="daterange" value-format="yyyy-MM-dd" clearable />
             </NFormItemGi>
+-->
             <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.user.is_admin')" path="admin_status">
               <NSelect v-model:value="model.admin_status" :options="UserIsAdminOptions" clearable />
             </NFormItemGi>
