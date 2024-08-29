@@ -3,7 +3,7 @@ import { computed, reactive, watch } from 'vue';
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
 import { addUser, editUser } from '@/service/api/user_management';
-import { UserStatusOptions } from '@/constants/business';
+import { UserStatusOptions, translateOptions } from '@/constants/business';
 
 defineOptions({
   name: 'UserEdit'
@@ -148,7 +148,7 @@ watch(visible, () => {
           </NSwitch>
         </NFormItem>
         <NFormItem v-if="!(operateType === 'edit' && model.is_admin)" :label="$t('dataMap.user.status')" path="status">
-          <NSelect v-model:value="model.status" :options="UserStatusOptions" />
+          <NSelect v-model:value="model.status" :options="translateOptions(UserStatusOptions)" />
         </NFormItem>
       </NForm>
       <template #footer>

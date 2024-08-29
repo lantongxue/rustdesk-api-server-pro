@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
-import { UserIsAdminOptions, UserStatusOptions } from '@/constants/business';
+import { UserIsAdminOptions, UserStatusOptions, translateOptions } from '@/constants/business';
 
 defineOptions({
   name: 'UserSearch'
@@ -51,10 +51,10 @@ async function search() {
               />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.user.is_admin')" path="admin_status">
-              <NSelect v-model:value="model.admin_status" :options="UserIsAdminOptions" clearable />
+              <NSelect v-model:value="model.admin_status" :options="translateOptions(UserIsAdminOptions)" clearable />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.user.status')" path="status">
-              <NSelect v-model:value="model.status" :options="UserStatusOptions" clearable />
+              <NSelect v-model:value="model.status" :options="translateOptions(UserStatusOptions)" clearable />
             </NFormItemGi>
             <NFormItemGi span="24 m:12">
               <NSpace class="w-full" justify="end">

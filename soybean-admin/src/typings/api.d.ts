@@ -83,8 +83,6 @@ declare namespace Api {
   }
 
   namespace UserManagement {
-    type UserStatus = -1 | 0 | 1;
-
     type User = Common.CommonRecord<{
       username: string;
       password: string;
@@ -92,7 +90,7 @@ declare namespace Api {
       email: string;
       licensed_devices: number;
       note: string;
-      status: UserStatus;
+      status: number;
       is_admin: boolean;
       admin_status: number;
     }>;

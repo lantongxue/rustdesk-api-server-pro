@@ -1,33 +1,34 @@
 import { $t } from '@/locales';
 
-export const UserStatus: Map<number, string> = new Map<number, string>([
-  [0, $t('dataMap.user.statusLabel.disabled')],
-  [-1, $t('dataMap.user.statusLabel.unverified')],
-  [1, $t('dataMap.user.statusLabel.normal')]
-]);
+export function translateOptions(options: CommonType.Option<any>[]) {
+  return options.map(option => ({
+    ...option,
+    label: $t(option.label as App.I18n.I18nKey)
+  }));
+}
 
 export const UserStatusOptions = [
   {
-    value: -1,
-    label: $t('dataMap.user.statusLabel.unverified')
-  },
-  {
     value: 0,
-    label: $t('dataMap.user.statusLabel.disabled')
+    label: 'dataMap.user.statusLabel.disabled'
   },
   {
     value: 1,
-    label: $t('dataMap.user.statusLabel.normal')
+    label: 'dataMap.user.statusLabel.normal'
+  },
+  {
+    value: -1,
+    label: 'dataMap.user.statusLabel.unverified'
   }
 ];
 
 export const UserIsAdminOptions = [
   {
     value: 0,
-    label: $t('common.yesOrNo.no')
+    label: 'common.yesOrNo.no'
   },
   {
     value: 1,
-    label: $t('common.yesOrNo.yes')
+    label: 'common.yesOrNo.yes'
   }
 ];

@@ -4,7 +4,7 @@ import { delUser, fetchUserList } from '@/service/api/user_management';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { UserStatus } from '@/constants/business';
+import { UserStatusOptions } from '@/constants/business';
 import UserEdit from './components/edit.vue';
 import UserSearch from './components/search.vue';
 const appStore = useAppStore();
@@ -78,10 +78,15 @@ const {
       title: $t('dataMap.user.status'),
       align: 'center',
       render: row => {
-        const label = UserStatus.get(row.status);
+        let label = '';
+        for (const option of UserStatusOptions) {
+          if (option.value === row.status) {
+            label = option.label;
+          }
+        }
         return (
           <NTag bordered={false} type={tagTypes[row.status.toString()]}>
-            {label}
+            {$t(label as App.I18n.I18nKey)}
           </NTag>
         );
       }
