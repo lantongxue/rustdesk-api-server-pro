@@ -428,6 +428,7 @@ declare namespace App {
           visitsCount: string;
           operatingSystem: string;
           oneWeek: string;
+          changeLogs: string;
         };
         user: {
           list: {

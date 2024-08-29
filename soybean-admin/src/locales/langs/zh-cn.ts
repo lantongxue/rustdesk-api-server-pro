@@ -191,7 +191,8 @@ const local: App.I18n.Schema = {
       onlineCount: '在线数量',
       visitsCount: '访问次数',
       operatingSystem: '操作系统',
-      oneWeek: '一周内'
+      oneWeek: '一周内',
+      changeLogs: '更新日志'
     },
     user: {
       list: {

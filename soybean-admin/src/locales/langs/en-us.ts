@@ -191,7 +191,8 @@ const local: App.I18n.Schema = {
       onlineCount: 'Online Count',
       visitsCount: 'Visits Count',
       operatingSystem: 'Operating System',
-      oneWeek: 'One Week'
+      oneWeek: 'One Week',
+      changeLogs: 'Change Logs'
     },
     user: {
       list: {
