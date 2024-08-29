@@ -23,15 +23,18 @@ func (c *SessionsController) BeforeActivation(b mvc.BeforeActivation) {
 func (c *SessionsController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("page", 1)
 	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
-	kw := c.Ctx.URLParamDefault("kw", "")
-
+	username := c.Ctx.URLParamDefault("username", "")
+	created_at_0 := c.Ctx.URLParamDefault("created_at[0]", "")
+	created_at_1 := c.Ctx.URLParamDefault("created_at[1]", "")
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.AuthToken{})
 		q.Join("INNER", &model.User{}, "auth_token.user_id = user.id")
 		q.Where("auth_token.status = 1 and auth_token.is_admin = 0")
-		if kw != "" {
-			kw = "%" + kw + "%"
-			q.Where("user.username like ?", kw)
+		if username != "" {
+			q.Where("user.username = ?", username)
+		}
+		if created_at_0 != "" && created_at_1 != "" {
+			q.Where("created_at BETWEEN ? AND ?", created_at_0, created_at_1)
 		}
 		return q
 	}

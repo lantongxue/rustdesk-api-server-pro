@@ -107,6 +107,10 @@ declare namespace Api {
       expired: string;
     }>;
     type SessionList = Common.PaginatingQueryRecord<Session>;
+
+    type SessionSearchParams = CommonType.RecordNullable<
+      Pick<Api.UserManagement.Session, 'username' | 'created_at'> & Api.Common.CommonSearchParams
+    >;
   }
 
   /**

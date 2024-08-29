@@ -20,6 +20,6 @@ export function fetchSessionList(params: any) {
   return request<Api.UserManagement.SessionList>({ url: '/sessions/list', params });
 }
 
-export function killSession(data: Api.UserManagement.Session) {
+export function killSession(data: any) {
   return request({ url: '/sessions/kill', method: 'post', data });
 }

@@ -31,6 +31,8 @@ func (c *UsersController) HandleList() mvc.Result {
 	email := c.Ctx.URLParamDefault("email", "")
 	admin_status := c.Ctx.URLParamDefault("admin_status", "")
 	status := c.Ctx.URLParamDefault("status", "")
+	created_at_0 := c.Ctx.URLParamDefault("created_at[0]", "")
+	created_at_1 := c.Ctx.URLParamDefault("created_at[1]", "")
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.User{})
@@ -49,6 +51,9 @@ func (c *UsersController) HandleList() mvc.Result {
 		}
 		if status != "" {
 			q.Where("status = ?", status)
+		}
+		if created_at_0 != "" && created_at_1 != "" {
+			q.Where("created_at BETWEEN ? AND ?", created_at_0, created_at_1)
 		}
 		return q
 	}
