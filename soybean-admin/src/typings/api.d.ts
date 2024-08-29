@@ -113,6 +113,26 @@ declare namespace Api {
     >;
   }
 
+  namespace Audit {
+    type AuditLog = Common.CommonRecord<{
+      username: string;
+      action: string;
+      conn_id: string;
+      rustdesk_id: string;
+      ip: string;
+      session_id: string;
+      uuid: string;
+    }>;
+    type AuditLogList = Common.PaginatingQueryRecord<AuditLog>;
+    type AuditLogSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.Audit.AuditLog,
+        'username' | 'action' | 'conn_id' | 'rustdesk_id' | 'ip' | 'session_id' | 'uuid' | 'created_at'
+      > &
+        Api.Common.CommonSearchParams
+    >;
+  }
+
   /**
    * namespace Route
    *

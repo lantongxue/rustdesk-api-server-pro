@@ -7,14 +7,12 @@ defineOptions({
 
 interface Props {
   itemAlign?: NaiveUI.Align;
-  disabledKill?: boolean;
   loading?: boolean;
 }
 
 defineProps<Props>();
 
 interface Emits {
-  (e: 'kill'): void;
   (e: 'refresh'): void;
 }
 
@@ -24,10 +22,6 @@ const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
   default: () => []
 });
 
-function batchKill() {
-  emit('kill');
-}
-
 function refresh() {
   emit('refresh');
 }
@@ -36,19 +30,6 @@ function refresh() {
 <template>
   <NSpace :align="itemAlign" wrap justify="end" class="lt-sm:w-200px">
     <slot name="prefix"></slot>
-    <slot name="default">
-      <NPopconfirm @positive-click="batchKill">
-        <template #trigger>
-          <NButton size="small" ghost type="error" :disabled="disabledKill">
-            <template #icon>
-              <icon-fluent:plug-disconnected-20-regular class="text-icon" />
-            </template>
-            {{ $t('page.user.sessions.kill') }}
-          </NButton>
-        </template>
-        {{ $t('page.user.sessions.confirmKill') }}
-      </NPopconfirm>
-    </slot>
     <NButton size="small" @click="refresh">
       <template #icon>
         <icon-mdi-refresh class="text-icon" :class="{ 'animate-spin': loading }" />

@@ -21,16 +21,42 @@ func (c *AuditController) BeforeActivation(b mvc.BeforeActivation) {
 func (c *AuditController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("page", 1)
 	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
-	kw := c.Ctx.URLParamDefault("kw", "")
+	username := c.Ctx.URLParamDefault("username", "")
+	action := c.Ctx.URLParamDefault("action", "")
+	conn_id := c.Ctx.URLParamDefault("conn_id", "")
+	rustdesk_id := c.Ctx.URLParamDefault("rustdesk_id", "")
+	ip := c.Ctx.URLParamDefault("ip", "")
+	session_id := c.Ctx.URLParamDefault("session_id", "")
+	uuid := c.Ctx.URLParamDefault("uuid", "")
+	created_at_0 := c.Ctx.URLParamDefault("created_at[0]", "")
+	created_at_1 := c.Ctx.URLParamDefault("created_at[1]", "")
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.Audit{})
 		q.Join("INNER", &model.User{}, "audit.user_id = user.id")
-		if kw != "" {
-			q.Or("audit.action = ?", kw)
-			q.Or("audit.my_id = ?", kw)
-			q.Or("audit.ip = ?", kw)
-			q.Or("user.username like ?", "%"+kw+"%")
+		if username != "" {
+			q.Where("user.username = ?", username)
+		}
+		if action != "" {
+			q.Where("audit.action = ?", action)
+		}
+		if conn_id != "" {
+			q.Where("audit.conn_id = ?", conn_id)
+		}
+		if rustdesk_id != "" {
+			q.Where("audit.rustdesk_id = ?", rustdesk_id)
+		}
+		if ip != "" {
+			q.Where("audit.ip = ?", ip)
+		}
+		if session_id != "" {
+			q.Where("audit.session_id = ?", session_id)
+		}
+		if uuid != "" {
+			q.Where("audit.uuid = ?", uuid)
+		}
+		if created_at_0 != "" && created_at_1 != "" {
+			q.Where("audit.created_at BETWEEN ? AND ?", created_at_0, created_at_1)
 		}
 		return q
 	}
