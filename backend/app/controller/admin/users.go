@@ -29,7 +29,8 @@ func (c *UsersController) HandleList() mvc.Result {
 	username := c.Ctx.URLParamDefault("username", "")
 	name := c.Ctx.URLParamDefault("name", "")
 	email := c.Ctx.URLParamDefault("email", "")
-	is_admin := c.Ctx.URLParamDefault("is_admin", "")
+	admin_status := c.Ctx.URLParamDefault("admin_status", "")
+	status := c.Ctx.URLParamDefault("status", "")
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.User{})
@@ -42,6 +43,12 @@ func (c *UsersController) HandleList() mvc.Result {
 		}
 		if email != "" {
 			q.Where("email = ?", email)
+		}
+		if admin_status != "" {
+			q.Where("is_admin = ?", admin_status)
+		}
+		if status != "" {
+			q.Where("status = ?", status)
 		}
 		return q
 	}
