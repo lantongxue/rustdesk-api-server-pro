@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
 	"rustdesk-api-server-pro/util"
+
+	"github.com/spf13/cobra"
 )
 
 var userCmd = &cobra.Command{
@@ -14,9 +15,11 @@ var userCmd = &cobra.Command{
 	Short: "User management",
 }
 
+var isAdmin bool
+
 var userAddCmd = &cobra.Command{
 	Use:   "add",
-	Short: "add user [ add username password]",
+	Short: "add user [ add username password][--admin]",
 	Run: func(cmd *cobra.Command, args []string) {
 		username := args[0]
 		password, _ := util.Password(args[1])
@@ -26,6 +29,7 @@ var userAddCmd = &cobra.Command{
 			Password:        password,
 			Name:            username,
 			LicensedDevices: 0,
+			IsAdmin:         isAdmin,
 			Status:          1,
 		}
 		cfg := config.GetServerConfig()
@@ -44,6 +48,7 @@ var userAddCmd = &cobra.Command{
 }
 
 func init() {
+	userAddCmd.Flags().BoolVarP(&isAdmin, "admin", "a", false, "Set user admin")
 	userCmd.AddCommand(userAddCmd)
 	RootCmd.AddCommand(userCmd)
 }
