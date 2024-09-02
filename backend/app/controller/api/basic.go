@@ -1,9 +1,10 @@
 package api
 
 import (
-	"github.com/kataras/iris/v12"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
+
+	"github.com/kataras/iris/v12"
 	"xorm.io/xorm"
 )
 
@@ -13,7 +14,11 @@ type basicController struct {
 }
 
 func (c *basicController) GetUser() *model.User {
-	return c.Ctx.Values().Get(config.CurrentUserKey).(*model.User)
+	user := c.Ctx.Values().Get(config.CurrentUserKey)
+	if user != nil {
+		return user.(*model.User)
+	}
+	return nil
 }
 
 func (c *basicController) GetToken() string {

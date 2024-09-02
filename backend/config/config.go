@@ -1,23 +1,29 @@
 package config
 
 import (
-	"gopkg.in/yaml.v3"
 	"os"
 	"path"
 	"rustdesk-api-server-pro/util"
+
+	"gopkg.in/yaml.v3"
 )
 
 type ServerConfig struct {
-	Port     string    `yaml:"port"`
-	TimeZone string    `yaml:"timeZone"`
-	Db       *DbConfig `yaml:"db"`
-	SignKey  string    `yaml:"signKey"`
+	TimeZone   string      `yaml:"timeZone"`
+	Db         *DbConfig   `yaml:"db"`
+	SignKey    string      `yaml:"signKey"`
+	HttpConfig *HttpConfig `yaml:"httpConfig"`
 }
 
 type DbConfig struct {
 	Driver  string `yaml:"driver"`
 	Dsn     string `yaml:"dsn"`
 	ShowSql bool   `yaml:"showSql"`
+}
+
+type HttpConfig struct {
+	PrintRequestLog bool   `yaml:"printRequestLog"`
+	Port            string `yaml:"port"`
 }
 
 var (
@@ -27,11 +33,13 @@ var (
 
 func GetDefaultServerConfig() *ServerConfig {
 	return &ServerConfig{
-		Port: ":8080",
 		Db: &DbConfig{
 			Driver:  "sqlite",
 			Dsn:     "./server.db",
 			ShowSql: true,
+		},
+		HttpConfig: &HttpConfig{
+			Port: ":8080",
 		},
 		SignKey: util.RandomString(32),
 	}

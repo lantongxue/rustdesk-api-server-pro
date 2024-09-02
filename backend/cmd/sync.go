@@ -2,10 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
+
+	"github.com/spf13/cobra"
 )
 
 var dbSyncCmd = &cobra.Command{
@@ -24,6 +25,7 @@ var dbSyncCmd = &cobra.Command{
 			new(model.Tags),
 			new(model.AuthToken),
 			new(model.Audit),
+			new(model.Device),
 		}
 		err = engine.Sync(models...)
 		if err != nil {

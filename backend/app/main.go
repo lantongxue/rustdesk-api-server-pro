@@ -2,11 +2,12 @@ package app
 
 import (
 	"fmt"
-	"github.com/kataras/iris/v12"
 	"rustdesk-api-server-pro/app/middleware"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
 	"time"
+
+	"github.com/kataras/iris/v12"
 )
 
 func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
@@ -34,7 +35,9 @@ func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 	})
 
 	app.Use(iris.Compression)
-	app.Use(middleware.RequestLogger())
+	if cfg.HttpConfig.PrintRequestLog {
+		app.Use(middleware.RequestLogger())
+	}
 
 	SetRoute(app)
 
@@ -49,7 +52,7 @@ func StartServer() (bool, error) {
 		return false, err
 	}
 
-	err = app.Listen(cfg.Port, iris.WithoutBodyConsumptionOnUnmarshal)
+	err = app.Listen(cfg.HttpConfig.Port, iris.WithoutBodyConsumptionOnUnmarshal)
 	if err != nil {
 		return false, err
 	}
