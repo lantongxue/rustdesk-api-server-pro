@@ -80,7 +80,7 @@ func (c *AuditController) HandleList() mvc.Result {
 			"username":    a.User.Username,
 			"action":      a.Audit.Action,
 			"conn_id":     a.Audit.ConnId,
-			"rustdesk_id": a.Audit.MyId,
+			"rustdesk_id": a.Audit.RustdeskId,
 			"ip":          a.Audit.IP,
 			"session_id":  a.Audit.SessionId,
 			"uuid":        a.Audit.Uuid,

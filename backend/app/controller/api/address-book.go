@@ -2,11 +2,12 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
 	"strconv"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
 )
 
 type AddressBookController struct {
@@ -52,7 +53,7 @@ func (c *AddressBookController) GetAb() mvc.Result {
 			continue
 		}
 		peers = append(peers, iris.Map{
-			"id":       peer.PeerId,
+			"id":       peer.RustdeskId,
 			"hash":     peer.Hash,
 			"username": peer.Username,
 			"hostname": peer.Hostname,
@@ -180,14 +181,14 @@ func (c *AddressBookController) PostAb() mvc.Result {
 			peerTags = string(b)
 		}
 		peers = append(peers, &model.Peer{
-			UserId:   user.Id,
-			PeerId:   peer.Id,
-			Hash:     peer.Hash,
-			Username: peer.Username,
-			Hostname: peer.Hostname,
-			Platform: peer.Platform,
-			Alias:    peer.Alias,
-			Tags:     peerTags,
+			UserId:     user.Id,
+			RustdeskId: peer.Id,
+			Hash:       peer.Hash,
+			Username:   peer.Username,
+			Hostname:   peer.Hostname,
+			Platform:   peer.Platform,
+			Alias:      peer.Alias,
+			Tags:       peerTags,
 		})
 	}
 	if len(peers) > 0 {

@@ -56,7 +56,7 @@ func (c *SessionsController) HandleList() mvc.Result {
 		list = append(list, iris.Map{
 			"id":          s.AuthToken.Id,
 			"username":    s.User.Username,
-			"rustdesk_id": s.AuthToken.MyId,
+			"rustdesk_id": s.AuthToken.RustdeskId,
 			"expired":     s.AuthToken.Expired.Format(config.TimeFormat),
 			"created_at":  s.AuthToken.CreatedAt.Format(config.TimeFormat),
 		})

@@ -57,22 +57,25 @@ func (c *LoginController) PostLogin() mvc.Result {
 	}
 
 	// make other tokens expired
-	_, _ = c.Db.Where("user_id = ? and my_id = ? and uuid = ? and status = 1 and is_admin = 0", user.Id, loginForm.Id, loginForm.Uuid).Cols("status").Update(&model.AuthToken{
+	_, _ = c.Db.Where("user_id = ? and rustdesk_id = ? and status = 1 and is_admin = 0", user.Id, loginForm.RustdeskId).Cols("status").Update(&model.AuthToken{
 		Status: 0,
 	})
 
-	signStr := loginForm.Id + loginForm.Uuid + user.Username + time.Now().String()
+	signStr := loginForm.RustdeskId + loginForm.Uuid + user.Username + time.Now().String()
 	token := util.HmacSha256(signStr, c.Cfg.SignKey)
 	expired := 90 * 24 * time.Hour // 3 months
 
 	authToken := &model.AuthToken{
-		UserId:  user.Id,
-		MyId:    loginForm.Id,
-		Uuid:    loginForm.Uuid,
-		Token:   token,
-		Expired: time.Now().Add(expired),
-		IsAdmin: false,
-		Status:  1,
+		UserId:     user.Id,
+		RustdeskId: loginForm.RustdeskId,
+		Uuid:       loginForm.Uuid,
+		DeviceOs:   loginForm.DeviceInfo.OS,
+		DeviceType: loginForm.DeviceInfo.Type,
+		DeviceName: loginForm.DeviceInfo.Name,
+		Token:      token,
+		Expired:    time.Now().Add(expired),
+		IsAdmin:    false,
+		Status:     1,
 	}
 
 	_, err = c.Db.Insert(authToken)

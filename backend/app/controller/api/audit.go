@@ -1,10 +1,11 @@
 package api
 
 import (
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
 )
 
 type AuditController struct {
@@ -24,13 +25,13 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 	}
 	user := c.GetUser()
 	audit := &model.Audit{
-		UserId:    user.Id,
-		Action:    auditForm.Action,
-		ConnId:    auditForm.ConnId,
-		MyId:      auditForm.Id,
-		IP:        auditForm.IP,
-		SessionId: auditForm.SessionId,
-		Uuid:      auditForm.Uuid,
+		UserId:     user.Id,
+		Action:     auditForm.Action,
+		ConnId:     auditForm.ConnId,
+		RustdeskId: auditForm.Id,
+		IP:         auditForm.IP,
+		SessionId:  auditForm.SessionId,
+		Uuid:       auditForm.Uuid,
 	}
 
 	_, _ = c.Db.Insert(audit)

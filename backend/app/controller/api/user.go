@@ -1,11 +1,12 @@
 package api
 
 import (
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/db"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
 	"xorm.io/xorm"
 )
 
@@ -86,24 +87,9 @@ func (c *UserController) PostLogout() mvc.Result {
 			},
 		}
 	}
-	user := c.GetUser()
-	token := c.GetToken()
-	query := c.Db.Where("my_id = ? and uuid = ? and token = ?", f.Id, f.Uuid, token)
-	if user != nil {
-		query.Where("user_id = ?", user.Id)
-	}
-	var authToken model.AuthToken
-	_, err = query.Get(&authToken)
-	if err != nil {
-		return mvc.Response{
-			Object: iris.Map{
-				"error": err.Error(),
-			},
-		}
-	}
-
-	authToken.Status = 0
-	_, err = c.Db.Where("id = ?", authToken.Id).Cols("status").Update(&authToken)
+	_, err = c.Db.Where("rustdesk_id = ?", f.RustdeskId).Cols("status").Update(&model.AuthToken{
+		Status: 0,
+	})
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{

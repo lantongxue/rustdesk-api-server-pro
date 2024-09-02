@@ -1,10 +1,11 @@
 package api
 
 import (
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/db"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
 	"xorm.io/xorm"
 )
 
@@ -37,7 +38,7 @@ func (c *PeerController) GetPeers() mvc.Result {
 	data := make([]iris.Map, 0)
 	for _, p := range peerList {
 		data = append(data, iris.Map{
-			"id": p.PeerId,
+			"id": p.RustdeskId,
 			"info": iris.Map{
 				"username":    p.Username,
 				"os":          p.Platform,

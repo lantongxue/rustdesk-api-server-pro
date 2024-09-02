@@ -3,7 +3,6 @@ package api
 import (
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
-	"rustdesk-api-server-pro/config"
 	"time"
 
 	"github.com/kataras/iris/v12"
@@ -25,8 +24,8 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 		}
 	}
 
-	var authToken model.AuthToken
-	get, err := c.Db.Where("my_id = ? and uuid = ? and expired > ? and status = 1 and is_admin = 0", form.Id, form.Uuid, time.Now().Format(config.TimeFormat)).Get(&authToken)
+	var device model.Device
+	has, err := c.Db.Where("rustdesk_id = ?", form.RustdeskId).Get(&device)
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{
@@ -35,8 +34,23 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 		}
 	}
 
-	_, err = c.Db.Where("peer_id = ?", authToken.MyId).Update(&model.Peer{
-		IsOnline: get,
+	if !has {
+		device.RustdeskId = form.RustdeskId
+		device.Uuid = form.Uuid
+		device.Conns = form.Conns
+		device.IsOnline = true
+		_, err = c.Db.Insert(&device)
+		if err != nil {
+			return mvc.Response{
+				Object: iris.Map{
+					"error": err.Error(),
+				},
+			}
+		}
+	}
+
+	_, err = c.Db.Where("rustdesk_id = ?", form.RustdeskId).Cols("is_online").Update(&model.Device{
+		IsOnline: true,
 	})
 	if err != nil {
 		return mvc.Response{
@@ -65,12 +79,18 @@ func (c *SystemController) PostSysinfo() mvc.Result {
 	}
 
 	var device model.Device
-	has, err := c.Db.Where("uuid = ?", form.Uuid).Get(&device)
+	has, err := c.Db.Where("rustdesk_id = ?", form.RustdeskId).Get(&device)
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{
 				"error": err.Error(),
 			},
+		}
+	}
+
+	if !has {
+		return mvc.Response{
+			Text: "ID_NOT_FOUND",
 		}
 	}
 
@@ -83,16 +103,7 @@ func (c *SystemController) PostSysinfo() mvc.Result {
 	device.Uuid = form.Uuid
 	device.Version = form.Version
 
-	user := c.GetUser()
-	if user != nil {
-		device.UserId = user.Id
-	}
-
-	if has {
-		c.Db.Where("id = ?", device.Id).Update(&device)
-	} else {
-		c.Db.Insert(&device)
-	}
+	c.Db.Where("id = ?", device.Id).Update(&device)
 
 	return mvc.Response{
 		Text: "SYSINFO_UPDATED",
