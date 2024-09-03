@@ -65,11 +65,11 @@ Reverse Proxy Configuration, you need to configure reverse proxy in `nginx` or o
 ## Follow-up plan
 We will continue to follow up the RustDesk client and implement the corresponding interfaces, which will be a long-term plan.
 ### Short-term plan
-[] Continue to implement new interfaces in version 1.2.7.
-[] Add Device management
-[] Add user login log
-[] Add hbbr&hbbs management.
-[] Add normal user login privileges
+- [ ] Continue to implement new interfaces in version 1.2.7.
+- [ ] Add Device management
+- [ ] Add user login log
+- [ ] Add hbbr&hbbs management.
+- [ ] Add normal user login privileges
 
 ## Sponsorship
 
