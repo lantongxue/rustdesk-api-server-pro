@@ -423,7 +423,7 @@ declare namespace App {
           cupOfCoffee: string;
           thankYou: string;
           userCount: string;
-          peerCount: string;
+          deviceCount: string;
           onlineCount: string;
           visitsCount: string;
           operatingSystem: string;

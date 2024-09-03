@@ -65,7 +65,7 @@ declare namespace Api {
   namespace Home {
     interface Stat {
       userCount: number;
-      peerCount: number;
+      deviceCount: number;
       onlineCount: number;
       visitsCount: number;
     }

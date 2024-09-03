@@ -21,7 +21,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     }
   },
   legend: {
-    data: [$t('page.home.userCount'), $t('page.home.peerCount')]
+    data: [$t('page.home.userCount'), $t('page.home.deviceCount')]
   },
   grid: {
     left: '3%',
@@ -73,7 +73,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
       data: []
     },
     {
-      name: $t('page.home.peerCount'),
+      name: $t('page.home.deviceCount'),
       type: 'line',
       data: []
     }
@@ -123,7 +123,7 @@ async function fetchChartsData() {
       },
       {
         color: '#26deca',
-        name: $t('page.home.peerCount'),
+        name: $t('page.home.deviceCount'),
         type: 'line',
         smooth: true,
         stack: 'Total',

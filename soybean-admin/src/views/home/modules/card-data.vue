@@ -22,7 +22,7 @@ interface CardData {
 
 const stat = ref<Api.Home.Stat>({
   userCount: 0,
-  peerCount: 0,
+  deviceCount: 0,
   onlineCount: 0,
   visitsCount: 0
 });
@@ -40,9 +40,9 @@ const cardData = computed<CardData[]>(() => [
     icon: 'gravity-ui:person'
   },
   {
-    key: 'peerCount',
-    title: $t('page.home.peerCount'),
-    value: stat.value.peerCount,
+    key: 'deviceCount',
+    title: $t('page.home.deviceCount'),
+    value: stat.value.deviceCount,
     unit: '',
     color: {
       start: '#865ec0',

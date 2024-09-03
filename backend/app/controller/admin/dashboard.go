@@ -20,12 +20,12 @@ func (c *DashboardController) GetDashboardStat() mvc.Result {
 		return c.Error(nil, err.Error())
 	}
 
-	peerCount, err := c.Db.Count(&model.Peer{})
+	deviceCount, err := c.Db.Count(&model.Device{})
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}
 
-	onlineCount, err := c.Db.Where("is_online = 1").Count(&model.Peer{})
+	onlineCount, err := c.Db.Where("is_online = 1").Count(&model.Device{})
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}
@@ -37,7 +37,7 @@ func (c *DashboardController) GetDashboardStat() mvc.Result {
 
 	return c.Success(iris.Map{
 		"userCount":   userCount,
-		"peerCount":   peerCount,
+		"deviceCount": deviceCount,
 		"onlineCount": onlineCount,
 		"visitsCount": visitsCount,
 	}, "ok")

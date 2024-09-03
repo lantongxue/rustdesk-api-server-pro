@@ -187,7 +187,7 @@ const local: App.I18n.Schema = {
       cupOfCoffee: 'Can you treat me to a cup of coffee?',
       thankYou: 'Thank you for your sponsorship',
       userCount: 'User Count',
-      peerCount: 'Peer Count',
+      deviceCount: 'Device Count',
       onlineCount: 'Online Count',
       visitsCount: 'Visits Count',
       operatingSystem: 'Operating System',
