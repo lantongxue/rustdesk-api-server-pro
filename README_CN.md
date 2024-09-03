@@ -2,7 +2,7 @@ Rustdesk Api Server Pro
 ============
 [![GitHub Stars](https://img.shields.io/github/stars/lantongxue/rustdesk-api-server-pro.svg)](https://github.com/lantongxue/rustdesk-api-server-pro/stargazers) [![GitHub Issues](https://img.shields.io/github/issues/lantongxue/rustdesk-api-server-pro.svg)](https://github.com/IgorAntun/node-chat/issues) [![Current Version](https://img.shields.io/badge/version-1.2.7-green.svg)](https://github.com/lantongxue/rustdesk-api-server-pro)
 
-[English](https://github.com/rustdesk/rustdesk) | [简体中文](https://github.com/lantongxue/rustdesk-api-server-pro/blob/main/README_CN.md)
+[English](https://github.com/rustdesk/rustdesk) | [简体中文](https://github.com/lantongxue/rustdesk-api-server-pro/blob/master/README_CN.md)
 
 这是一个基于开源RustDesk客户端的开源Api服务器，实现了客户端所有Api接口，并提供一个Web-UI用于管理相关数据。
 
