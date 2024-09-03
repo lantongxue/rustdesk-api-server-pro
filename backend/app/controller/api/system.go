@@ -49,8 +49,9 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 		}
 	}
 
-	_, err = c.Db.Where("rustdesk_id = ?", form.RustdeskId).Cols("is_online").Update(&model.Device{
+	_, err = c.Db.Where("rustdesk_id = ?", form.RustdeskId).Cols("is_online", "conns").Update(&model.Device{
 		IsOnline: true,
+		Conns:    form.Conns,
 	})
 	if err != nil {
 		return mvc.Response{
@@ -62,7 +63,9 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 
 	return mvc.Response{
 		Object: iris.Map{
-			"modified_at": time.Now().Add(time.Duration(60) * time.Second).Unix(),
+			"modified_at": time.Now().Unix(),
+			//"disconnect":  0,
+			//"strategy":    iris.Map{},
 		},
 	}
 }

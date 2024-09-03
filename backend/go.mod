@@ -3,13 +3,15 @@ module rustdesk-api-server-pro
 go 1.21.4
 
 require (
+	github.com/go-co-op/gocron v1.37.0
 	github.com/go-sql-driver/mysql v1.7.1
+	github.com/golang-module/carbon/v2 v2.3.1
 	github.com/kataras/iris/v12 v12.2.8
 	github.com/mojocn/base64Captcha v1.3.6
 	github.com/schollz/progressbar/v3 v3.14.1
 	github.com/shirou/gopsutil/v3 v3.23.11
 	github.com/spf13/cobra v1.8.0
-	golang.org/x/crypto v0.17.0
+	golang.org/x/crypto v0.24.0
 	gopkg.in/yaml.v3 v3.0.1
 	modernc.org/sqlite v1.28.0
 	xorm.io/xorm v1.3.4
@@ -30,6 +32,7 @@ require (
 	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2/v4 v4.0.2 // indirect
+	github.com/go-co-op/gocron/v2 v2.11.0 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-xorm/builder v0.3.4 // indirect
 	github.com/go-xorm/core v0.6.2 // indirect
@@ -37,11 +40,10 @@ require (
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.3.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
-	github.com/golang-module/carbon/v2 v2.3.1 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gomarkdown/markdown v0.0.0-20231222211730-1d6d20845b47 // indirect
-	github.com/google/uuid v1.5.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/gorilla/websocket v1.5.1 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
@@ -50,6 +52,7 @@ require (
 	github.com/iris-contrib/jade v1.1.4 // indirect
 	github.com/iris-contrib/pongo2 v0.0.1 // indirect
 	github.com/iris-contrib/schema v0.0.6 // indirect
+	github.com/jonboulle/clockwork v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kataras/blocks v0.0.8 // indirect
@@ -76,6 +79,7 @@ require (
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
+	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/schollz/closestmatch v2.1.0+incompatible // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
@@ -92,15 +96,17 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yosssi/ace v0.0.5 // indirect
 	github.com/yusufpapurcu/wmi v1.2.3 // indirect
-	golang.org/x/exp v0.0.0-20231226003508-02704c960a9b // indirect
+	go.uber.org/atomic v1.9.0 // indirect
+	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
 	golang.org/x/image v0.14.0 // indirect
-	golang.org/x/mod v0.14.0 // indirect
-	golang.org/x/net v0.19.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
-	golang.org/x/term v0.15.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/mod v0.18.0 // indirect
+	golang.org/x/net v0.26.0 // indirect
+	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/term v0.21.0 // indirect
+	golang.org/x/text v0.16.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
-	golang.org/x/tools v0.16.1 // indirect
+	golang.org/x/tools v0.22.0 // indirect
 	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028 // indirect
 	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

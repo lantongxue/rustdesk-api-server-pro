@@ -5,7 +5,6 @@ import (
 	"rustdesk-api-server-pro/app/middleware"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
-	"time"
 
 	"github.com/kataras/iris/v12"
 )
@@ -13,15 +12,11 @@ import (
 func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 	app := iris.Default()
 
-	location, _ := time.LoadLocation(cfg.TimeZone)
-
 	dbEngine, err := db.NewEngine(cfg.Db)
 	if err != nil {
 		app.Logger().Fatal("Db Engine create error:", err)
 		return nil, err
 	}
-	dbEngine.TZLocation = location
-	dbEngine.DatabaseTZ = location
 	app.RegisterDependency(dbEngine, cfg)
 
 	app.OnErrorCode(iris.StatusNotFound, func(context iris.Context) {
@@ -47,6 +42,8 @@ func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 func StartServer() (bool, error) {
 	cfg := config.GetServerConfig()
 
+	Jobs(cfg)
+
 	app, err := newApp(cfg)
 	if err != nil {
 		return false, err
@@ -56,5 +53,6 @@ func StartServer() (bool, error) {
 	if err != nil {
 		return false, err
 	}
+
 	return true, nil
 }

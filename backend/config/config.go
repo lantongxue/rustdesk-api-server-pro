@@ -9,21 +9,30 @@ import (
 )
 
 type ServerConfig struct {
-	TimeZone   string      `yaml:"timeZone"`
 	Db         *DbConfig   `yaml:"db"`
 	SignKey    string      `yaml:"signKey"`
 	HttpConfig *HttpConfig `yaml:"httpConfig"`
+	JobsConfig *JobsConfig `yaml:"jobsConfig"`
 }
 
 type DbConfig struct {
-	Driver  string `yaml:"driver"`
-	Dsn     string `yaml:"dsn"`
-	ShowSql bool   `yaml:"showSql"`
+	Driver   string `yaml:"driver"`
+	Dsn      string `yaml:"dsn"`
+	TimeZone string `yaml:"timeZone"`
+	ShowSql  bool   `yaml:"showSql"`
 }
 
 type HttpConfig struct {
 	PrintRequestLog bool   `yaml:"printRequestLog"`
 	Port            string `yaml:"port"`
+}
+
+type DeviceCheckJob struct {
+	Duration int `yaml:"duration"`
+}
+
+type JobsConfig struct {
+	DeviceCheckJob *DeviceCheckJob `yaml:"deviceCheckJob"`
 }
 
 var (
@@ -34,14 +43,20 @@ var (
 func GetDefaultServerConfig() *ServerConfig {
 	return &ServerConfig{
 		Db: &DbConfig{
-			Driver:  "sqlite",
-			Dsn:     "./server.db",
-			ShowSql: true,
+			Driver:   "sqlite",
+			Dsn:      "./server.db",
+			ShowSql:  true,
+			TimeZone: "Asia/Shanghai",
 		},
 		HttpConfig: &HttpConfig{
 			Port: ":8080",
 		},
 		SignKey: util.RandomString(32),
+		JobsConfig: &JobsConfig{
+			DeviceCheckJob: &DeviceCheckJob{
+				Duration: 30,
+			},
+		},
 	}
 }
 
