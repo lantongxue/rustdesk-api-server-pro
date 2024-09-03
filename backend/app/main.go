@@ -42,7 +42,7 @@ func newApp(cfg *config.ServerConfig) (*iris.Application, error) {
 func StartServer() (bool, error) {
 	cfg := config.GetServerConfig()
 
-	Jobs(cfg)
+	StartJobs(cfg)
 
 	app, err := newApp(cfg)
 	if err != nil {
