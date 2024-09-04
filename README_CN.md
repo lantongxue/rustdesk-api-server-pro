@@ -70,13 +70,13 @@ Rustdesk Api Server Pro
 - [ ] 增加用户登录日志
 - [ ] 增加hbbr&hbbs管理
 - [ ] 增加普通用户登录权限
+- [ ] Dockerfile
 
 ## 赞助
 
 如果您觉得此项目对您有所帮助，不妨请开发者喝杯咖啡 :)
 
-<img src="./soybean-admin/src/assets/imgs/alipay.png" style="height: auto !important;width: 200px;" />
-<img src="./soybean-admin/src/assets/imgs/wechat.png" style="height: auto !important;width: 200px;" />
+<img src="./soybean-admin/src/assets/imgs/sponsorships.png" style="height: auto !important;width: 200px;" />
 
 **感谢您的赞助**
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
-import alipay from '@/assets/imgs/alipay.png';
-import wxpay from '@/assets/imgs/wechat.png';
+import sponsorships from '@/assets/imgs/sponsorships.png';
 
 defineOptions({
   name: 'CreativityBanner'
@@ -18,8 +17,7 @@ defineOptions({
     </template>
     <div class="h-full flex-center">
       <NSpace>
-        <NImage width="200" :src="alipay"></NImage>
-        <NImage width="200" :src="wxpay"></NImage>
+        <NImage :src="sponsorships"></NImage>
       </NSpace>
     </div>
   </NCard>

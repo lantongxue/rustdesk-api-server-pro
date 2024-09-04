@@ -70,13 +70,13 @@ We will continue to follow up the RustDesk client and implement the correspondin
 - [ ] Add user login log
 - [ ] Add hbbr&hbbs management.
 - [ ] Add normal user login privileges
+- [ ] Dockerfile
 
 ## Sponsorship
 
 If you found this project helpful, why not buy the developers a cup of coffee :)
 
-<img src="./soybean-admin/src/assets/imgs/alipay.png" style="height: auto !important;width: 200px;" />
-<img src="./soybean-admin/src/assets/imgs/wechat.png" style="height: auto !important;width: 200px;" />
+<img src="./soybean-admin/src/assets/imgs/sponsorships.png" style="height: auto !important;width: 200px;" />
 
 **Thank you for your sponsorship**
 
