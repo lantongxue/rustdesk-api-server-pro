@@ -6,8 +6,12 @@ defineOptions({
 
 <template>
   <DarkModeContainer class="h-full flex-center">
-    <a href="https://github.com/soybeanjs/soybean-admin/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
-      Copyright MIT © 2021 Soybean
+    <a
+      href="https://github.com/lantongxue/rustdesk-api-server-pro/blob/master/LICENSE"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Copyright MIT © 2024 lantongxue
     </a>
   </DarkModeContainer>
 </template>
