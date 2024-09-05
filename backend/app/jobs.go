@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron/v2"
+	"github.com/golang-module/carbon/v2"
 )
 
 func StartJobs(cfg *config.ServerConfig) {
@@ -21,8 +22,7 @@ func StartJobs(cfg *config.ServerConfig) {
 		panic(err)
 	}
 	s.NewJob(gocron.DurationJob(time.Duration(cfg.JobsConfig.DeviceCheckJob.Duration)*time.Second), gocron.NewTask(func() {
-		t, _ := time.ParseDuration("-30s")
-		expired := time.Now().Add(t).Format("2006-01-02 15:04:05")
+		expired := carbon.Now(cfg.Db.TimeZone).SubSeconds(30).ToDateTimeString()
 		dbEngine.Where("is_online = 1 and updated_at <= ?", expired).Cols("is_online").Update(&model.Device{
 			IsOnline: false,
 		})

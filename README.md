@@ -31,7 +31,7 @@ This is an open source Api server based on the open source [RustDesk](https://gi
 
 ## Compile and run
 ### Base environment
-- Golang >= 1.21.0
+- Golang >= 1.21.4
 - NodeJs ~= latest long-supported version
 
 ### Compile

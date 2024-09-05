@@ -30,7 +30,7 @@ Rustdesk Api Server Pro
 
 ## 编译和运行
 ### 基础环境
-- Golang >= 1.21.0
+- Golang >= 1.21.4
 - NodeJs ~= 最新长期支持版本
 
 ### 编译
