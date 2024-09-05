@@ -42,6 +42,7 @@ This is an open source Api server based on the open source [RustDesk](https://gi
 - Package the web administration interface
     - `cd soybean-admin`
     - `npm -g install pnpm`
+    - `pnpm i`
     - `pnpm build`
 
 ### Run
@@ -75,7 +76,7 @@ We will continue to follow up the RustDesk client and implement the correspondin
 
 If you found this project helpful, why not buy the developers a cup of coffee :)
 
-<img src="./soybean-admin/src/assets/imgs/sponsorships.png" style="height: auto !important;width: 200px;" />
+<img src="./soybean-admin/src/assets/imgs/sponsorships.png" />
 
 **Thank you for your sponsorship**
 

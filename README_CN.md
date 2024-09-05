@@ -41,6 +41,7 @@ Rustdesk Api Server Pro
 - 打包Web管理界面
     - `cd soybean-admin`
     - `npm -g install pnpm`
+    - `pnpm i`
     - `pnpm build`
 
 ### 运行
@@ -74,7 +75,7 @@ Rustdesk Api Server Pro
 
 如果您觉得此项目对您有所帮助，不妨请开发者喝杯咖啡 :)
 
-<img src="./soybean-admin/src/assets/imgs/sponsorships.png" style="height: auto !important;width: 200px;" />
+<img src="./soybean-admin/src/assets/imgs/sponsorships.png" />
 
 **感谢您的赞助**
 
