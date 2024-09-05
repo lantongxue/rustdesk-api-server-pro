@@ -19,3 +19,13 @@ type AbPeer struct {
 	Alias    string   `json:"alias"`
 	Tags     []string `json:"tags"`
 }
+
+type AbTagForm struct {
+	Name  string `json:"name"`
+	Color int64  `json:"color"`
+}
+
+type AbTagRenameForm struct {
+	Old string `json:"old"`
+	New string `json:"new"`
+}

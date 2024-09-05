@@ -30,6 +30,11 @@ func (c *LoginController) PostLogin() mvc.Result {
 			},
 		}
 	}
+
+	// 这里可以根据表单里面的type决定是登录还是什么
+	// type 取值范围：account mobile sms_code email_code tfa_code
+	// account 就是直接登录
+
 	var user model.User
 	get, err := c.Db.Where("username = ?", loginForm.Username).Get(&user)
 	if err != nil {
@@ -90,7 +95,9 @@ func (c *LoginController) PostLogin() mvc.Result {
 	return mvc.Response{
 		Object: iris.Map{
 			"access_token": token,
-			"type":         "access_token",
+			"type":         "access_token", // 取值范围：access_token email_check tfa_check
+			"tfa_type":     "",             // 两步验证
+			"secret":       "",             // 密钥
 			"user": iris.Map{
 				"name":     user.Name,
 				"email":    user.Email,

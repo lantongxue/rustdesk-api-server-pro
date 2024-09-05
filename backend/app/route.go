@@ -22,6 +22,7 @@ func SetRoute(app *iris.Application) {
 		apiWithAuthMvc.Handle(new(api.UserController))
 		apiWithAuthMvc.Handle(new(api.PeerController))
 		apiWithAuthMvc.Handle(new(api.AddressBookController))
+		apiWithAuthMvc.Handle(new(api.AddressBookTagController))
 		apiWithAuthMvc.Handle(new(api.AuditController))
 	}
 

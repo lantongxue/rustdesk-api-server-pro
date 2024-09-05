@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
+	"rustdesk-api-server-pro/db"
 	"strconv"
 
+	"github.com/beevik/guid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
+	"xorm.io/xorm"
 )
 
 type AddressBookController struct {
@@ -213,4 +216,146 @@ func (c *AddressBookController) PostAb() mvc.Result {
 	}
 
 	return mvc.Response{}
+}
+
+func (c *AddressBookController) PostAbPersonal() mvc.Result {
+	user := c.GetUser()
+	var ab model.AddressBook
+	has, err := c.Db.Where("user_id = ?", user.Id).Get(&ab)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+
+	if !has {
+		g := guid.New()
+		ab.UserId = user.Id
+		ab.Guid = g.String()
+		ab.Name = model.PersonalAddressBookName
+		ab.Owner = user.Username
+		ab.MaxPeer = model.MaxPeer
+		ab.Note = "default address book"
+		ab.Rule = 3 // full control
+		c.Db.Insert(&ab)
+	}
+
+	return mvc.Response{
+		Object: iris.Map{
+			"guid": ab.Guid,
+		},
+	}
+}
+
+func (c *AddressBookController) PostAbSettings() mvc.Result {
+	user := c.GetUser()
+	var ab model.AddressBook
+	_, _ = c.Db.Where("user_id = ?", user.Id).Get(&ab)
+	return mvc.Response{
+		Object: iris.Map{
+			"max_peer_one_ab": ab.MaxPeer,
+		},
+	}
+}
+
+func (c *AddressBookController) PostAbSharedProfiles() mvc.Result {
+	current := c.Ctx.URLParamIntDefault("current", 1)
+	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
+
+	query := func() *xorm.Session {
+		q := c.Db.Table(&model.AddressBook{}).Where("shared = 1")
+		return q
+	}
+
+	pagination := db.NewPagination(current, pageSize)
+	sharedAbList := make([]model.AddressBook, 0)
+	err := pagination.Paginate(query, &model.AddressBook{}, &sharedAbList)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+	data := make([]iris.Map, 0)
+	for _, ab := range sharedAbList {
+		data = append(data, iris.Map{
+			"guid":  ab.Guid,
+			"name":  ab.Name,
+			"owner": ab.Owner,
+			"note":  ab.Note,
+			"rule":  ab.Rule,
+		})
+	}
+
+	return mvc.Response{
+		Object: iris.Map{
+			"total": pagination.TotalCount,
+			"data":  data,
+		},
+	}
+}
+
+func (c *AddressBookController) PostAbPeers() mvc.Result {
+	current := c.Ctx.URLParamIntDefault("current", 1)
+	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
+	abGuid := c.Ctx.URLParamDefault("ab", "")
+
+	user := c.GetUser()
+
+	var ab model.AddressBook
+	_, err := c.Db.Where("user_id = ? and guid = ?", user.Id, abGuid).Get(&ab)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+	query := func() *xorm.Session {
+		q := c.Db.Table(&model.Peer{}).Where("user_id = ? and ab_id = ?", user.Id, ab.Id)
+		return q
+	}
+
+	pagination := db.NewPagination(current, pageSize)
+	peerList := make([]model.Peer, 0)
+	err = pagination.Paginate(query, &model.Peer{}, &peerList)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+	data := make([]iris.Map, 0)
+	for _, peer := range peerList {
+		forceAlwaysRelay := "false"
+		if peer.ForceAlwaysRelay {
+			forceAlwaysRelay = "true"
+		}
+		data = append(data, iris.Map{
+			"id":               peer.RustdeskId,
+			"hash":             peer.Hash,
+			"password":         peer.Password,
+			"username":         peer.Username,
+			"hostname":         peer.Hostname,
+			"platform":         peer.Platform,
+			"alias":            peer.Alias,
+			"tags":             peer.Tags,
+			"forceAlwaysRelay": forceAlwaysRelay,
+			"rdpPort":          peer.RdpPort,
+			"rdpUsername":      peer.RdpUsername,
+			"loginName":        peer.LoginName,
+			"same_server":      peer.SameServer,
+		})
+	}
+
+	return mvc.Response{
+		Object: iris.Map{
+			"total": pagination.TotalCount,
+			"data":  data,
+		},
+	}
 }

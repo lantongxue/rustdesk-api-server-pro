@@ -26,6 +26,8 @@ var dbSyncCmd = &cobra.Command{
 			new(model.AuthToken),
 			new(model.Audit),
 			new(model.Device),
+			new(model.AddressBook),
+			new(model.AddressBookTag),
 		}
 		err = engine.Sync(models...)
 		if err != nil {
