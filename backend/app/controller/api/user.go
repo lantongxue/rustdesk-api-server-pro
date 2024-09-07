@@ -36,7 +36,7 @@ func (c *UserController) GetUsers() mvc.Result {
 	if !user.IsAdmin {
 		return mvc.Response{
 			Object: iris.Map{
-				"error": "not admin",
+				"error": "Admin required!",
 			},
 		}
 	}
