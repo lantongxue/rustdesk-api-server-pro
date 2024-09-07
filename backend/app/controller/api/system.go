@@ -14,6 +14,7 @@ type SystemController struct {
 }
 
 func (c *SystemController) PostHeartbeat() mvc.Result {
+	// {"conns":[762],"id":"182921366","modified_at":1725698100,"uuid":"MTA3ZjAwNTYtZjk1Ny00OTJhLWJmM2MtODM5YTcyNzMwNDY2","ver":1002070}
 	var form api.HeartbeatForm
 	err := c.Ctx.ReadJSON(&form)
 	if err != nil {
@@ -37,7 +38,7 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 	if !has {
 		device.RustdeskId = form.RustdeskId
 		device.Uuid = form.Uuid
-		device.Conns = form.Conns
+		//device.Conns = form.Conns
 		device.IsOnline = true
 		_, err = c.Db.Insert(&device)
 		if err != nil {
@@ -51,7 +52,7 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 
 	_, err = c.Db.Where("rustdesk_id = ?", form.RustdeskId).Cols("is_online", "conns").Update(&model.Device{
 		IsOnline: true,
-		Conns:    form.Conns,
+		//Conns:    form.Conns,
 	})
 	if err != nil {
 		return mvc.Response{

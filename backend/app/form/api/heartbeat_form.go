@@ -5,5 +5,5 @@ type HeartbeatForm struct {
 	Uuid       string `json:"uuid"`
 	ModifiedAt int64  `json:"modified_at"`
 	Ver        int64  `json:"ver"`
-	Conns      int    `json:"conns"`
+	Conns      []int  `json:"conns"`
 }
