@@ -11,6 +11,8 @@ type Audit struct {
 	IP         string    `xorm:"'ip' varchar(15)"`
 	SessionId  string    `xorm:"'session_id' varchar(100)"`
 	Uuid       string    `xorm:"'uuid' varchar(255)"`
+	Note       string    `xorm:"'note' varchar(255)"`
+	Type       int       `xorm:"'type' int"`
 	CreatedAt  time.Time `xorm:"'created_at' datetime created"`
 	UpdatedAt  time.Time `xorm:"'updated_at' datetime updated"`
 }

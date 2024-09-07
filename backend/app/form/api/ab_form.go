@@ -11,13 +11,19 @@ type AbData struct {
 }
 
 type AbPeer struct {
-	Id       string   `json:"id"`
-	Hash     string   `json:"hash"`
-	Username string   `json:"username"`
-	Hostname string   `json:"hostname"`
-	Platform string   `json:"platform"`
-	Alias    string   `json:"alias"`
-	Tags     []string `json:"tags"`
+	Id               string   `json:"id"`
+	Hash             string   `json:"hash"`
+	Username         string   `json:"username"`
+	Password         string   `json:"password"`
+	Hostname         string   `json:"hostname"`
+	Platform         string   `json:"platform"`
+	Alias            string   `json:"alias"`
+	Tags             []string `json:"tags"`
+	ForceAlwaysRelay string   `json:"forceAlwaysRelay"`
+	RdpPort          string   `json:"rdpPort"`
+	RdpUsername      string   `json:"rdpUsername"`
+	LoginName        string   `json:"loginName"`
+	SameServer       string   `json:"same_server"`
 }
 
 type AbTagForm struct {

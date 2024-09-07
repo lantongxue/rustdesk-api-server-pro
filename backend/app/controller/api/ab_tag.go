@@ -17,6 +17,7 @@ func (c *AddressBookTagController) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("POST", "ab/tag/add/{guid:string}", "HandleAbTagAdd")
 	b.Handle("PUT", "ab/tag/update/{guid:string}", "HandleAbTagUpdate")
 	b.Handle("PUT", "ab/tag/rename/{guid:string}", "HandleAbTagRename")
+	b.Handle("DELETE", "ab/tag/{guid:string}", "HandleAbTagDelete")
 }
 
 func (c *AddressBookTagController) HandleAbTags() mvc.Result {
@@ -97,7 +98,7 @@ func (c *AddressBookTagController) HandleAbTagAdd() mvc.Result {
 		}
 	}
 	return mvc.Response{
-		Text: "OK",
+		Text: "",
 	}
 }
 
@@ -136,7 +137,7 @@ func (c *AddressBookTagController) HandleAbTagUpdate() mvc.Result {
 		}
 	}
 	return mvc.Response{
-		Text: "OK",
+		Text: "",
 	}
 }
 
@@ -175,6 +176,35 @@ func (c *AddressBookTagController) HandleAbTagRename() mvc.Result {
 		}
 	}
 	return mvc.Response{
-		Text: "OK",
+		Text: "",
 	}
+}
+
+func (c *AddressBookTagController) HandleAbTagDelete() mvc.Result {
+	abGuid := c.Ctx.Params().Get("guid")
+
+	var names []string
+	err := c.Ctx.ReadBody(&names)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+
+	user := c.GetUser()
+	var ab model.AddressBook
+	_, err = c.Db.Where("user_id = ? and guid = ?", user.Id, abGuid).Get(&ab)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+
+	c.Db.Where("user_id = ? and ab_id = ?", user.Id, ab.Id).In("name", names).Delete(&model.AddressBookTag{})
+
+	return mvc.Response{}
 }
