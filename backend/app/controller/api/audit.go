@@ -1,11 +1,12 @@
 package api
 
 import (
-	"rustdesk-api-server-pro/app/form/api"
+	"io"
 	"rustdesk-api-server-pro/app/model"
 
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
+	"github.com/tidwall/gjson"
 )
 
 type AuditController struct {
@@ -20,12 +21,11 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 	// Content-Type: [application/json]
 	// Accept: [*/*]
 	// {"id":"1139987256","note":"21312aaa","session_id":1511599550828610773}
-	// {"action":"new","conn_id":762,"id":"182921366","ip":"103.156.242.225","session_id":0,"uuid":"MTA3ZjAwNTYtZjk1Ny00OTJhLWJmM2MtODM5YTcyNzMwNDY2"}
-	// {"action":"close","conn_id":762,"id":"182921366","session_id":17409556129324805845,"uuid":"MTA3ZjAwNTYtZjk1Ny00OTJhLWJmM2MtODM5YTcyNzMwNDY2"}
-	// {"conn_id":762,"id":"182921366","peer":["1139987256","SYSTEM"],"session_id":17409556129324805845,"type":0,"uuid":"MTA3ZjAwNTYtZjk1Ny00OTJhLWJmM2MtODM5YTcyNzMwNDY2"}
+	// {"action":"new","conn_id":762,"id":"182921366","ip":"103.156.242.225","session_id":0,"uuid":"xxx"}
+	// {"action":"close","conn_id":762,"id":"182921366","session_id":17409556129324805845,"uuid":"xxx"}
+	// {"conn_id":762,"id":"182921366","peer":["1139987256","SYSTEM"],"session_id":17409556129324805845,"type":0,"uuid":"xxx"}
 
-	var auditForm api.AuditForm
-	err := c.Ctx.ReadJSON(&auditForm)
+	body, err := io.ReadAll(c.Ctx.Request().Body)
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{
@@ -33,18 +33,60 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 			},
 		}
 	}
-	user := c.GetUser()
-	audit := &model.Audit{
-		UserId:     user.Id,
-		Action:     auditForm.Action,
-		ConnId:     auditForm.ConnId,
-		RustdeskId: auditForm.Id,
-		IP:         auditForm.IP,
-		SessionId:  auditForm.SessionId,
-		Uuid:       auditForm.Uuid,
+
+	bodys := string(body)
+
+	rustdeskId := gjson.Get(bodys, "id").String()
+	sessionId := gjson.Get(bodys, "session_id").String()
+
+	if gjson.Get(bodys, "note").Exists() { // 只更新备注
+		c.Db.Where("rustdesk_id = ? and session_id = ?", rustdeskId, sessionId).Update(&model.Audit{
+			Note: gjson.Get(bodys, "note").String(),
+		})
+		return mvc.Response{}
 	}
 
-	c.Db.Insert(audit)
+	connId := int(gjson.Get(bodys, "conn_id").Int())
+	uuid := gjson.Get(bodys, "uuid").String()
+
+	if gjson.Get(bodys, "action").Exists() {
+		action := gjson.Get(bodys, "action").String()
+		if action == "new" {
+			ip := gjson.Get(bodys, "ip").String()
+			c.Db.Insert(&model.Audit{
+				Action:     action,
+				ConnId:     connId,
+				RustdeskId: rustdeskId,
+				IP:         ip,
+				SessionId:  sessionId,
+				Uuid:       uuid,
+			})
+		}
+		if action == "close" {
+			c.Db.Insert(&model.Audit{
+				Action:     action,
+				ConnId:     connId,
+				RustdeskId: rustdeskId,
+				SessionId:  sessionId,
+				Uuid:       uuid,
+			})
+		}
+		return mvc.Response{}
+	}
+
+	if gjson.Get(bodys, "peer").Exists() {
+		t := gjson.Get(bodys, "type").Int()
+		typ := int(t)
+		peer := gjson.Get(bodys, "peer").String()
+		c.Db.Insert(&model.Audit{
+			ConnId:     connId,
+			RustdeskId: rustdeskId,
+			SessionId:  sessionId,
+			Uuid:       uuid,
+			Type:       typ,
+			Peer:       peer,
+		})
+	}
 
 	return mvc.Response{}
 }

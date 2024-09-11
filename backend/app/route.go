@@ -14,6 +14,7 @@ func SetRoute(app *iris.Application) {
 	apiMvc := mvc.New(apiParty)
 	apiMvc.Handle(new(api.SystemController))
 	apiMvc.Handle(new(api.LoginController))
+	apiMvc.Handle(new(api.AuditController))
 
 	apiWithAuthParty := app.Party("/api")
 	apiWithAuthParty.Use(middleware.ApiAuth(app))
@@ -24,7 +25,6 @@ func SetRoute(app *iris.Application) {
 		apiWithAuthMvc.Handle(new(api.AddressBookController))
 		apiWithAuthMvc.Handle(new(api.AddressBookPeerController))
 		apiWithAuthMvc.Handle(new(api.AddressBookTagController))
-		apiWithAuthMvc.Handle(new(api.AuditController))
 	}
 
 	adminParty := app.Party("/admin")
