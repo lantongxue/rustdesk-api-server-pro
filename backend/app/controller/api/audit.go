@@ -34,25 +34,24 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 		}
 	}
 
-	bodys := string(body)
+	rustdeskId := gjson.GetBytes(body, "id").String()
+	sessionId := gjson.GetBytes(body, "session_id").String()
 
-	rustdeskId := gjson.Get(bodys, "id").String()
-	sessionId := gjson.Get(bodys, "session_id").String()
-
-	if gjson.Get(bodys, "note").Exists() { // 只更新备注
+	if gjson.GetBytes(body, "note").Exists() { // 只更新备注
 		c.Db.Where("rustdesk_id = ? and session_id = ?", rustdeskId, sessionId).Update(&model.Audit{
-			Note: gjson.Get(bodys, "note").String(),
+			Note: gjson.GetBytes(body, "note").String(),
 		})
 		return mvc.Response{}
 	}
 
-	connId := int(gjson.Get(bodys, "conn_id").Int())
-	uuid := gjson.Get(bodys, "uuid").String()
+	connId := int(gjson.GetBytes(body, "conn_id").Int())
+	uuid := gjson.GetBytes(body, "uuid").String()
 
-	if gjson.Get(bodys, "action").Exists() {
-		action := gjson.Get(bodys, "action").String()
+	actionResult := gjson.GetBytes(body, "action")
+	if actionResult.Exists() {
+		action := actionResult.String()
 		if action == "new" {
-			ip := gjson.Get(bodys, "ip").String()
+			ip := gjson.GetBytes(body, "ip").String()
 			c.Db.Insert(&model.Audit{
 				Action:     action,
 				ConnId:     connId,
@@ -74,10 +73,11 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 		return mvc.Response{}
 	}
 
-	if gjson.Get(bodys, "peer").Exists() {
-		t := gjson.Get(bodys, "type").Int()
+	peerResult := gjson.GetBytes(body, "peer")
+	if peerResult.Exists() {
+		t := gjson.GetBytes(body, "type").Int()
 		typ := int(t)
-		peer := gjson.Get(bodys, "peer").String()
+		peer := peerResult.String()
 		c.Db.Insert(&model.Audit{
 			ConnId:     connId,
 			RustdeskId: rustdeskId,

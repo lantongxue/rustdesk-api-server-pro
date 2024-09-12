@@ -2,6 +2,8 @@ package api
 
 import (
 	"encoding/json"
+	"github.com/tidwall/gjson"
+	"io"
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/db"
@@ -184,8 +186,7 @@ func (c *AddressBookPeerController) HandleAbPeerAdd() mvc.Result {
 func (c *AddressBookPeerController) HandleAbPeerUpdate() mvc.Result {
 	abGuid := c.Ctx.Params().Get("guid")
 
-	var fields map[string]interface{}
-	err := c.Ctx.ReadBody(&fields)
+	body, err := io.ReadAll(c.Ctx.Request().Body)
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{
@@ -205,8 +206,10 @@ func (c *AddressBookPeerController) HandleAbPeerUpdate() mvc.Result {
 		}
 	}
 
+	rustdeskId := gjson.GetBytes(body, "id").String()
+
 	var peer model.Peer
-	has, err := c.Db.Where("user_id = ? and ab_id = ? and rustdesk_id = ?", user.Id, ab.Id, fields["id"]).Get(&peer)
+	has, err := c.Db.Where("user_id = ? and ab_id = ? and rustdesk_id = ?", user.Id, ab.Id, rustdeskId).Get(&peer)
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{
@@ -223,37 +226,28 @@ func (c *AddressBookPeerController) HandleAbPeerUpdate() mvc.Result {
 	}
 
 	// 下面的更新逻辑有点复杂，每次请求只会带上要更新的字段，要考虑和其他字段更新的兼容性
-	val, ok := fields["tags"]
-	if ok {
-		peerTags := ""
-		b, err := json.Marshal(val)
-		if err != nil {
-			return mvc.Response{
-				Object: iris.Map{
-					"error": err.Error(),
-				},
-			}
-		}
-		peerTags = string(b)
+	tagsResult := gjson.GetBytes(body, "tags")
+	if tagsResult.Exists() {
+		peerTags := tagsResult.String()
 		if peerTags == "null" {
 			peerTags = "[]"
 		}
 		peer.Tags = peerTags
 	}
 
-	val, ok = fields["alias"]
-	if ok {
-		peer.Alias = val.(string)
+	aliasResult := gjson.GetBytes(body, "alias")
+	if aliasResult.Exists() {
+		peer.Alias = aliasResult.String()
 	}
 
-	val, ok = fields["hash"]
-	if ok {
-		peer.Hash = val.(string)
+	hashResult := gjson.GetBytes(body, "hash")
+	if hashResult.Exists() {
+		peer.Hash = hashResult.String()
 	}
 
-	val, ok = fields["password"]
-	if ok {
-		peer.Password = val.(string)
+	passwordResult := gjson.GetBytes(body, "password")
+	if passwordResult.Exists() {
+		peer.Password = passwordResult.String()
 	}
 
 	_, err = c.Db.Where("id = ?", peer.Id).Cols("tags", "alias", "hash", "password").Update(&peer)
