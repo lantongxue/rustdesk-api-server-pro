@@ -3,9 +3,11 @@ Rustdesk Api Server Pro
 
 [English](https://github.com/rustdesk/rustdesk) | [简体中文](https://github.com/lantongxue/rustdesk-api-server-pro/blob/master/README_CN.md)
 
-This is an open source Api server based on the open source [RustDesk](https://github.com/rustdesk/rustdesk) client, the implementation of the client all Api interfaces, and provides a Web-UI for the management of relevant data.
+This is an open source Api server based on the open source [RustDesk](https://github.com/rustdesk/rustdesk) client, the implementation of the client all Api interfaces, and provides a Web-UI for the management of data.
 
 ![Preview](./img/login.png)
+
+> We strive to achieve functionality with the simplest possible code and structure!
 
 ## Features
 - Synchronized RuskDesk version (Currently adapted client: 1.2.7)
@@ -21,39 +23,59 @@ This is an open source Api server based on the open source [RustDesk](https://gi
     - Minimal sqlite
     - Support for major operating systems and architectures
 
-![Dashboard](./img/dashboard.png)
+![Dashboard](./img/dashboard.png "Dashboard")
 
-![Users](./img/users.png)
+![Users](./img/users.png "Users")
 
-![Sessions](./img/sessions.png)
+![Sessions](./img/sessions.png "Sessions")
 
-![Audit](./img/audit.png)
+![Audit](./img/audit.png "Audit")
 
-## Compile and run
-### Base environment
+## Build from source
+### Required
 - Golang >= 1.21.4
-- NodeJs ~= latest long-supported version
+- NodeJs ~= latest(recommend LTS)version
+- pnpm ~= latest
 
-### Compile
-- Cloning repository code
-    - `git clone https://github.com/lantongxue/rustdesk-api-server-pro.git`
-- Build the server-side program
-    - `cd backend && go build`
-- Package the web administration interface
-    - `cd soybean-admin`
-    - `npm -g install pnpm`
-    - `pnpm i`
-    - `pnpm build`
+### Build
+1. Get source code
+
+```shell
+git clone https://github.com/lantongxue/rustdesk-api-server-pro.git
+```
+
+2. Build the api-server
+
+```shell
+cd backend && go build
+```
+
+3. Build the frontend
+```shell
+cd soybean-admin && pnpm i && pnpm build
+```
 
 ### Run
 
-#### server
+#### api-server
 Assuming the compiled binary file is called `rustdesk-api-server-pro.exe`.
-- Synchronize the database table structure
-    - `rustdesk-api-server-pro.exe sync`
-- Run the server
-    - `rustdesk-api-server-pro.exe start`
-    - Listening on port `8080` by default
+
+1. Synchronize the database table structure
+```shell
+rustdesk-api-server-pro.exe sync
+```
+
+2. Add your first user
+```shell
+rustdesk-api-server-pro.exe user add admin yourpassword --admin
+```
+> --admin is optional, when enabled the added user is an administrator user, otherwise it is a regular user
+
+3. Start the server
+```shell
+rustdesk-api-server-pro.exe start
+```
+> Listening on port `8080` by default
 
 #### Web Management Interface
 For this step you need a web server software (e.g. nginx, apache, etc.), by copying the packaged product to the web root directory.
@@ -61,6 +83,25 @@ For this step you need a web server software (e.g. nginx, apache, etc.), by copy
 Typically, the packaged product is in the `soybean-admin/dist` directory.
 
 Reverse Proxy Configuration, you need to configure reverse proxy in `nginx` or other WEB servers, through the reverse proxy server can access the interface address correctly.
+
+## CLI help
+```shell
+Usage:
+  rustdesk-api-server [command]
+
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  help        Help about any command
+  rustdesk    About rustdesk-server command
+  start       Start the api-server
+  sync        The api-server database synchronization
+  user        User management
+
+Flags:
+  -h, --help   help for rustdesk-api-server
+
+Use "rustdesk-api-server [command] --help" for more information about a command.
+```
 
 ## Follow-up plan
 We will continue to follow up the RustDesk client and implement the corresponding interfaces, which will be a long-term plan.
@@ -76,7 +117,7 @@ We will continue to follow up the RustDesk client and implement the correspondin
 
 If you found this project helpful, why not buy the developers a cup of coffee :)
 
-<img src="./soybean-admin/src/assets/imgs/sponsorships.png" />
+![Sponsorship](./soybean-admin/src/assets/imgs/sponsorships.png "Sponsorship")
 
 **Thank you for your sponsorship**
 
