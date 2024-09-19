@@ -81,6 +81,43 @@ rustdesk-api-server-pro.exe start
 
 反向代理配置，你需要将在`nginx`或其他WEB服务器中配置反向代理，通过反向代理服务端才能正确访问到接口地址。
 
+下面是`nginx`反向代理的参考配置：
+```nginx
+#PROXY-START /api for rustdesk client
+location ^~ /api
+{
+    proxy_pass http://127.0.0.1:8080;
+    proxy_set_header Host 127.0.0.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_http_version 1.1;
+    # proxy_hide_header Upgrade;
+
+    add_header X-Cache $upstream_cache_status;
+}
+#PROXY-END/
+
+#PROXY-START /admin for web-ui
+location ^~ /admin
+{
+    proxy_pass http://127.0.0.1:8080/admin;
+    proxy_set_header Host 127.0.0.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_http_version 1.1;
+    # proxy_hide_header Upgrade;
+
+    add_header X-Cache $upstream_cache_status;
+}
+#PROXY-END/
+```
+
 ## CLI命令行
 ```shell
 Usage:

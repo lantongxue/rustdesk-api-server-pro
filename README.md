@@ -84,6 +84,43 @@ Typically, the packaged product is in the `soybean-admin/dist` directory.
 
 Reverse Proxy Configuration, you need to configure reverse proxy in `nginx` or other WEB servers, through the reverse proxy server can access the interface address correctly.
 
+Here's my backend reverse proxy configuration for you to refer to:
+```nginx
+#PROXY-START /api for rustdesk client
+location ^~ /api
+{
+    proxy_pass http://127.0.0.1:8080;
+    proxy_set_header Host 127.0.0.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_http_version 1.1;
+    # proxy_hide_header Upgrade;
+
+    add_header X-Cache $upstream_cache_status;
+}
+#PROXY-END/
+
+#PROXY-START /admin for web-ui
+location ^~ /admin
+{
+    proxy_pass http://127.0.0.1:8080/admin;
+    proxy_set_header Host 127.0.0.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_http_version 1.1;
+    # proxy_hide_header Upgrade;
+
+    add_header X-Cache $upstream_cache_status;
+}
+#PROXY-END/
+```
+
 ## CLI help
 ```shell
 Usage:
