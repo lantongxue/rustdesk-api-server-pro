@@ -89,6 +89,8 @@ declare namespace Api {
       name: string;
       email: string;
       licensed_devices: number;
+      login_verify: string;
+      tfa_secret: string;
       note: string;
       status: number;
       is_admin: boolean;

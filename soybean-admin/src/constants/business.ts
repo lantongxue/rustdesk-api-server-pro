@@ -22,6 +22,21 @@ export const UserStatusOptions = [
   }
 ];
 
+export const UserLoginVerifyOptions = [
+  {
+    value: 'access_token',
+    label: 'dataMap.user.loginVerifyLabel.none'
+  },
+  {
+    value: 'email_check',
+    label: 'dataMap.user.loginVerifyLabel.emailCheck'
+  },
+  {
+    value: 'tfa_check',
+    label: 'dataMap.user.loginVerifyLabel.tfaCheck'
+  }
+];
+
 export const UserIsAdminOptions = [
   {
     value: 0,

@@ -473,6 +473,7 @@ declare namespace App {
           name: string;
           email: string;
           licensed_devices: string;
+          login_verify: string;
           status: string;
           is_admin: string;
           created_at: string;
@@ -480,6 +481,11 @@ declare namespace App {
             disabled: string;
             unverified: string;
             normal: string;
+          };
+          loginVerifyLabel: {
+            none: string;
+            emailCheck: string;
+            tfaCheck: string;
           };
         };
         session: {

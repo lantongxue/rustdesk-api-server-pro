@@ -55,6 +55,7 @@ func (c *UsersController) HandleList() mvc.Result {
 		if created_at_0 != "" && created_at_1 != "" {
 			q.Where("created_at BETWEEN ? AND ?", created_at_0, created_at_1)
 		}
+		q.Desc("id")
 		return q
 	}
 
@@ -74,6 +75,7 @@ func (c *UsersController) HandleList() mvc.Result {
 			"email":            u.Email,
 			"licensed_devices": u.LicensedDevices,
 			"note":             u.Note,
+			"login_verify":     u.LoginVerify,
 			"status":           u.Status,
 			"is_admin":         u.IsAdmin,
 			"created_at":       u.CreatedAt.Format(config.TimeFormat),
@@ -126,6 +128,7 @@ func (c *UsersController) HandleAdd() mvc.Result {
 		Email:           form.Email,
 		Note:            form.Note,
 		LicensedDevices: form.LicensedDevices,
+		LoginVerify:     form.LoginVerify,
 		Status:          form.Status,
 		IsAdmin:         form.IsAdmin,
 	}
@@ -170,6 +173,7 @@ func (c *UsersController) HandleEdit() mvc.Result {
 		Email:           form.Email,
 		Note:            form.Note,
 		LicensedDevices: form.LicensedDevices,
+		LoginVerify:     form.LoginVerify,
 		Status:          form.Status,
 		IsAdmin:         form.IsAdmin,
 	}

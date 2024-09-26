@@ -36,6 +36,7 @@ func (c *SessionsController) HandleList() mvc.Result {
 		if created_at_0 != "" && created_at_1 != "" {
 			q.Where("created_at BETWEEN ? AND ?", created_at_0, created_at_1)
 		}
+		q.Desc("auth_token.id")
 		return q
 	}
 

@@ -21,7 +21,6 @@ func (c *AuditController) BeforeActivation(b mvc.BeforeActivation) {
 func (c *AuditController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("page", 1)
 	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
-	username := c.Ctx.URLParamDefault("username", "")
 	action := c.Ctx.URLParamDefault("action", "")
 	conn_id := c.Ctx.URLParamDefault("conn_id", "")
 	rustdesk_id := c.Ctx.URLParamDefault("rustdesk_id", "")
@@ -33,10 +32,6 @@ func (c *AuditController) HandleList() mvc.Result {
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.Audit{})
-		q.Join("INNER", &model.User{}, "audit.user_id = user.id")
-		if username != "" {
-			q.Where("user.username = ?", username)
-		}
 		if action != "" {
 			q.Where("audit.action = ?", action)
 		}
@@ -58,17 +53,13 @@ func (c *AuditController) HandleList() mvc.Result {
 		if created_at_0 != "" && created_at_1 != "" {
 			q.Where("audit.created_at BETWEEN ? AND ?", created_at_0, created_at_1)
 		}
+		q.Desc("id")
 		return q
 	}
 
-	type Audit struct {
-		model.Audit `xorm:"extends"`
-		model.User  `xorm:"extends"`
-	}
-
 	pagination := db.NewPagination(currentPage, pageSize)
-	auditList := make([]Audit, 0)
-	err := pagination.Paginate(query, &Audit{}, &auditList)
+	auditList := make([]model.Audit, 0)
+	err := pagination.Paginate(query, &model.Audit{}, &auditList)
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}
@@ -76,15 +67,14 @@ func (c *AuditController) HandleList() mvc.Result {
 	list := make([]iris.Map, 0)
 	for _, a := range auditList {
 		list = append(list, iris.Map{
-			"id":          a.Audit.Id,
-			"username":    a.User.Username,
-			"action":      a.Audit.Action,
-			"conn_id":     a.Audit.ConnId,
-			"rustdesk_id": a.Audit.RustdeskId,
-			"ip":          a.Audit.IP,
-			"session_id":  a.Audit.SessionId,
-			"uuid":        a.Audit.Uuid,
-			"created_at":  a.Audit.CreatedAt.Format(config.TimeFormat),
+			"id":          a.Id,
+			"action":      a.Action,
+			"conn_id":     a.ConnId,
+			"rustdesk_id": a.RustdeskId,
+			"ip":          a.IP,
+			"session_id":  a.SessionId,
+			"uuid":        a.Uuid,
+			"created_at":  a.CreatedAt.Format(config.TimeFormat),
 		})
 	}
 	return c.Success(iris.Map{

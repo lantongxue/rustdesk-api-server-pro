@@ -4,7 +4,7 @@ import { delUser, fetchUserList } from '@/service/api/user_management';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { UserStatusOptions } from '@/constants/business';
+import { UserLoginVerifyOptions, UserStatusOptions } from '@/constants/business';
 import UserEdit from './components/edit.vue';
 import UserSearch from './components/search.vue';
 const appStore = useAppStore();
@@ -13,6 +13,12 @@ const tagTypes: any = {
   '0': '',
   '-1': 'error',
   '1': 'success'
+};
+
+const loginVerifyTypes: any = {
+  access_token: '',
+  email_check: 'error',
+  tfa_check: 'success'
 };
 
 const {
@@ -72,6 +78,24 @@ const {
       key: 'licensed_devices',
       title: $t('dataMap.user.licensed_devices'),
       align: 'center'
+    },
+    {
+      key: 'login_verify',
+      title: $t('dataMap.user.login_verify'),
+      align: 'center',
+      render: row => {
+        let label = '';
+        for (const option of UserLoginVerifyOptions) {
+          if (option.value === row.login_verify) {
+            label = option.label;
+          }
+        }
+        return (
+          <NTag bordered={false} type={loginVerifyTypes[row.login_verify]}>
+            {$t(label as App.I18n.I18nKey)}
+          </NTag>
+        );
+      }
     },
     {
       key: 'status',

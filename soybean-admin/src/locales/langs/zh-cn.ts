@@ -243,6 +243,7 @@ const local: App.I18n.Schema = {
       name: '昵称',
       email: '邮箱',
       licensed_devices: '授权设备数量',
+      login_verify: '登录验证',
       status: '状态',
       is_admin: '管理员',
       created_at: '创建时间',
@@ -250,6 +251,11 @@ const local: App.I18n.Schema = {
         disabled: '禁用',
         unverified: '未验证',
         normal: '正常'
+      },
+      loginVerifyLabel: {
+        none: '无需验证',
+        emailCheck: '邮件验证',
+        tfaCheck: '双重认证'
       }
     },
     session: {

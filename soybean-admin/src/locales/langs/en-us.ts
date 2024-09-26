@@ -243,6 +243,7 @@ const local: App.I18n.Schema = {
       name: 'Nickname',
       email: 'Email',
       licensed_devices: 'Licensed Devices',
+      login_verify: 'Login Verify',
       status: 'Status',
       is_admin: 'Is Admin',
       created_at: 'Created At',
@@ -250,6 +251,11 @@ const local: App.I18n.Schema = {
         disabled: 'Disabled',
         unverified: 'Unverified',
         normal: 'Normal'
+      },
+      loginVerifyLabel: {
+        none: 'None',
+        emailCheck: 'Email Check',
+        tfaCheck: '2FA'
       }
     },
     session: {

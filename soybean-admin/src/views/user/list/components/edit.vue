@@ -3,7 +3,7 @@ import { computed, reactive, watch } from 'vue';
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
 import { addUser, editUser } from '@/service/api/user_management';
-import { UserStatusOptions, translateOptions } from '@/constants/business';
+import { UserLoginVerifyOptions, UserStatusOptions, translateOptions } from '@/constants/business';
 
 defineOptions({
   name: 'UserEdit'
@@ -40,7 +40,17 @@ const title = computed(() => {
 
 type Model = Pick<
   Api.UserManagement.User,
-  'username' | 'password' | 'name' | 'email' | 'licensed_devices' | 'note' | 'is_admin' | 'admin_status' | 'status'
+  | 'username'
+  | 'password'
+  | 'name'
+  | 'email'
+  | 'licensed_devices'
+  | 'login_verify'
+  | 'tfa_secret'
+  | 'note'
+  | 'is_admin'
+  | 'admin_status'
+  | 'status'
 >;
 
 const model: Model = reactive(createDefaultModel());
@@ -52,6 +62,8 @@ function createDefaultModel(): Model {
     name: '',
     email: '',
     licensed_devices: 0,
+    login_verify: 'access_token',
+    tfa_secret: '',
     note: '',
     status: 1,
     is_admin: false,
@@ -59,7 +71,7 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'username' | 'password' | 'name' | 'email' | 'status'>;
+type RuleKey = Extract<keyof Model, 'username' | 'password' | 'name' | 'email' | 'login_verify' | 'status'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   username: {
@@ -79,6 +91,10 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
     message: $t('page.user.list.emailFormatError'),
     trigger: 'blur'
   },
+  login_verify: {
+    required: true,
+    message: $t('page.user.list.selectUserStatus')
+  },
   status: {
     required: true,
     message: $t('page.user.list.selectUserStatus')
@@ -90,6 +106,7 @@ function handleInitModel() {
 
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
+    rules.password.required = false;
   }
 }
 
@@ -146,6 +163,9 @@ watch(visible, () => {
             <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
             <template #unchecked>{{ $t('common.yesOrNo.no') }}</template>
           </NSwitch>
+        </NFormItem>
+        <NFormItem :label="$t('dataMap.user.login_verify')" path="login_verify">
+          <NSelect v-model:value="model.login_verify" :options="translateOptions(UserLoginVerifyOptions)" />
         </NFormItem>
         <NFormItem v-if="!(operateType === 'edit' && model.is_admin)" :label="$t('dataMap.user.status')" path="status">
           <NSelect v-model:value="model.status" :options="translateOptions(UserStatusOptions)" />

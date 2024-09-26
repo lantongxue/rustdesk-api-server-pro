@@ -92,12 +92,14 @@ func (c *LoginController) PostLogin() mvc.Result {
 		}
 	}
 
+	// {"type":"email_code","verificationCode":"747332","tfaCode":"747332","secret":""}
+	// {"type":"email_code","verificationCode":"666666","secret":""}
 	return mvc.Response{
 		Object: iris.Map{
 			"access_token": token,
-			"type":         "access_token", // 取值范围：access_token email_check tfa_check
-			"tfa_type":     "",             // 两步验证
-			"secret":       "",             // 密钥
+			"type":         "email_check", // 取值范围：access_token email_check tfa_check
+			"tfa_type":     "tfa_check",   // 两步验证
+			"secret":       "123213",      // 密钥
 			"user": iris.Map{
 				"name":     user.Name,
 				"email":    user.Email,
