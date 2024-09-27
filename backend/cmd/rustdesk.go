@@ -48,15 +48,24 @@ var rustdeskInstallCmd = &cobra.Command{
 				}
 			}
 			if runtime.GOOS == "linux" {
-				if asset.Name == "rustdesk-server-linux-amd64.zip" {
-					matchedAsset = asset
-					arch = "amd64"
-					break
+				if arch == "arm64" {
+					if asset.Name == "rustdesk-server-linux-arm64v8.zip" {
+						matchedAsset = asset
+						arch = "arm64v8"
+						break
+					}
+				}
+				if arch == "amd64" {
+					if asset.Name == "rustdesk-server-linux-amd64.zip" {
+						matchedAsset = asset
+						arch = "amd64"
+						break
+					}
 				}
 			}
 		}
 		if matchedAsset.Name == "" {
-			fmt.Println("Your operating system is not supported, only support windows and linux")
+			fmt.Println("Your operating system is not supported, only support windows and linux ")
 			os.Exit(0)
 		}
 

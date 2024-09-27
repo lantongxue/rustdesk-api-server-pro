@@ -34,7 +34,7 @@ func GetRustdeskServerBin() (hbbr, hbbs string) {
 		hbbr = path.Join(dir, "hbbr")
 		hbbs = path.Join(dir, "hbbs")
 	default:
-
+		// now, rustdesk-server only support windows and linux.
 	}
 
 	return hbbr, hbbs
