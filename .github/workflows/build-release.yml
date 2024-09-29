@@ -10,6 +10,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [linux, windows, darwin]
+        arch: [amd64, arm64]
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -30,17 +34,21 @@ jobs:
           cd soybean-admin && pnpm i
       
       - name: build
-        run: make
+        run: |
+          go env -w GOOS=${{matrix.os}}
+          go env -w GOARCH=${{matrix.arch}}
+          go build -C backend -o ../build/
+          cd soybean-admin && pnpm build 
+          cd .. && cp -R soybean-admin/dist build/
+          cp backend/server.yaml build/
 
       - name: pack files
         run: |
-          zip ${{runner.os}}-${{runner.arch}}.zip build/*
+          zip ${{matrix.os}}-${{matrix.arch}}.zip build/*
 
       - name: create release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{runner.os}}-${{runner.arch}}.zip
-
-          
+          files: ${{matrix.os}}-${{matrix.arch}}.zip
           
