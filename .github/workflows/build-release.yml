@@ -28,6 +28,8 @@ jobs:
 
       - name: pack files
         run: |
+          pwd
+          ls -la
           zip dist.zip build/*
 
       - name: create release
@@ -35,4 +37,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: dist.zip
+      - run: |
+          pwd
+          ls -la
           
