@@ -4,7 +4,7 @@ frontend_dist=${frontend}/dist
 
 build: clean
 	go build -C backend -o ../${main_output}/
-	cd ${frontend} && pnpm build && cp -R ${frontend_dist} ${main_output}/
+	cd ${frontend} && pnpm build && cp -R dist ${main_output}/
 
 clean:
 	rm -rf ${main_output}
