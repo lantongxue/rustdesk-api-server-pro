@@ -28,7 +28,8 @@ jobs:
 
       - name: pack files
         run: |
-          zip dist.zip dist/*
+          cd ../
+          zip dist.zip build/*
 
       - name: create release
         uses: softprops/action-gh-release@v1
