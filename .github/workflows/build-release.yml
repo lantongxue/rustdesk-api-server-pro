@@ -1,0 +1,40 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts'
+
+      - name: setup go env
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.23.1'
+
+      - name: install
+        run: |
+          sudo apt update
+          sudo apt install make zip -y
+          npm install -g pnpm
+          cd soybean-admin && pnpm i
+      
+      - name: build
+        run: make
+
+      - name: pack files
+        run: |
+          zip dist.zip dist/*
+
+      - name: create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: dist.zip
+          
