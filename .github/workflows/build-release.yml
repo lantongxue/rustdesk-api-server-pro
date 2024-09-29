@@ -31,8 +31,7 @@ jobs:
           zip dist.zip build/*
 
       - name: create release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          draft: true
           files: dist.zip
           
