@@ -28,7 +28,6 @@ jobs:
 
       - name: pack files
         run: |
-          cd ../
           zip dist.zip build/*
 
       - name: create release
