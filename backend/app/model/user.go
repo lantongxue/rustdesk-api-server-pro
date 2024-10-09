@@ -4,6 +4,10 @@ import (
 	"time"
 )
 
+const TYPE_EMAIL_CHECK string = "email_check"
+const TYPE_TFA_CHECK string = "tfa_check"
+const TYPE_ACCESS_TOKEN string = "access_token"
+
 type User struct {
 	Id                  int       `xorm:"'id' int notnull pk autoincr"`
 	Username            string    `xorm:"'username' varchar(50)"`
