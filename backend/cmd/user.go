@@ -29,7 +29,7 @@ var userAddCmd = &cobra.Command{
 			Password:        password,
 			Name:            username,
 			LicensedDevices: 0,
-			LoginVerify:     model.TYPE_ACCESS_TOKEN,
+			LoginVerify:     model.LOGIN_ACCESS_TOKEN,
 			IsAdmin:         isAdmin,
 			Status:          1,
 		}

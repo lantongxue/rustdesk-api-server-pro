@@ -3,6 +3,7 @@ package api
 import (
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
+	"rustdesk-api-server-pro/app/service"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/util"
 	"time"
@@ -31,10 +32,6 @@ func (c *LoginController) PostLogin() mvc.Result {
 		}
 	}
 
-	// 这里可以根据表单里面的type决定是登录还是什么
-	// type 取值范围：account mobile sms_code email_code tfa_code
-	// account 就是直接登录
-
 	var user model.User
 	get, err := c.Db.Where("username = ?", loginForm.Username).Get(&user)
 	if err != nil {
@@ -48,7 +45,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 	if !get {
 		return mvc.Response{
 			Object: iris.Map{
-				"error": "user not exists",
+				"error": "username or password error",
 			},
 		}
 	}
@@ -60,6 +57,46 @@ func (c *LoginController) PostLogin() mvc.Result {
 			},
 		}
 	}
+
+	// 如果是email_check，则发送验证邮件
+	if user.LoginVerify == model.LOGIN_EMAIL_CHECK {
+		// 发送邮件
+		uuid := util.GetUUID()
+		service.NewEmailService()
+
+		return mvc.Response{
+			Object: iris.Map{
+				"type":     model.LOGIN_EMAIL_CHECK,
+				"tfa_type": model.LOGIN_EMAIL_CHECK,
+				"secret":   uuid,
+			},
+		}
+	}
+
+	// 2fa 验证
+	if user.LoginVerify == model.LOGIN_TFA_CHECK {
+		return mvc.Response{
+			Object: iris.Map{
+				"type":     model.LOGIN_EMAIL_CHECK,
+				"tfa_type": model.LOGIN_TFA_CHECK,
+				"secret":   "",
+			},
+		}
+	}
+
+	// {"type":"email_code","verificationCode":"666666","secret":""} // email
+	if loginForm.Type == "email_code" && loginForm.VerificationCode != "" { // email_code 开始验证
+
+	}
+
+	// {"type":"email_code","verificationCode":"747332","tfaCode":"747332","secret":""} // 2fa
+	if loginForm.Type == "email_code" && loginForm.VerificationCode != "" && loginForm.TfaCode != "" { // tfa_code 开始验证
+
+	}
+
+	// 这里可以根据表单里面的type决定是登录还是什么
+	// type 取值范围：account mobile sms_code email_code tfa_code
+	// account 就是直接登录
 
 	// make other tokens expired
 	_, _ = c.Db.Where("user_id = ? and rustdesk_id = ? and status = 1 and is_admin = 0", user.Id, loginForm.RustdeskId).Cols("status").Update(&model.AuthToken{
@@ -92,14 +129,10 @@ func (c *LoginController) PostLogin() mvc.Result {
 		}
 	}
 
-	// {"type":"email_code","verificationCode":"747332","tfaCode":"747332","secret":""}
-	// {"type":"email_code","verificationCode":"666666","secret":""}
 	return mvc.Response{
 		Object: iris.Map{
 			"access_token": token,
-			"type":         "email_check", // 取值范围：access_token email_check tfa_check
-			"tfa_type":     "tfa_check",   // 两步验证
-			"secret":       "123213",      // 密钥
+			"type":         model.LOGIN_ACCESS_TOKEN,
 			"user": iris.Map{
 				"name":     user.Name,
 				"email":    user.Email,

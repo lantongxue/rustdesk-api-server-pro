@@ -4,9 +4,9 @@ import (
 	"time"
 )
 
-const TYPE_EMAIL_CHECK string = "email_check"
-const TYPE_TFA_CHECK string = "tfa_check"
-const TYPE_ACCESS_TOKEN string = "access_token"
+const LOGIN_EMAIL_CHECK string = "email_check"
+const LOGIN_TFA_CHECK string = "tfa_check"
+const LOGIN_ACCESS_TOKEN string = "access_token"
 
 type User struct {
 	Id                  int       `xorm:"'id' int notnull pk autoincr"`
@@ -18,7 +18,7 @@ type User struct {
 	TwoFactorAuthSecret string    `xorm:"'tfa_secret' varchar(255)"`  // 2fa key
 	Note                string    `xorm:"'note' varchar(255)"`
 	LicensedDevices     int       `xorm:"'licensed_devices' int"`
-	Status              int       `xorm:"'status' tinyint"`
+	Status              int       `xorm:"'status' tinyint"` // 0=disabled,1=normal,-1=unverified
 	IsAdmin             bool      `xorm:"'is_admin' tinyint"`
 	CreatedAt           time.Time `xorm:"'created_at' datetime created"`
 	UpdatedAt           time.Time `xorm:"'updated_at' datetime updated"`

@@ -28,6 +28,10 @@ var dbSyncCmd = &cobra.Command{
 			new(model.Device),
 			new(model.AddressBook),
 			new(model.AddressBookTag),
+			new(model.EmailLogs),
+			new(model.VerifyCode),
+			new(model.SystemSettings),
+			new(model.EmailTemplate),
 		}
 		err = engine.Sync(models...)
 		if err != nil {

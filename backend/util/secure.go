@@ -8,6 +8,8 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
+
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -51,4 +53,8 @@ func HmacSha256(data, key string) string {
 	mac.Write([]byte(data))
 	b := mac.Sum(nil)
 	return base64.URLEncoding.EncodeToString(b)
+}
+
+func GetUUID() string {
+	return uuid.NewString()
 }

@@ -9,6 +9,8 @@ import (
 	"xorm.io/xorm"
 )
 
+var DbEngine *xorm.Engine
+
 func NewEngine(cfg *config.DbConfig) (*xorm.Engine, error) {
 	engine, err := xorm.NewEngine(cfg.Driver, cfg.Dsn)
 	if err != nil {
@@ -20,5 +22,6 @@ func NewEngine(cfg *config.DbConfig) (*xorm.Engine, error) {
 	engine.ShowSQL(cfg.ShowSql)
 	engine.SetMaxIdleConns(100)
 	engine.SetMaxOpenConns(100)
+	DbEngine = engine
 	return engine, nil
 }
