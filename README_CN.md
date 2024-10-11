@@ -139,13 +139,6 @@ Use "rustdesk-api-server [command] --help" for more information about a command.
 
 ## 后续计划
 后续会持续跟进RustDesk客户端，并实现对应接口，这将作为一个长期计划。
-### 短期计划
-- [ ] 继续实现1.2.7版本中的新接口
-- [ ] 增加Device管理
-- [ ] 增加用户登录日志
-- [ ] 增加hbbr&hbbs管理
-- [ ] 增加普通用户登录权限
-- [ ] Dockerfile
 
 ## 赞助
 

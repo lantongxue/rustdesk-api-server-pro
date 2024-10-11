@@ -142,13 +142,6 @@ Use "rustdesk-api-server [command] --help" for more information about a command.
 
 ## Follow-up plan
 We will continue to follow up the RustDesk client and implement the corresponding interfaces, which will be a long-term plan.
-### Short-term plan
-- [ ] Continue to implement new interfaces in version 1.2.7.
-- [ ] Add Device management
-- [ ] Add user login log
-- [ ] Add hbbr&hbbs management.
-- [ ] Add normal user login privileges
-- [ ] Dockerfile
 
 ## Sponsorship
 
