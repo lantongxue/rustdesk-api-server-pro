@@ -31,6 +31,20 @@ This is an open source Api server based on the open source [RustDesk](https://gi
 
 ![Audit](./img/audit.png "Audit")
 
+## Deploying with Docker
+1. pull image
+```shell
+docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+```
+2. run image
+```shell
+docker run --name=rustdesk-api-server-pro -d -p 8080:8080 -v /your/path:/app ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+```
+3. add your admin account
+```shell
+docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
+```
+
 ## Build from source
 ### Required
 - Golang >= 1.21.4

@@ -30,6 +30,21 @@ Rustdesk Api Server Pro
 
 ![Audit](./img/audit.png "Audit")
 
+## 使用Docker部署
+1. 拉取镜像
+```shell
+docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+```
+2. 运行镜像
+```shell
+docker run --name=rustdesk-api-server-pro -d -p 8080:8080 -v /your/path:/app ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+```
+3. 添加管理员账号
+```shell
+docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
+```
+
+
 ## 源代码编译
 ### 必要环境
 - Golang >= 1.21.4

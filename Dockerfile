@@ -16,6 +16,8 @@ WORKDIR /app
 COPY --from=golang /backend/rustdesk-api-server-pro .
 COPY --from=golang /backend/server.yaml .
 COPY --from=node /frontend/dist ./dist
+RUN apk add tzdata
+RUN ln -s /app/rustdesk-api-server-pro /usr/local/bin/rustdesk-api-server-pro
 RUN /app/rustdesk-api-server-pro sync
 EXPOSE 8080
 CMD [ "/app/rustdesk-api-server-pro", "start" ]
