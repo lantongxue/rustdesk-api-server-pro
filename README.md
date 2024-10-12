@@ -38,12 +38,16 @@ docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
 2. run image
 ```shell
-docker run --name=rustdesk-api-server-pro -d -p 8080:8080 -v /your/path:/app ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+docker run --name=rustdesk-api-server-pro -d -p 8080:8080 ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
 3. add your admin account
 ```shell
 docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
 ```
+
+> The container image listens on port `8080` by default.
+
+> Default configuration file path `/app/server.yaml`, you can specify your own configuration file with `-v`.
 
 ## Build from source
 ### Required

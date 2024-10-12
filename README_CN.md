@@ -37,13 +37,15 @@ docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
 2. 运行镜像
 ```shell
-docker run --name=rustdesk-api-server-pro -d -p 8080:8080 -v /your/path:/app ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+docker run --name=rustdesk-api-server-pro -d -p 8080:8080 ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
 3. 添加管理员账号
 ```shell
 docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
 ```
+> 容器镜像默认监听`8080`端口
 
+> 默认配置文件路径`/app/server.yaml`，可以通过`-v`指定您自己的配置文件
 
 ## 源代码编译
 ### 必要环境
