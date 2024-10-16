@@ -61,13 +61,13 @@ EOF
 docker run \
 --name rustdesk-api-server-pro \
 -d \
--e ADMIN_USER=admin \
--e ADMIN_PASS=yourpassword \
+-e ADMIN_USER=admin \ #Administrator account (optional)
+-e ADMIN_PASS=yourpassword \ #Administrator password (optional)
 -p 8080:8080 \
 -v /your/path/server.yaml:/app/server.yaml \
 ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
-4. add your admin account
+4. add your admin account(This step can be ignored if an environment variable is set to initialize the administrator account password, but I still recommend that you create the administrator account this way instead of initializing it with an environment variable)
 ```shell
 docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
 ```
@@ -80,8 +80,8 @@ docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourp
 
 | Variables | Default Values | Description |
 | :------------: | :------------: | :------------: |
-|ADMIN_USER|-|Administrator account|
-|ADMIN_PASS|-|Administrator password|
+|ADMIN_USER|-|Default administrator account|
+|ADMIN_PASS|-|Default administrator password|
 
 ## Build from source
 ### Required

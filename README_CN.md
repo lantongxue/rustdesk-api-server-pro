@@ -60,13 +60,13 @@ EOF
 docker run \
 --name rustdesk-api-server-pro \
 -d \
--e ADMIN_USER=admin \
--e ADMIN_PASS=yourpassword \
+-e ADMIN_USER=admin \ #管理员账号（可选）
+-e ADMIN_PASS=yourpassword \ #管理员密码（可选）
 -p 8080:8080 \
 -v /your/path/server.yaml:/app/server.yaml \
 ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
-4. 添加管理员账号
+4. 添加管理员账号（如果设置了用于初始化管理员账号密码的环境变量，此步骤可以忽略，但我仍推荐你使用此方式创建管理员账号，而不是通过环境变量初始化）
 ```shell
 docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
 ```
@@ -78,8 +78,8 @@ docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourp
 
 | 变量  | 默认值 | 说明 |
 | :------------: | :------------: | :------------: |
-|ADMIN_USER|-|管理员账号|
-|ADMIN_PASS|-|管理员密码|
+|ADMIN_USER|-|默认管理员账号|
+|ADMIN_PASS|-|默认管理员密码|
 
 ## 源代码编译
 ### 必要环境
