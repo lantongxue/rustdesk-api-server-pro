@@ -12,12 +12,13 @@ RUN npm install -g pnpm
 RUN pnpm i && pnpm build
 
 FROM alpine:3.20.3
+ENV ADMIN_USER=
+ENV ADMIN_PASS=
 WORKDIR /app
+COPY ./docker/start.sh .
 COPY --from=golang /backend/rustdesk-api-server-pro .
 COPY --from=golang /backend/server.yaml .
 COPY --from=node /frontend/dist ./dist
 RUN apk add tzdata
-RUN ln -s /app/rustdesk-api-server-pro /usr/local/bin/rustdesk-api-server-pro
-RUN ./rustdesk-api-server-pro sync
 EXPOSE 8080
-CMD [ "./rustdesk-api-server-pro", "start" ]
+CMD [ "sh", "/app/start.sh"]

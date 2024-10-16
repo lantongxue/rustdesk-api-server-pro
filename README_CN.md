@@ -35,17 +35,51 @@ Rustdesk Api Server Pro
 ```shell
 docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
-2. 运行镜像
+2. 创建配置
 ```shell
-docker run --name=rustdesk-api-server-pro -d -p 8080:8080 ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+cat > /your/path/server.yaml <<EOF
+signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
+db:
+  driver: "sqlite"
+  dsn: "./server.db"
+  timeZone: "Asia/Shanghai" # setting the time zone fixes the database creation time problem
+  showSql: true
+
+  # driver: "mysql"
+  # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
+httpConfig:
+  printRequestLog: true
+  port: ":8080" # api server port
+jobsConfig:
+  deviceCheckJob:
+    duration: 30
+EOF
 ```
-3. 添加管理员账号
+3. 运行镜像
+```shell
+docker run \
+--name rustdesk-api-server-pro \
+-d \
+-e ADMIN_USER=admin \
+-e ADMIN_PASS=yourpassword \
+-p 8080:8080 \
+-v /your/path/server.yaml:/app/server.yaml \
+ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+```
+4. 添加管理员账号
 ```shell
 docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
 ```
 > 容器镜像默认监听`8080`端口
 
 > 默认配置文件路径`/app/server.yaml`，可以通过`-v`指定您自己的配置文件
+
+### 环境变量
+
+| 变量  | 默认值 | 说明 |
+| :------------: | :------------: | :------------: |
+|ADMIN_USER|-|管理员账号|
+|ADMIN_PASS|-|管理员密码|
 
 ## 源代码编译
 ### 必要环境

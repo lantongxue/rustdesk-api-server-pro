@@ -36,11 +36,38 @@ This is an open source Api server based on the open source [RustDesk](https://gi
 ```shell
 docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
-2. run image
+2. create config
 ```shell
-docker run --name=rustdesk-api-server-pro -d -p 8080:8080 ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+cat > /your/path/server.yaml <<EOF
+signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
+db:
+  driver: "sqlite"
+  dsn: "./server.db"
+  timeZone: "Asia/Shanghai" # setting the time zone fixes the database creation time problem
+  showSql: true
+
+  # driver: "mysql"
+  # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
+httpConfig:
+  printRequestLog: true
+  port: ":8080" # api server port
+jobsConfig:
+  deviceCheckJob:
+    duration: 30
+EOF
 ```
-3. add your admin account
+3. run image
+```shell
+docker run \
+--name rustdesk-api-server-pro \
+-d \
+-e ADMIN_USER=admin \
+-e ADMIN_PASS=yourpassword \
+-p 8080:8080 \
+-v /your/path/server.yaml:/app/server.yaml \
+ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+```
+4. add your admin account
 ```shell
 docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
 ```
@@ -48,6 +75,13 @@ docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourp
 > The container image listens on port `8080` by default.
 
 > Default configuration file path `/app/server.yaml`, you can specify your own configuration file with `-v`.
+
+### Environment variables
+
+| Variables | Default Values | Description |
+| :------------: | :------------: | :------------: |
+|ADMIN_USER|-|Administrator account|
+|ADMIN_PASS|-|Administrator password|
 
 ## Build from source
 ### Required
