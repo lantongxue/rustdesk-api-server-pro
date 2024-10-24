@@ -24,8 +24,8 @@ func (c *UsersController) BeforeActivation(b mvc.BeforeActivation) {
 }
 
 func (c *UsersController) HandleList() mvc.Result {
-	currentPage := c.Ctx.URLParamIntDefault("page", 1)
-	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
+	currentPage := c.Ctx.URLParamIntDefault("current", 1)
+	pageSize := c.Ctx.URLParamIntDefault("size", 10)
 	username := c.Ctx.URLParamDefault("username", "")
 	name := c.Ctx.URLParamDefault("name", "")
 	email := c.Ctx.URLParamDefault("email", "")

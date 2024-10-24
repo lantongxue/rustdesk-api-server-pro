@@ -21,8 +21,8 @@ func (c *SessionsController) BeforeActivation(b mvc.BeforeActivation) {
 }
 
 func (c *SessionsController) HandleList() mvc.Result {
-	currentPage := c.Ctx.URLParamIntDefault("page", 1)
-	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
+	currentPage := c.Ctx.URLParamIntDefault("current", 1)
+	pageSize := c.Ctx.URLParamIntDefault("size", 10)
 	username := c.Ctx.URLParamDefault("username", "")
 	created_at_0 := c.Ctx.URLParamDefault("created_at[0]", "")
 	created_at_1 := c.Ctx.URLParamDefault("created_at[1]", "")

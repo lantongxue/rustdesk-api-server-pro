@@ -19,8 +19,8 @@ func (c *AuditController) BeforeActivation(b mvc.BeforeActivation) {
 }
 
 func (c *AuditController) HandleList() mvc.Result {
-	currentPage := c.Ctx.URLParamIntDefault("page", 1)
-	pageSize := c.Ctx.URLParamIntDefault("pageSize", 10)
+	currentPage := c.Ctx.URLParamIntDefault("current", 1)
+	pageSize := c.Ctx.URLParamIntDefault("size", 10)
 	action := c.Ctx.URLParamDefault("action", "")
 	conn_id := c.Ctx.URLParamDefault("conn_id", "")
 	rustdesk_id := c.Ctx.URLParamDefault("rustdesk_id", "")

@@ -45,7 +45,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 	if !get {
 		return mvc.Response{
 			Object: iris.Map{
-				"error": "username or password error",
+				"error": "UsernameOrPasswordError",
 			},
 		}
 	}
@@ -53,7 +53,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 	if !util.PasswordVerify(loginForm.Password, user.Password) {
 		return mvc.Response{
 			Object: iris.Map{
-				"error": "username or password error",
+				"error": "UsernameOrPasswordError",
 			},
 		}
 	}

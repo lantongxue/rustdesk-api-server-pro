@@ -55,7 +55,10 @@ const rules = computed<Record<keyof Api.Form.LoginForm, App.Global.FormRule[]>>(
 
 async function handleSubmit() {
   await validate();
-  await authStore.login(model);
+  const err = await authStore.login(model);
+  if (err?.response?.data.message === 'CaptchaError') {
+    handleCaptcha();
+  }
 }
 
 async function handleCaptcha() {
@@ -92,7 +95,15 @@ onMounted(() => {
       <div class="flex-y-center justify-between">
         <NCheckbox>{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
       </div>
-      <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="handleSubmit">
+      <NButton
+        attr-type="submit"
+        type="primary"
+        size="large"
+        round
+        block
+        :loading="authStore.loginLoading"
+        @click="handleSubmit"
+      >
         {{ $t('common.confirm') }}
       </NButton>
     </NSpace>

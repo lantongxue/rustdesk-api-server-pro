@@ -88,6 +88,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     }
 
     endLoading();
+    return error;
   }
 
   async function loginByToken(loginToken: Api.Auth.LoginToken) {
