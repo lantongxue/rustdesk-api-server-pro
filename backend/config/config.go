@@ -12,6 +12,7 @@ type ServerConfig struct {
 	Db         *DbConfig   `yaml:"db"`
 	SignKey    string      `yaml:"signKey"`
 	HttpConfig *HttpConfig `yaml:"httpConfig"`
+	SmtpConfig *SmtpConfig `yaml:"smtpConfig"`
 	JobsConfig *JobsConfig `yaml:"jobsConfig"`
 }
 
@@ -25,6 +26,15 @@ type DbConfig struct {
 type HttpConfig struct {
 	PrintRequestLog bool   `yaml:"printRequestLog"`
 	Port            string `yaml:"port"`
+}
+
+type SmtpConfig struct {
+	Host       string `yaml:"host"`
+	Port       int    `yaml:"port"`
+	Username   string `yaml:"username"`
+	Password   string `yaml:"password"`
+	Encryption string `yaml:"encryption"` // none ssl/tls starttls
+	From       string `yaml:"from"`
 }
 
 type DeviceCheckJob struct {
