@@ -74,6 +74,21 @@ docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourp
 
 > 默认配置文件路径`/app/server.yaml`，可以通过`-v`指定您自己的配置文件
 
+### Docker compose
+```yaml
+services:
+  rustdesk-api-server-pro:
+    container_name: rustdesk-api-server-pro
+    image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+    environment:
+      - "ADMIN_USER=youruser"
+      - "ADMIN_PASS=yourpassword"
+    volumes:
+      - ./server.yaml:/app/server.yaml
+    network_mode: host
+    restart: unless-stopped
+```
+
 ### 环境变量
 
 | 变量  | 默认值 | 说明 |

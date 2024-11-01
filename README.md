@@ -76,6 +76,21 @@ docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourp
 
 > Default configuration file path `/app/server.yaml`, you can specify your own configuration file with `-v`.
 
+### Docker compose
+```yaml
+services:
+  rustdesk-api-server-pro:
+    container_name: rustdesk-api-server-pro
+    image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+    environment:
+      - "ADMIN_USER=youruser"
+      - "ADMIN_PASS=yourpassword"
+    volumes:
+      - ./server.yaml:/app/server.yaml
+    network_mode: host
+    restart: unless-stopped
+```
+
 ### Environment variables
 
 | Variables | Default Values | Description |

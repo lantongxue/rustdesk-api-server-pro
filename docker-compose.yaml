@@ -1,0 +1,11 @@
+services:
+  rustdesk-api-server-pro:
+    container_name: rustdesk-api-server-pro
+    image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+    environment:
+      - "ADMIN_USER=youruser" # optional
+      - "ADMIN_PASS=yourpassword" # optional
+    volumes:
+      - ./server.yaml:/app/server.yaml
+    network_mode: host
+    restart: unless-stopped
