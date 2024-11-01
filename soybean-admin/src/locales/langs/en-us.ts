@@ -23,6 +23,7 @@ const local: App.I18n.Schema = {
     deleteSuccess: 'Delete Success',
     confirmDelete: 'Are you sure you want to delete?',
     edit: 'Edit',
+    look: 'Look',
     warning: 'Warning',
     error: 'Error',
     index: 'Index',
@@ -158,7 +159,9 @@ const local: App.I18n.Schema = {
     audit: 'Audit',
     user: 'User Management',
     user_list: 'User List',
-    user_sessions: 'Sessions'
+    user_sessions: 'Sessions',
+    system: 'System Management',
+    system_mailtemplate: 'Mail Template'
   },
   page: {
     login: {
@@ -211,6 +214,16 @@ const local: App.I18n.Schema = {
       },
       audit: {
         logsSearchPlaceholder: 'Username\\Action\\RustdeskID\\IP'
+      }
+    },
+    system: {
+      mailTemplate: {
+        addMailTemplate: 'Add Template',
+        editMailTemplate: 'Edit Template',
+        inputName: 'Input Name',
+        inputSubject: 'Input Subject',
+        inputContents: 'Input Contents',
+        selectType: 'Please select type'
       }
     }
   },
@@ -271,6 +284,18 @@ const local: App.I18n.Schema = {
       session_id: 'Session Id',
       uuid: 'UUID',
       created_at: 'Created At'
+    },
+    mailTemplate: {
+      name: 'Name',
+      type: 'Type',
+      subject: 'Subject',
+      contents: 'Content',
+      created_at: 'Created At',
+      typeLabel: {
+        loginVerify: 'Login Verify',
+        registerVerify: 'Register Verify',
+        other: 'Other'
+      }
     }
   },
   api: {
@@ -284,7 +309,12 @@ const local: App.I18n.Schema = {
     DataError: 'data error',
     UserUpdateSuccess: 'User modified successfully',
     UserDeleteSuccess: 'User deleted successfully',
-    SessionKillSuccess: 'Session killed successfully'
+    SessionKillSuccess: 'Session killed successfully',
+    MailTemplateNameEmpty: 'Name cannot be empty',
+    MailTemplateSubjectEmpty: 'Subject cannot be empty',
+    MailTemplateContentsEmpty: 'Contents cannot be empty',
+    MailTemplateAddSuccess: 'Mail template created successfully',
+    MailTemplateUpdateSuccess: 'Mail template modified successfully'
   }
 };
 

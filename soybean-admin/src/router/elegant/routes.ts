@@ -87,6 +87,26 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'system',
+    path: '/system',
+    component: 'layout.base',
+    meta: {
+      title: 'system',
+      i18nKey: 'route.system'
+    },
+    children: [
+      {
+        name: 'system_mailtemplate',
+        path: '/system/mailtemplate',
+        component: 'view.system_mailtemplate',
+        meta: {
+          title: 'system_mailtemplate',
+          i18nKey: 'route.system_mailtemplate'
+        }
+      }
+    ]
+  },
+  {
     name: 'user',
     path: '/user',
     component: 'layout.base',

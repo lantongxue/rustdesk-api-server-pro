@@ -5,6 +5,7 @@ import (
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
 	"rustdesk-api-server-pro/db"
+	"strings"
 
 	mail "github.com/xhit/go-simple-mail/v2"
 )
@@ -46,17 +47,17 @@ func NewEmailService() *EmailService {
 	}
 }
 
-func (s *EmailService) Send(user_id, tpl_id int, to string, vars map[string]string) error {
+func (service *EmailService) Send(userId, tplId int, to string, vars map[string]string) error {
 
 	sendLog := &model.EmailLogs{
-		UserId: user_id,
-		TplId:  tpl_id,
-		From:   s.config.SmtpConfig.From,
+		UserId: userId,
+		TplId:  tplId,
+		From:   service.config.SmtpConfig.From,
 		To:     to,
 	}
 
-	var template model.EmailTemplate
-	get, err := db.DbEngine.Where("id = ?", tpl_id).Get(&template)
+	var template model.MailTemplate
+	get, err := db.DbEngine.Where("id = ?", tplId).Get(&template)
 	if err != nil || !get {
 		sendLog.Status = model.MAIL_SEND_ERR
 		sendLog.Logs = fmt.Sprintf("template not found or error: %s", err.Error())
@@ -65,14 +66,17 @@ func (s *EmailService) Send(user_id, tpl_id int, to string, vars map[string]stri
 	}
 
 	body := template.Contents
+	for k, v := range vars {
+		body = strings.Replace(body, k, v, -1)
+	}
 
 	message := mail.NewMSG()
-	message.SetFrom(s.config.SmtpConfig.From)
+	message.SetFrom(service.config.SmtpConfig.From)
 	message.AddTo(to)
 	message.SetSubject(template.Subject)
 	message.SetBody(mail.TextHTML, body)
 
-	sender, err := s.mailer.Connect()
+	sender, err := service.mailer.Connect()
 	if err != nil {
 		sendLog.Status = model.MAIL_SEND_ERR
 		sendLog.Logs = fmt.Sprintf("can not connect smtp server error: %s", err.Error())

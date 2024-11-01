@@ -23,6 +23,7 @@ const local: App.I18n.Schema = {
     deleteSuccess: '删除成功',
     confirmDelete: '确认删除吗？',
     edit: '编辑',
+    look: '查看',
     warning: '警告',
     error: '错误',
     index: '序号',
@@ -158,7 +159,9 @@ const local: App.I18n.Schema = {
     audit: '日志审计',
     user: '用户管理',
     user_list: '用户列表',
-    user_sessions: '会话管理'
+    user_sessions: '会话管理',
+    system: '系统管理',
+    system_mailtemplate: '邮件模板'
   },
   page: {
     login: {
@@ -211,6 +214,16 @@ const local: App.I18n.Schema = {
       },
       audit: {
         logsSearchPlaceholder: '用户名、行为、RustdeskID、IP'
+      }
+    },
+    system: {
+      mailTemplate: {
+        addMailTemplate: '添加模板',
+        editMailTemplate: '编辑模板',
+        inputName: '请输入名称',
+        inputSubject: '请输入主题',
+        inputContents: '请输入模板内容',
+        selectType: '请选择类型'
       }
     }
   },
@@ -271,6 +284,18 @@ const local: App.I18n.Schema = {
       session_id: '会话ID',
       uuid: 'UUID',
       created_at: '创建时间'
+    },
+    mailTemplate: {
+      name: '名称',
+      type: '类型',
+      subject: '主题',
+      contents: '内容',
+      created_at: '创建时间',
+      typeLabel: {
+        loginVerify: '登录验证',
+        registerVerify: '注册验证',
+        other: '其他'
+      }
     }
   },
   api: {
@@ -284,7 +309,12 @@ const local: App.I18n.Schema = {
     DataError: '数据错误',
     UserUpdateSuccess: '用户修改成功',
     UserDeleteSuccess: '用户删除成功',
-    SessionKillSuccess: '会话终结成功'
+    SessionKillSuccess: '会话终结成功',
+    MailTemplateNameEmpty: '名称不能为空',
+    MailTemplateSubjectEmpty: '主题不能为空',
+    MailTemplateContentsEmpty: '内容不能为空',
+    MailTemplateAddSuccess: '邮件模板添加成功',
+    MailTemplateUpdateSuccess: '邮件模板修改成功'
   }
 };
 

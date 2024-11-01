@@ -47,3 +47,18 @@ export const UserIsAdminOptions = [
     label: 'common.yesOrNo.yes'
   }
 ];
+
+export const MailTemplateOptions = [
+  {
+    value: 1,
+    label: 'dataMap.mailTemplate.typeLabel.loginVerify'
+  },
+  {
+    value: 2,
+    label: 'dataMap.mailTemplate.typeLabel.registerVerify'
+  },
+  {
+    value: 3,
+    label: 'dataMap.mailTemplate.typeLabel.other'
+  }
+];

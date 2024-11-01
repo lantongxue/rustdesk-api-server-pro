@@ -135,6 +135,20 @@ declare namespace Api {
     >;
   }
 
+  namespace System {
+    type MailTemplate = Common.CommonRecord<{
+      name: string;
+      type: number;
+      subject: string;
+      contents: string;
+    }>;
+    type MailTemplateList = Common.PaginatingQueryRecord<MailTemplate>;
+    type MailTemplateSearchParams = CommonType.RecordNullable<
+      Pick<Api.System.MailTemplate, 'name' | 'type' | 'subject' | 'contents' | 'created_at'> &
+        Api.Common.CommonSearchParams
+    >;
+  }
+
   /**
    * namespace Route
    *

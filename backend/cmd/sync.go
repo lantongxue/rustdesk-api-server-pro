@@ -31,7 +31,7 @@ var dbSyncCmd = &cobra.Command{
 			new(model.EmailLogs),
 			new(model.VerifyCode),
 			new(model.SystemSettings),
-			new(model.EmailTemplate),
+			new(model.MailTemplate),
 		}
 		err = engine.Sync(models...)
 		if err != nil {

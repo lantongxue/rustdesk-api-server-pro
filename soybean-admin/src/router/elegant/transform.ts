@@ -170,6 +170,8 @@ const routeMap: RouteMap = {
   "home": "/home",
   "iframe-page": "/iframe-page/:url",
   "login": "/login/:module(pwd-login)?",
+  "system": "/system",
+  "system_mailtemplate": "/system/mailtemplate",
   "user": "/user",
   "user_list": "/user/list",
   "user_sessions": "/user/sessions"

@@ -304,6 +304,7 @@ declare namespace App {
         deleteSuccess: string;
         confirmDelete: string;
         edit: string;
+        look: string;
         warning: string;
         error: string;
         index: string;
@@ -449,6 +450,16 @@ declare namespace App {
             logsSearchPlaceholder: string;
           };
         };
+        system: {
+          mailTemplate: {
+            addMailTemplate: string;
+            editMailTemplate: string;
+            inputName: string;
+            inputSubject: string;
+            inputContents: string;
+            selectType: string;
+          };
+        };
       };
       dropdown: Record<Global.DropdownKey, string>;
       icon: {
@@ -502,6 +513,18 @@ declare namespace App {
           uuid: string;
           created_at: string;
         };
+        mailTemplate: {
+          name: string;
+          type: string;
+          subject: string;
+          contents: string;
+          created_at: string;
+          typeLabel: {
+            loginVerify: string;
+            registerVerify: string;
+            other: string;
+          };
+        };
       };
       api: {
         CaptchaError: string;
@@ -515,6 +538,11 @@ declare namespace App {
         UserUpdateSuccess: string;
         UserDeleteSuccess: string;
         SessionKillSuccess: string;
+        MailTemplateNameEmpty: string;
+        MailTemplateSubjectEmpty: string;
+        MailTemplateContentsEmpty: string;
+        MailTemplateAddSuccess: string;
+        MailTemplateUpdateSuccess: string;
       };
     };
 

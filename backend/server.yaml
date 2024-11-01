@@ -10,6 +10,15 @@ db:
 httpConfig:
   printRequestLog: true
   port: ":8080" # api server port
+
+smtpConfig:
+  host: "127.0.0.1"
+  port: 1025
+  username: "test"
+  password: "test"
+  encryption: "ssl/tls" # none ssl/tls starttls
+  from: "test@localhost.com"
+
 jobsConfig:
   deviceCheckJob:
     duration: 30
