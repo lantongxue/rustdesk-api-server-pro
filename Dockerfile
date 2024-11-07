@@ -9,7 +9,7 @@ WORKDIR /frontend
 COPY ./soybean-admin .
 RUN rm -rf node_modules
 RUN npm install -g pnpm
-RUN pnpm i && pnpm build
+RUN pnpm i && pnpm build --outDir dist/admin
 
 FROM alpine:3.20.3
 ENV ADMIN_USER=

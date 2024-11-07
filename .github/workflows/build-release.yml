@@ -38,7 +38,7 @@ jobs:
           go env -w GOOS=${{matrix.os}}
           go env -w GOARCH=${{matrix.arch}}
           go build -C backend -o ../build/
-          cd soybean-admin && pnpm build 
+          cd soybean-admin && pnpm build --outDir dist/admin
           cd .. && cp -R soybean-admin/dist build/
           cp backend/server.yaml build/
 
