@@ -187,7 +187,7 @@ location ^~ /admin
 ## CLI命令行
 ```shell
 Usage:
-  rustdesk-api-server [command]
+  rustdesk-api-server-pro [command]
 
 Available Commands:
   completion  Generate the autocompletion script for the specified shell
@@ -198,9 +198,9 @@ Available Commands:
   user        User management
 
 Flags:
-  -h, --help   help for rustdesk-api-server
+  -h, --help   help for rustdesk-api-server-pro
 
-Use "rustdesk-api-server [command] --help" for more information about a command.
+Use "rustdesk-api-server-pro [command] --help" for more information about a command.
 ```
 
 ## 后续计划

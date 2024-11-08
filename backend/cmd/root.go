@@ -5,5 +5,5 @@ import (
 )
 
 var RootCmd = &cobra.Command{
-	Use: "rustdesk-api-server [command]",
+	Use: "rustdesk-api-server-pro [command]",
 }
