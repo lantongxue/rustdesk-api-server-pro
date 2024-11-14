@@ -62,7 +62,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 	if user.LoginVerify == model.LOGIN_EMAIL_CHECK {
 		// 发送邮件
 		uuid := util.GetUUID()
-		service.NewEmailService()
+		service.NewMailService()
 
 		return mvc.Response{
 			Object: iris.Map{

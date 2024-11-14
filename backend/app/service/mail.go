@@ -10,14 +10,14 @@ import (
 	mail "github.com/xhit/go-simple-mail/v2"
 )
 
-type EmailService struct {
+type MailService struct {
 	mailer *mail.SMTPServer
 	config *config.ServerConfig
 }
 
-var service *EmailService
+var service *MailService
 
-func NewEmailService() *EmailService {
+func NewMailService() *MailService {
 
 	// 单例模式
 	if service != nil {
@@ -41,19 +41,20 @@ func NewEmailService() *EmailService {
 		mailer.Encryption = mail.EncryptionNone
 	}
 
-	return &EmailService{
+	return &MailService{
 		mailer: mailer,
 		config: config,
 	}
 }
 
-func (service *EmailService) Send(userId, tplId int, to string, vars map[string]string) error {
+func (service *MailService) Send(userId, tplId int, to, uuid string, vars map[string]string) error {
 
-	sendLog := &model.EmailLogs{
+	sendLog := &model.MailLogs{
 		UserId: userId,
 		TplId:  tplId,
 		From:   service.config.SmtpConfig.From,
 		To:     to,
+		Uuid:   uuid,
 	}
 
 	var template model.MailTemplate

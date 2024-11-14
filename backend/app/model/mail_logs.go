@@ -7,10 +7,11 @@ const (
 	MAIL_SEND_ERR = 2
 )
 
-type EmailLogs struct {
+type MailLogs struct {
 	Id        int       `xorm:"'id' int notnull pk autoincr"`
 	UserId    int       `xorm:"'user_id' int"`
 	TplId     int       `xorm:"'tpl_id' int"`
+	Uuid      string    `xorm:"'uuid' varchar(255)"`
 	From      string    `xorm:"'from' varchar(255)"`
 	To        string    `xorm:"'to' varchar(255)"`
 	Subject   string    `xorm:"'subject' varchar(255)"`
@@ -21,6 +22,6 @@ type EmailLogs struct {
 	UpdatedAt time.Time `xorm:"'updated_at' datetime updated"`
 }
 
-func (m *EmailLogs) TableName() string {
-	return "email_logs"
+func (m *MailLogs) TableName() string {
+	return "mail_logs"
 }
