@@ -8,15 +8,24 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
+	"math/big"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
+const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
 func RandomString(length int) string {
-	s := make([]byte, length)
-	_, _ = rand.Read(s)
-	return string(s)
+	result := make([]byte, length)
+	for i := range result {
+		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+		if err != nil {
+			return ""
+		}
+		result[i] = charset[num.Int64()]
+	}
+	return string(result)
 }
 
 func GenerateRSAKeys() (privateKeyBytes, publicKeyBytes []byte) {

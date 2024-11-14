@@ -16,7 +16,7 @@ smtpConfig:
   port: 1025
   username: "test"
   password: "test"
-  encryption: "ssl/tls" # none ssl/tls starttls
+  encryption: "none" # none ssl/tls starttls
   from: "test@localhost.com"
 
 jobsConfig:

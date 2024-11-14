@@ -21,6 +21,14 @@ require (
 )
 
 require (
+	github.com/gobuffalo/envy v1.7.0 // indirect
+	github.com/gobuffalo/packd v0.3.0 // indirect
+	github.com/gobuffalo/packr v1.30.1 // indirect
+	github.com/joho/godotenv v1.3.0 // indirect
+	github.com/rogpeppe/go-internal v1.8.1 // indirect
+)
+
+require (
 	github.com/BurntSushi/toml v1.3.2 // indirect
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/CloudyKit/jet/v6 v6.2.0 // indirect
@@ -37,6 +45,7 @@ require (
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.3.0 // indirect
 	github.com/goccy/go-json v0.8.1 // indirect
+	github.com/golang-module/carbon v1.7.3
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gomarkdown/markdown v0.0.0-20230922112808-5421fefb8386 // indirect

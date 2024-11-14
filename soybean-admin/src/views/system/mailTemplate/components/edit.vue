@@ -2,6 +2,7 @@
 import { computed, reactive, watch } from 'vue';
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
+import RichEditor from '@/components/custom/rich-editor.vue';
 import { addMailTemplate, editMailTemplate } from '@/service/api/system';
 import { MailTemplateOptions, translateOptions } from '@/constants/business';
 
@@ -107,7 +108,7 @@ watch(visible, () => {
 
 <template>
   <NModal v-model:show="visible" display-directive="show">
-    <NCard :title="title" style="width: 500px">
+    <NCard :title="title" class="n-card">
       <NForm ref="formRef" :model="model" :rules="rules">
         <NFormItem :label="$t('dataMap.mailTemplate.name')" path="name">
           <NInput v-model:value="model.name" :placeholder="$t('page.system.mailTemplate.inputName')" />
@@ -119,12 +120,7 @@ watch(visible, () => {
           <NInput v-model:value="model.subject" :placeholder="$t('page.system.mailTemplate.inputSubject')" />
         </NFormItem>
         <NFormItem :label="$t('dataMap.mailTemplate.contents')" path="contents">
-          <NInput
-            v-model:value="model.contents"
-            type="textarea"
-            rows="10"
-            :placeholder="$t('page.system.mailTemplate.inputContents')"
-          />
+          <RichEditor v-model:value="model.contents" :placeholder="$t('page.system.mailTemplate.inputContents')" />
         </NFormItem>
       </NForm>
       <template #action>
@@ -137,4 +133,8 @@ watch(visible, () => {
   </NModal>
 </template>
 
-<style scoped></style>
+<style scoped>
+.n-card {
+  width: 800px;
+}
+</style>

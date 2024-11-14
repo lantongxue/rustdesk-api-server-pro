@@ -2,6 +2,12 @@ package model
 
 import "time"
 
+const (
+	MAIL_TPL_TYPE_LOGIN_VERIFY    = 1
+	MAIL_TPL_TYPE_REGISTER_VERIFY = 2
+	MAIL_TPL_TYPE_OTHER           = 3
+)
+
 type MailTemplate struct {
 	Id        int       `xorm:"'id' int notnull pk autoincr"`
 	Name      string    `xorm:"'name' varchar(255)"`

@@ -543,6 +543,8 @@ declare namespace App {
         MailTemplateContentsEmpty: string;
         MailTemplateAddSuccess: string;
         MailTemplateUpdateSuccess: string;
+        NoEmailAddress: string;
+        VerificationCodeError: string;
       };
     };
 

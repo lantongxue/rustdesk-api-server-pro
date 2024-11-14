@@ -314,7 +314,9 @@ const local: App.I18n.Schema = {
     MailTemplateSubjectEmpty: 'Subject cannot be empty',
     MailTemplateContentsEmpty: 'Contents cannot be empty',
     MailTemplateAddSuccess: 'Mail template created successfully',
-    MailTemplateUpdateSuccess: 'Mail template modified successfully'
+    MailTemplateUpdateSuccess: 'Mail template modified successfully',
+    NoEmailAddress: 'No e-mail address set',
+    VerificationCodeError: 'Verification Code Error'
   }
 };
 

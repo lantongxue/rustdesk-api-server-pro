@@ -92,7 +92,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base',
     meta: {
       title: 'system',
-      i18nKey: 'route.system'
+      i18nKey: 'route.system',
+      icon: 'hugeicons:system-update-01',
+      order: 4
     },
     children: [
       {
@@ -101,7 +103,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.system_mailtemplate',
         meta: {
           title: 'system_mailtemplate',
-          i18nKey: 'route.system_mailtemplate'
+          i18nKey: 'route.system_mailtemplate',
+          icon: 'fluent:mail-template-16-regular'
         }
       }
     ]

@@ -314,7 +314,9 @@ const local: App.I18n.Schema = {
     MailTemplateSubjectEmpty: '主题不能为空',
     MailTemplateContentsEmpty: '内容不能为空',
     MailTemplateAddSuccess: '邮件模板添加成功',
-    MailTemplateUpdateSuccess: '邮件模板修改成功'
+    MailTemplateUpdateSuccess: '邮件模板修改成功',
+    NoEmailAddress: '未设置邮箱地址',
+    VerificationCodeError: '验证码错误'
   }
 };
 

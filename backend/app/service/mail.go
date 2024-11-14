@@ -15,13 +15,13 @@ type MailService struct {
 	config *config.ServerConfig
 }
 
-var service *MailService
+var mailService *MailService
 
 func NewMailService() *MailService {
 
 	// 单例模式
-	if service != nil {
-		return service
+	if mailService != nil {
+		return mailService
 	}
 
 	config := config.GetServerConfig()
@@ -45,6 +45,15 @@ func NewMailService() *MailService {
 		mailer: mailer,
 		config: config,
 	}
+}
+
+func (service *MailService) GetMailTemplateByType(t int) (*model.MailTemplate, error) {
+	var tpl model.MailTemplate
+	_, err := db.DbEngine.Where("type = ?", t).Desc("id").Get(&tpl)
+	if err != nil {
+		return nil, err
+	}
+	return &tpl, nil
 }
 
 func (service *MailService) Send(userId, tplId int, to, uuid string, vars map[string]string) error {
