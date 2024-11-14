@@ -161,7 +161,8 @@ const local: App.I18n.Schema = {
     user_list: '用户列表',
     user_sessions: '会话管理',
     system: '系统管理',
-    system_mailtemplate: '邮件模板'
+    system_mailtemplate: '邮件模板',
+    system_maillogs: '邮件日志'
   },
   page: {
     login: {
@@ -224,6 +225,9 @@ const local: App.I18n.Schema = {
         inputSubject: '请输入主题',
         inputContents: '请输入模板内容',
         selectType: '请选择类型'
+      },
+      mailLog: {
+        info: '详情'
       }
     }
   },
@@ -295,6 +299,19 @@ const local: App.I18n.Schema = {
         loginVerify: '登录验证',
         registerVerify: '注册验证',
         other: '其他'
+      }
+    },
+    mailLog: {
+      username: '用户名',
+      uuid: 'UUID',
+      from: '发送地址',
+      to: '接收地址',
+      subject: '主题',
+      status: '状态',
+      created_at: '发送时间',
+      statusLabel: {
+        ok: '成功',
+        err: '失败'
       }
     }
   },

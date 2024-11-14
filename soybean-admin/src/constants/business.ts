@@ -62,3 +62,14 @@ export const MailTemplateOptions = [
     label: 'dataMap.mailTemplate.typeLabel.other'
   }
 ];
+
+export const MailLogStatusOptions = [
+  {
+    value: 1,
+    label: 'dataMap.mailLog.statusLabel.ok'
+  },
+  {
+    value: 2,
+    label: 'dataMap.mailLog.statusLabel.err'
+  }
+];

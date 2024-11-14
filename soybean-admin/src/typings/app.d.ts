@@ -459,6 +459,9 @@ declare namespace App {
             inputContents: string;
             selectType: string;
           };
+          mailLog: {
+            info: string;
+          };
         };
       };
       dropdown: Record<Global.DropdownKey, string>;
@@ -523,6 +526,19 @@ declare namespace App {
             loginVerify: string;
             registerVerify: string;
             other: string;
+          };
+        };
+        mailLog: {
+          username: string;
+          uuid: string;
+          from: string;
+          to: string;
+          subject: string;
+          status: string;
+          created_at: string;
+          statusLabel: {
+            ok: string;
+            err: string;
           };
         };
       };

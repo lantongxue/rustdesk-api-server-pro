@@ -161,7 +161,8 @@ const local: App.I18n.Schema = {
     user_list: 'User List',
     user_sessions: 'Sessions',
     system: 'System Management',
-    system_mailtemplate: 'Mail Template'
+    system_mailtemplate: 'Mail Template',
+    system_maillogs: 'Mail Logs'
   },
   page: {
     login: {
@@ -224,6 +225,9 @@ const local: App.I18n.Schema = {
         inputSubject: 'Input Subject',
         inputContents: 'Input Contents',
         selectType: 'Please select type'
+      },
+      mailLog: {
+        info: 'Info'
       }
     }
   },
@@ -295,6 +299,19 @@ const local: App.I18n.Schema = {
         loginVerify: 'Login Verify',
         registerVerify: 'Register Verify',
         other: 'Other'
+      }
+    },
+    mailLog: {
+      username: 'Username',
+      uuid: 'UUID',
+      from: 'From',
+      to: 'To',
+      subject: 'Subject',
+      status: 'Status',
+      created_at: 'Send Time',
+      statusLabel: {
+        ok: 'Success',
+        err: 'Error'
       }
     }
   },

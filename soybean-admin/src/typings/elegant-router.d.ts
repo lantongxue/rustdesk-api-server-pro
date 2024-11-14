@@ -25,6 +25,7 @@ declare module "@elegant-router/types" {
     "iframe-page": "/iframe-page/:url";
     "login": "/login/:module(pwd-login)?";
     "system": "/system";
+    "system_maillogs": "/system/maillogs";
     "system_mailtemplate": "/system/mailtemplate";
     "user": "/user";
     "user_list": "/user/list";
@@ -92,6 +93,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "audit"
     | "home"
+    | "system_maillogs"
     | "system_mailtemplate"
     | "user_list"
     | "user_sessions"

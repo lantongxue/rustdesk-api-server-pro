@@ -147,6 +147,20 @@ declare namespace Api {
       Pick<Api.System.MailTemplate, 'name' | 'type' | 'subject' | 'contents' | 'created_at'> &
         Api.Common.CommonSearchParams
     >;
+
+    type MailLog = Common.CommonRecord<{
+      username: string;
+      uuid: string;
+      subject: string;
+      from: string;
+      to: string;
+      status: number;
+    }>;
+    type MailLogList = Common.PaginatingQueryRecord<MailLog>;
+    type MailLogSearchParams = CommonType.RecordNullable<
+      Pick<Api.System.MailLog, 'username' | 'uuid' | 'subject' | 'from' | 'to' | 'status' | 'created_at'> &
+        Api.Common.CommonSearchParams
+    >;
   }
 
   /**

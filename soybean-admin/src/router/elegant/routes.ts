@@ -98,6 +98,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'system_maillogs',
+        path: '/system/maillogs',
+        component: 'view.system_maillogs',
+        meta: {
+          title: 'system_maillogs',
+          i18nKey: 'route.system_maillogs',
+          icon: 'icon-park-outline:upload-logs'
+        }
+      },
+      {
         name: 'system_mailtemplate',
         path: '/system/mailtemplate',
         component: 'view.system_mailtemplate',
