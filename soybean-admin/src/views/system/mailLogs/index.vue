@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NSpace, NTag } from 'naive-ui';
+import { ref } from 'vue';
 import { fetchMailLogList } from '@/service/api/mail_logs';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -100,10 +101,10 @@ const {
       key: 'operate',
       title: $t('common.action'),
       align: 'center',
-      render: () => {
+      render: (row) => {
         return (
           <NSpace justify={'center'}>
-            <NButton size={'small'} type={'info'} onClick={() => handleInfoTable()}>
+            <NButton size={'small'} type={'info'} onClick={() => handleInfoTable(row)}>
               {$t('page.system.mailLog.info')}
             </NButton>
           </NSpace>
@@ -115,13 +116,14 @@ const {
 
 const {
   drawerVisible,
-  operateType,
-  editingData,
   openDrawer
   // closeDrawer
 } = useTableOperate(data, getData);
 
-function handleInfoTable() {
+const rowData = ref<Api.System.MailLog>();
+
+function handleInfoTable(row: Api.System.MailLog) {
+  rowData.value = row;
   openDrawer();
 }
 </script>
@@ -146,12 +148,7 @@ function handleInfoTable() {
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <MailLogInfo
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getDataByPage"
-      />
+      <MailLogInfo v-model:visible="drawerVisible" :row-data="rowData!" />
     </NCard>
   </div>
 </template>

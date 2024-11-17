@@ -16,6 +16,7 @@ type MaiLogsController struct {
 
 func (c *MaiLogsController) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/mail/logs/list", "HandleList")
+	b.Handle("GET", "/mail/logs/info", "HandleInfo")
 }
 
 func (c *MaiLogsController) HandleList() mvc.Result {
@@ -82,4 +83,11 @@ func (c *MaiLogsController) HandleList() mvc.Result {
 		"current": currentPage,
 		"size":    pageSize,
 	}, "ok")
+}
+
+func (c *MaiLogsController) HandleInfo() mvc.Result {
+
+	return mvc.Response{
+		Text: "213123",
+	}
 }
