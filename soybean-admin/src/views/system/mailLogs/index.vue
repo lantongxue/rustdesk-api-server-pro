@@ -101,7 +101,7 @@ const {
       key: 'operate',
       title: $t('common.action'),
       align: 'center',
-      render: (row) => {
+      render: row => {
         return (
           <NSpace justify={'center'}>
             <NButton size={'small'} type={'info'} onClick={() => handleInfoTable(row)}>
