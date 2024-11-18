@@ -87,7 +87,18 @@ func (c *MaiLogsController) HandleList() mvc.Result {
 
 func (c *MaiLogsController) HandleInfo() mvc.Result {
 
-	return mvc.Response{
-		Text: "213123",
+	uuid := c.Ctx.URLParamDefault("uuid", "")
+	if uuid == "" {
+		return c.Error(nil, "UUIDEmpty")
 	}
+
+	var log model.MailLogs
+	_, err := c.Db.Where("uuid = ?", uuid).Get(&log)
+	if err != nil {
+		return c.Error(nil, err.Error())
+	}
+
+	return c.Success(iris.Map{
+		"content": log.Contents,
+	}, "ok")
 }

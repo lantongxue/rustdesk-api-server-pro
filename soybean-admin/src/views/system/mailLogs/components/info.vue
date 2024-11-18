@@ -23,9 +23,11 @@ function closeDrawer() {
   visible.value = false;
 }
 
+const contents = ref<string>();
+
 async function init() {
   const a = await fetchMailLogInfo({ uuid: props.rowData.uuid });
-  console.log(a);
+  contents.value = a.data.content;
 }
 
 watch(visible, () => {
@@ -57,6 +59,9 @@ watch(visible, () => {
         <NFormItem :label="$t('dataMap.mailLog.subject')" path="subject">
           <NInput v-model:value="rowData.subject!" :disabled="true" />
         </NFormItem>
+        <NFormItem :label="$t('dataMap.mailLog.contents')" path="contents">
+          <NInput v-model:value="contents" rows="5" type="textarea" :disabled="true" />
+        </NFormItem>
       </NForm>
       <template #action>
         <NSpace :size="16" justify="end">
@@ -70,5 +75,9 @@ watch(visible, () => {
 <style scoped>
 .n-card {
   width: 800px;
+}
+.contents {
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 </style>

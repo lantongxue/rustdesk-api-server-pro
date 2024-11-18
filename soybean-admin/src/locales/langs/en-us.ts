@@ -307,6 +307,7 @@ const local: App.I18n.Schema = {
       from: 'From',
       to: 'To',
       subject: 'Subject',
+      contents: 'Content',
       status: 'Status',
       created_at: 'Send Time',
       statusLabel: {
@@ -333,7 +334,8 @@ const local: App.I18n.Schema = {
     MailTemplateAddSuccess: 'Mail template created successfully',
     MailTemplateUpdateSuccess: 'Mail template modified successfully',
     NoEmailAddress: 'No e-mail address set',
-    VerificationCodeError: 'Verification Code Error'
+    VerificationCodeError: 'Verification Code Error',
+    UUIDEmpty: 'UUID cannot be empty'
   }
 };
 

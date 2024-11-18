@@ -5,5 +5,5 @@ export function fetchMailLogList(params: any) {
 }
 
 export function fetchMailLogInfo(params: any) {
-  return request<string>({ url: '/mail/logs/info', params });
+  return request<any>({ url: '/mail/logs/info', params });
 }

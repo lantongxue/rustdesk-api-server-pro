@@ -307,6 +307,7 @@ const local: App.I18n.Schema = {
       from: '发送地址',
       to: '接收地址',
       subject: '主题',
+      contents: '内容',
       status: '状态',
       created_at: '发送时间',
       statusLabel: {
@@ -333,7 +334,8 @@ const local: App.I18n.Schema = {
     MailTemplateAddSuccess: '邮件模板添加成功',
     MailTemplateUpdateSuccess: '邮件模板修改成功',
     NoEmailAddress: '未设置邮箱地址',
-    VerificationCodeError: '验证码错误'
+    VerificationCodeError: '验证码错误',
+    UUIDEmpty: 'UUID不能为空'
   }
 };
 

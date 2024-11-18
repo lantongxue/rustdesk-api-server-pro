@@ -534,6 +534,7 @@ declare namespace App {
           from: string;
           to: string;
           subject: string;
+          contents: string;
           status: string;
           created_at: string;
           statusLabel: {
@@ -561,6 +562,7 @@ declare namespace App {
         MailTemplateUpdateSuccess: string;
         NoEmailAddress: string;
         VerificationCodeError: string;
+        UUIDEmpty: string;
       };
     };
 
