@@ -12,6 +12,10 @@ export function editUser(data: Api.UserManagement.User) {
   return request({ url: '/users/edit', method: 'post', data });
 }
 
+export function getTOTP(data: Api.UserManagement.User) {
+  return request({ url: '/users/totp', method: 'post', data });
+}
+
 export function delUser(data: any) {
   return request({ url: '/users/delete', method: 'post', data });
 }

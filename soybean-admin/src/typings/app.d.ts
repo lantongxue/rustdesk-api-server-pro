@@ -441,6 +441,9 @@ declare namespace App {
             emailFormatError: string;
             selectUserStatus: string;
             searchPlaceholder: string;
+            tfa_secret_bind: string;
+            require2FASecret: string;
+            require2FACode: string;
           };
           sessions: {
             kill: string;
@@ -490,6 +493,8 @@ declare namespace App {
           login_verify: string;
           status: string;
           is_admin: string;
+          tfa_secret: string;
+          tfa_code: string;
           created_at: string;
           statusLabel: {
             disabled: string;

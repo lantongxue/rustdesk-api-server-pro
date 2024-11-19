@@ -9,6 +9,7 @@ import (
 
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
+	"github.com/pquerna/otp/totp"
 	"xorm.io/xorm"
 )
 
@@ -21,6 +22,7 @@ func (c *UsersController) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("POST", "/users/add", "HandleAdd")
 	b.Handle("POST", "/users/edit", "HandleEdit")
 	b.Handle("POST", "/users/delete", "HandleDelete")
+	b.Handle("POST", "/users/totp", "HandleTOTP")
 }
 
 func (c *UsersController) HandleList() mvc.Result {
@@ -76,6 +78,7 @@ func (c *UsersController) HandleList() mvc.Result {
 			"licensed_devices": u.LicensedDevices,
 			"note":             u.Note,
 			"login_verify":     u.LoginVerify,
+			"tfa_secret":       u.TwoFactorAuthSecret,
 			"status":           u.Status,
 			"is_admin":         u.IsAdmin,
 			"created_at":       u.CreatedAt.Format(config.TimeFormat),
@@ -122,15 +125,16 @@ func (c *UsersController) HandleAdd() mvc.Result {
 	}
 
 	user := &model.User{
-		Username:        form.Username,
-		Password:        p,
-		Name:            form.Name,
-		Email:           form.Email,
-		Note:            form.Note,
-		LicensedDevices: form.LicensedDevices,
-		LoginVerify:     form.LoginVerify,
-		Status:          form.Status,
-		IsAdmin:         form.IsAdmin,
+		Username:            form.Username,
+		Password:            p,
+		Name:                form.Name,
+		Email:               form.Email,
+		Note:                form.Note,
+		LicensedDevices:     form.LicensedDevices,
+		LoginVerify:         form.LoginVerify,
+		TwoFactorAuthSecret: form.TwoFactorAuthSecret,
+		Status:              form.Status,
+		IsAdmin:             form.IsAdmin,
 	}
 
 	_, err = c.Db.Insert(user)
@@ -169,13 +173,14 @@ func (c *UsersController) HandleEdit() mvc.Result {
 	}
 
 	user := &model.User{
-		Name:            form.Name,
-		Email:           form.Email,
-		Note:            form.Note,
-		LicensedDevices: form.LicensedDevices,
-		LoginVerify:     form.LoginVerify,
-		Status:          form.Status,
-		IsAdmin:         form.IsAdmin,
+		Name:                form.Name,
+		Email:               form.Email,
+		Note:                form.Note,
+		LicensedDevices:     form.LicensedDevices,
+		LoginVerify:         form.LoginVerify,
+		TwoFactorAuthSecret: form.TwoFactorAuthSecret,
+		Status:              form.Status,
+		IsAdmin:             form.IsAdmin,
 	}
 
 	if p != "" {
@@ -205,4 +210,26 @@ func (c *UsersController) HandleDelete() mvc.Result {
 		return c.Error(nil, err.Error())
 	}
 	return c.Success(nil, "UserDeleteSuccess")
+}
+
+func (c *UsersController) HandleTOTP() mvc.Result {
+	var form admin.UserForm
+	err := c.Ctx.ReadJSON(&form)
+	if err != nil {
+		return c.Error(nil, err.Error())
+	}
+
+	key, err := totp.Generate(totp.GenerateOpts{
+		Issuer:      "rustdesk.api.server",
+		AccountName: form.Username,
+	})
+
+	if err != nil {
+		return c.Error(nil, err.Error())
+	}
+
+	return c.Success(iris.Map{
+		"url": key.String(),
+		"key": key.Secret(),
+	}, "ok")
 }

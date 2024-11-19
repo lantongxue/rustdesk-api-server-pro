@@ -207,7 +207,10 @@ const local: App.I18n.Schema = {
         inputNickname: '请输入昵称',
         emailFormatError: '邮箱格式错误',
         selectUserStatus: '请选择用户状态',
-        searchPlaceholder: '用户名、昵称、邮箱'
+        searchPlaceholder: '用户名、昵称、邮箱',
+        tfa_secret_bind: '双重认证设备绑定',
+        require2FASecret: '双重认证密钥不能为空',
+        require2FACode: '双重认证验证码不能为空'
       },
       sessions: {
         kill: '终结',
@@ -263,6 +266,8 @@ const local: App.I18n.Schema = {
       login_verify: '登录验证',
       status: '状态',
       is_admin: '管理员',
+      tfa_secret: '双重认证密钥',
+      tfa_code: '双重认证码',
       created_at: '创建时间',
       statusLabel: {
         disabled: '禁用',

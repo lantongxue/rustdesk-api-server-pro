@@ -207,7 +207,10 @@ const local: App.I18n.Schema = {
         inputNickname: 'Input Nickname',
         emailFormatError: 'Email format error',
         selectUserStatus: 'Please select user status',
-        searchPlaceholder: 'Username\\Nickname\\Email'
+        searchPlaceholder: 'Username\\Nickname\\Email',
+        tfa_secret_bind: '2FA Device Bind',
+        require2FASecret: '2FA Secret Empty',
+        require2FACode: "2FA Code Can't Empty"
       },
       sessions: {
         kill: 'Kill',
@@ -263,6 +266,8 @@ const local: App.I18n.Schema = {
       login_verify: 'Login Verify',
       status: 'Status',
       is_admin: 'Is Admin',
+      tfa_secret: '2FA Secret',
+      tfa_code: '2FA Code',
       created_at: 'Created At',
       statusLabel: {
         disabled: 'Disabled',

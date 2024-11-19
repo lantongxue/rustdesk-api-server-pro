@@ -95,6 +95,7 @@ declare namespace Api {
       status: number;
       is_admin: boolean;
       admin_status: number;
+      tfa_code: string;
     }>;
     type UserList = Common.PaginatingQueryRecord<User>;
 

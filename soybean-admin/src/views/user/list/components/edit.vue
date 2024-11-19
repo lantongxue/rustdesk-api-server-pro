@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
-import { addUser, editUser } from '@/service/api/user_management';
+import { addUser, editUser, getTOTP } from '@/service/api/user_management';
 import { UserLoginVerifyOptions, UserStatusOptions, translateOptions } from '@/constants/business';
 
 defineOptions({
@@ -40,6 +40,7 @@ const title = computed(() => {
 
 type Model = Pick<
   Api.UserManagement.User,
+  | 'id'
   | 'username'
   | 'password'
   | 'name'
@@ -51,12 +52,14 @@ type Model = Pick<
   | 'is_admin'
   | 'admin_status'
   | 'status'
+  | 'tfa_code'
 >;
 
 const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
+    id: 0,
     username: '',
     password: '',
     name: '',
@@ -67,11 +70,15 @@ function createDefaultModel(): Model {
     note: '',
     status: 1,
     is_admin: false,
-    admin_status: 0
+    admin_status: 0,
+    tfa_code: ''
   };
 }
 
-type RuleKey = Extract<keyof Model, 'username' | 'password' | 'name' | 'email' | 'login_verify' | 'status'>;
+type RuleKey = Extract<
+  keyof Model,
+  'username' | 'password' | 'name' | 'email' | 'login_verify' | 'tfa_secret' | 'tfa_code' | 'status'
+>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   username: {
@@ -94,6 +101,14 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   login_verify: {
     required: true,
     message: $t('page.user.list.selectUserStatus')
+  },
+  tfa_secret: {
+    required: false,
+    message: $t('page.user.list.require2FASecret')
+  },
+  tfa_code: {
+    required: false,
+    message: $t('page.user.list.require2FACode')
   },
   status: {
     required: true,
@@ -124,6 +139,21 @@ async function handleSubmit() {
     window.$message?.success($t(k));
     closeDrawer();
     emit('submitted');
+  }
+}
+
+const tfaUrl = ref<string>();
+
+async function handleLoginVerifyChanged(value: string) {
+  if (value === 'tfa_check') {
+    const key = await getTOTP(model);
+    tfaUrl.value = key.data.url;
+    model.tfa_secret = key.data.key;
+    rules.tfa_secret.required = true;
+    rules.tfa_code.required = true;
+  } else {
+    rules.tfa_secret.required = false;
+    rules.tfa_code.required = false;
   }
 }
 
@@ -165,7 +195,24 @@ watch(visible, () => {
           </NSwitch>
         </NFormItem>
         <NFormItem :label="$t('dataMap.user.login_verify')" path="login_verify">
-          <NSelect v-model:value="model.login_verify" :options="translateOptions(UserLoginVerifyOptions)" />
+          <NSelect
+            v-model:value="model.login_verify"
+            :options="translateOptions(UserLoginVerifyOptions)"
+            @update-value="handleLoginVerifyChanged"
+          />
+        </NFormItem>
+        <NFormItem
+          v-if="model.login_verify === 'tfa_check'"
+          :label="$t('page.user.list.tfa_secret_bind')"
+          path="tfa_secret"
+        >
+          <NQrCode :value="tfaUrl" :size="220" />
+        </NFormItem>
+        <NFormItem v-if="model.login_verify === 'tfa_check'" :label="$t('dataMap.user.tfa_secret')" path="tfa_secret">
+          <NInput v-model:value="model.tfa_secret" type="textarea" readonly="true" />
+        </NFormItem>
+        <NFormItem v-if="model.login_verify === 'tfa_check'" :label="$t('dataMap.user.tfa_code')" path="tfa_code">
+          <NInput v-model:value="model.tfa_code" />
         </NFormItem>
         <NFormItem v-if="!(operateType === 'edit' && model.is_admin)" :label="$t('dataMap.user.status')" path="status">
           <NSelect v-model:value="model.status" :options="translateOptions(UserStatusOptions)" />
