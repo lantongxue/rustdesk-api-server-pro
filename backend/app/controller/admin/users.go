@@ -125,16 +125,23 @@ func (c *UsersController) HandleAdd() mvc.Result {
 	}
 
 	user := &model.User{
-		Username:            form.Username,
-		Password:            p,
-		Name:                form.Name,
-		Email:               form.Email,
-		Note:                form.Note,
-		LicensedDevices:     form.LicensedDevices,
-		LoginVerify:         form.LoginVerify,
-		TwoFactorAuthSecret: form.TwoFactorAuthSecret,
-		Status:              form.Status,
-		IsAdmin:             form.IsAdmin,
+		Username:        form.Username,
+		Password:        p,
+		Name:            form.Name,
+		Email:           form.Email,
+		Note:            form.Note,
+		LicensedDevices: form.LicensedDevices,
+		LoginVerify:     form.LoginVerify,
+		Status:          form.Status,
+		IsAdmin:         form.IsAdmin,
+	}
+
+	// 要绑定2fa
+	if form.LoginVerify == model.LOGIN_TFA_CHECK {
+		if !totp.Validate(form.TwoFactorAuthCode, form.TwoFactorAuthSecret) {
+			return c.Error(nil, "TFA_Validate_Err")
+		}
+		user.TwoFactorAuthSecret = form.TwoFactorAuthSecret
 	}
 
 	_, err = c.Db.Insert(user)
@@ -172,22 +179,35 @@ func (c *UsersController) HandleEdit() mvc.Result {
 		form.Name = form.Username
 	}
 
-	user := &model.User{
-		Name:                form.Name,
-		Email:               form.Email,
-		Note:                form.Note,
-		LicensedDevices:     form.LicensedDevices,
-		LoginVerify:         form.LoginVerify,
-		TwoFactorAuthSecret: form.TwoFactorAuthSecret,
-		Status:              form.Status,
-		IsAdmin:             form.IsAdmin,
+	newUser := &model.User{
+		Name:            form.Name,
+		Email:           form.Email,
+		Note:            form.Note,
+		LicensedDevices: form.LicensedDevices,
+		LoginVerify:     form.LoginVerify,
+		Status:          form.Status,
+		IsAdmin:         form.IsAdmin,
 	}
 
 	if p != "" {
-		user.Password = p
+		newUser.Password = p
 	}
 
-	_, err = c.Db.Where("id = ?", form.Id).MustCols("licensed_devices", "status", "is_admin").Update(user)
+	var user model.User
+	_, err = c.Db.Where("id = ?", form.Id).Get(&user)
+	if err != nil {
+		return c.Error(nil, err.Error())
+	}
+
+	// 要绑定2fa
+	if form.LoginVerify == model.LOGIN_TFA_CHECK && form.TwoFactorAuthSecret != user.TwoFactorAuthSecret {
+		if !totp.Validate(form.TwoFactorAuthCode, form.TwoFactorAuthSecret) {
+			return c.Error(nil, "TFA_Validate_Err")
+		}
+		newUser.TwoFactorAuthSecret = form.TwoFactorAuthSecret
+	}
+
+	_, err = c.Db.Where("id = ?", form.Id).MustCols("licensed_devices", "status", "is_admin").Update(newUser)
 	if err != nil {
 		return c.Error(nil, err.Error())
 	}
@@ -220,7 +240,7 @@ func (c *UsersController) HandleTOTP() mvc.Result {
 	}
 
 	key, err := totp.Generate(totp.GenerateOpts{
-		Issuer:      "rustdesk.api.server",
+		Issuer:      config.OPTIssuer,
 		AccountName: form.Username,
 	})
 

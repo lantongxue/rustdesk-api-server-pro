@@ -13,6 +13,7 @@ import (
 
 	"github.com/golang-module/carbon"
 	"github.com/kataras/iris/v12"
+	"github.com/pquerna/otp/totp"
 )
 
 type UserService struct {
@@ -45,13 +46,13 @@ func (service *UserService) Login(loginForm api.LoginForm) iris.Map {
 
 	if !get {
 		return iris.Map{
-			"error": "UsernameOrPasswordError",
+			"error": "Username Or Password Error",
 		}
 	}
 
 	if !util.PasswordVerify(loginForm.Password, user.Password) {
 		return iris.Map{
-			"error": "UsernameOrPasswordError",
+			"error": "Username Or Password Error",
 		}
 	}
 
@@ -59,7 +60,7 @@ func (service *UserService) Login(loginForm api.LoginForm) iris.Map {
 	if user.LoginVerify == model.LOGIN_EMAIL_CHECK {
 		if user.Email == "" {
 			return iris.Map{
-				"error": "NoEmailAddress",
+				"error": "No Email Address",
 			}
 		}
 
@@ -94,12 +95,13 @@ func (service *UserService) Login(loginForm api.LoginForm) iris.Map {
 		}
 
 		db.DbEngine.Insert(&model.VerifyCode{
-			UserId:  user.Id,
-			Type:    model.VC_TYPE_MAIL,
-			Uuid:    uuid,
-			Code:    code,
-			Expired: carbon.Now(service.config.Db.TimeZone).AddMinutes(expired).ToStdTime(),
-			Status:  model.VC_STATUS_UNUSED,
+			UserId:     user.Id,
+			Type:       model.VC_TYPE_MAIL,
+			Uuid:       uuid,
+			Code:       code,
+			RustdeskId: loginForm.RustdeskId,
+			Expired:    carbon.Now(service.config.Db.TimeZone).AddMinutes(expired).ToStdTime(),
+			Status:     model.VC_STATUS_UNUSED,
 		})
 
 		return iris.Map{
@@ -111,10 +113,18 @@ func (service *UserService) Login(loginForm api.LoginForm) iris.Map {
 
 	// 2fa 验证
 	if user.LoginVerify == model.LOGIN_TFA_CHECK {
+		uuid := util.GetUUID()
+		db.DbEngine.Insert(&model.VerifyCode{
+			UserId:     user.Id,
+			Type:       model.VC_TYPE_2FA,
+			Uuid:       uuid,
+			RustdeskId: loginForm.RustdeskId,
+			Status:     model.VC_STATUS_UNUSED,
+		})
 		return iris.Map{
 			"type":     model.LOGIN_EMAIL_CHECK,
 			"tfa_type": model.LOGIN_TFA_CHECK,
-			"secret":   "",
+			"secret":   uuid,
 		}
 	}
 
@@ -169,7 +179,7 @@ func (service *UserService) GetLoginToken(loginForm api.LoginForm, userId int) s
 // 使用邮箱验证码登录
 func (service *UserService) LoginVerifyByEmailCode(loginForm api.LoginForm) iris.Map {
 	var verifyCode model.VerifyCode
-	get, err := db.DbEngine.Where("type = 1 and uuid = ? and code = ? and status = 1", loginForm.Secret, loginForm.VerificationCode).Desc("id").Get(&verifyCode)
+	get, err := db.DbEngine.Where("type = 1 and rustdesk_id = ? and uuid = ? and code = ? and status = 1", loginForm.RustdeskId, loginForm.Secret, loginForm.VerificationCode).Desc("id").Get(&verifyCode)
 	if err != nil {
 		return iris.Map{
 			"error": err.Error(),
@@ -177,7 +187,7 @@ func (service *UserService) LoginVerifyByEmailCode(loginForm api.LoginForm) iris
 	}
 	if !get {
 		return iris.Map{
-			"error": "VerificationCodeError",
+			"error": "Verification Code Error",
 		}
 	}
 	if verifyCode.Expired.Before(time.Now()) {
@@ -185,12 +195,12 @@ func (service *UserService) LoginVerifyByEmailCode(loginForm api.LoginForm) iris
 		db.DbEngine.ID(verifyCode.Id).Update(&verifyCode)
 
 		return iris.Map{
-			"error": "VerificationCodeError",
+			"error": "Verification Code Error",
 		}
 	}
 	if verifyCode.Code != loginForm.VerificationCode {
 		return iris.Map{
-			"error": "VerificationCodeError",
+			"error": "Verification Code Error",
 		}
 	}
 
@@ -222,7 +232,54 @@ func (service *UserService) LoginVerifyByEmailCode(loginForm api.LoginForm) iris
 
 // 使用2FA验证登录
 func (service *UserService) LoginVerifyBy2FACode(loginForm api.LoginForm) iris.Map {
+
+	var verifyCode model.VerifyCode
+	get, err := db.DbEngine.Where("type = 3 and rustdesk_id = ? and uuid = ? and status = 1", loginForm.RustdeskId, loginForm.Secret).Desc("id").Get(&verifyCode)
+	if err != nil {
+		return iris.Map{
+			"error": err.Error(),
+		}
+	}
+	if !get {
+		return iris.Map{
+			"error": "Verification Code Error",
+		}
+	}
+
+	var user model.User
+	get, err = db.DbEngine.Where("id = ?", verifyCode.UserId).Get(&user)
+	if err != nil {
+		return iris.Map{
+			"error": err.Error(),
+		}
+	}
+
+	if !get {
+		return iris.Map{
+			"error": "Username Or Password Error",
+		}
+	}
+
+	if !totp.Validate(loginForm.TfaCode, user.TwoFactorAuthSecret) {
+		return iris.Map{
+			"error": "Verification Code Error",
+		}
+	}
+
+	verifyCode.Status = model.VC_STATUS_USED
+	db.DbEngine.ID(verifyCode.Id).Update(&verifyCode)
+
+	token := service.GetLoginToken(loginForm, user.Id)
+
 	return iris.Map{
-		"error": "UsernameOrPasswordError",
+		"access_token": token,
+		"type":         model.LOGIN_ACCESS_TOKEN,
+		"user": iris.Map{
+			"name":     user.Name,
+			"email":    user.Email,
+			"note":     user.Note,
+			"status":   user.Status,
+			"is_admin": false,
+		},
 	}
 }

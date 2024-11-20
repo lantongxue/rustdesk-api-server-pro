@@ -32,7 +32,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 	userService := service.NewUserService()
 
 	// {"type":"email_code","verificationCode":"666666","secret":""} // email
-	if loginForm.Type == "email_code" && loginForm.VerificationCode != "" && loginForm.Secret != "" { // email_code 开始验证
+	if loginForm.Type == "email_code" && loginForm.VerificationCode != "" && loginForm.TfaCode == "" { // email_code 开始验证
 		result := userService.LoginVerifyByEmailCode(loginForm)
 		return mvc.Response{
 			Object: result,
@@ -40,7 +40,7 @@ func (c *LoginController) PostLogin() mvc.Result {
 	}
 
 	// {"type":"email_code","verificationCode":"747332","tfaCode":"747332","secret":""} // 2fa
-	if loginForm.Type == "email_code" && loginForm.VerificationCode != "" && loginForm.TfaCode != "" { // tfa_code 开始验证
+	if loginForm.Type == "email_code" && loginForm.TfaCode != "" && loginForm.VerificationCode == loginForm.TfaCode { // tfa_code 开始验证
 		result := userService.LoginVerifyBy2FACode(loginForm)
 		return mvc.Response{
 			Object: result,

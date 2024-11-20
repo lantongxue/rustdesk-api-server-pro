@@ -142,7 +142,7 @@ const {
       render: row => {
         return (
           <NSpace justify={'center'}>
-            <NButton size={'small'} onClick={() => handleEditTable(row)}>
+            <NButton size={'small'} type={'success'} onClick={() => handleEditTable(row)}>
               {$t('common.edit')}
             </NButton>
             {row.id === 1 ? null : (

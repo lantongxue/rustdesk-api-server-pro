@@ -146,6 +146,10 @@ const tfaUrl = ref<string>();
 
 async function handleLoginVerifyChanged(value: string) {
   if (value === 'tfa_check') {
+    if (model.username === '') {
+      window.$message?.error($t('page.user.list.inputUsername'));
+      return;
+    }
     const key = await getTOTP(model);
     tfaUrl.value = key.data.url;
     model.tfa_secret = key.data.key;
@@ -206,7 +210,12 @@ watch(visible, () => {
           :label="$t('page.user.list.tfa_secret_bind')"
           path="tfa_secret"
         >
-          <NQrCode :value="tfaUrl" :size="220" />
+          <NSpace vertical>
+            <NButton v-if="model.tfa_secret !== ''" @click="() => handleLoginVerifyChanged('tfa_check')">
+              重新绑定
+            </NButton>
+            <NQrCode :value="tfaUrl" :size="220" />
+          </NSpace>
         </NFormItem>
         <NFormItem v-if="model.login_verify === 'tfa_check'" :label="$t('dataMap.user.tfa_secret')" path="tfa_secret">
           <NInput v-model:value="model.tfa_secret" type="textarea" readonly="true" />

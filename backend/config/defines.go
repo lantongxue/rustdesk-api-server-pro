@@ -13,3 +13,5 @@ const AdminUserKey = "iris.admin.user"
 const AdminAuthToken = "iris.admin.token"
 
 const AdminAuthTokenString = "iris.admin.token.string"
+
+const OPTIssuer = "RustdeskApiServerPro"
