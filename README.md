@@ -63,6 +63,7 @@ docker run \
 -d \
 -e ADMIN_USER=admin \ #Administrator account (optional)
 -e ADMIN_PASS=yourpassword \ #Administrator password (optional)
+-e TZ=Asia/Shanghai \ #must match the 'timeZone' setting in server.yaml
 -p 8080:8080 \
 -v /your/path/server.yaml:/app/server.yaml \
 ghcr.io/lantongxue/rustdesk-api-server-pro:latest
@@ -85,6 +86,7 @@ services:
     environment:
       - "ADMIN_USER=youruser"
       - "ADMIN_PASS=yourpassword"
+      - "TZ=Asia/Shanghai"
     volumes:
       - ./server.yaml:/app/server.yaml
     network_mode: host
@@ -97,6 +99,7 @@ services:
 | :------------: | :------------: | :------------: |
 |ADMIN_USER|-|Default administrator account|
 |ADMIN_PASS|-|Default administrator password|
+|TZ|-|Container OS timezone; must match the app setting in YAML file|
 
 ## Build from source
 ### Required
