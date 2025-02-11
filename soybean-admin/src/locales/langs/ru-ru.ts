@@ -286,13 +286,19 @@ const local: App.I18n.Schema = {
     },
     audit: {
       username: 'Имя',
+      type: 'Тип',
       conn_id: 'Подключен',
       rustdesk_id: 'Rustdesk ID',
       ip: 'IP',
       session_id: 'ID сессии',
       uuid: 'UUID',
       created_at: 'Создана',
-      closed_at: 'Закрыть'
+      closed_at: 'Закрыть',
+      typeLabel: {
+        remote_control: 'Удаленное управление',
+        file_transfer: 'Передача файлов',
+        tcp_tunnel: 'Туннель TCP'
+      }
     },
     mailTemplate: {
       name: 'Имя',

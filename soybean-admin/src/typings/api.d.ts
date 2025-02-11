@@ -124,13 +124,14 @@ declare namespace Api {
       ip: string;
       session_id: string;
       uuid: string;
+      type: number;
       closed_at?: string;
     }>;
     type AuditLogList = Common.PaginatingQueryRecord<AuditLog>;
     type AuditLogSearchParams = CommonType.RecordNullable<
       Pick<
         Api.Audit.AuditLog,
-        'username' | 'conn_id' | 'rustdesk_id' | 'ip' | 'session_id' | 'uuid' | 'created_at' | 'closed_at'
+        'username' | 'conn_id' | 'rustdesk_id' | 'ip' | 'session_id' | 'uuid' | 'type' | 'created_at' | 'closed_at'
       > &
         Api.Common.CommonSearchParams
     >;

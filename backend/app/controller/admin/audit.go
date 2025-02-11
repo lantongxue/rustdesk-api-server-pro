@@ -22,6 +22,7 @@ func (c *AuditController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("current", 1)
 	pageSize := c.Ctx.URLParamIntDefault("size", 10)
 	conn_id := c.Ctx.URLParamDefault("conn_id", "")
+	_type := c.Ctx.URLParamDefault("type", "")
 	rustdesk_id := c.Ctx.URLParamDefault("rustdesk_id", "")
 	ip := c.Ctx.URLParamDefault("ip", "")
 	session_id := c.Ctx.URLParamDefault("session_id", "")
@@ -35,6 +36,9 @@ func (c *AuditController) HandleList() mvc.Result {
 		q := c.Db.Table(&model.Audit{})
 		if conn_id != "" {
 			q.Where("audit.conn_id = ?", conn_id)
+		}
+		if _type != "" {
+			q.Where("audit.type = ?", _type)
 		}
 		if rustdesk_id != "" {
 			q.Where("audit.rustdesk_id = ?", rustdesk_id)
@@ -74,6 +78,7 @@ func (c *AuditController) HandleList() mvc.Result {
 			"ip":          a.IP,
 			"session_id":  a.SessionId,
 			"uuid":        a.Uuid,
+			"type":        a.Type,
 			"created_at":  a.CreatedAt.Format(config.TimeFormat),
 		})
 	}

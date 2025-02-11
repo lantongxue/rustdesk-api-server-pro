@@ -513,6 +513,7 @@ declare namespace App {
         };
         audit: {
           username: string;
+          type: string;
           conn_id: string;
           rustdesk_id: string;
           ip: string;
@@ -520,6 +521,11 @@ declare namespace App {
           uuid: string;
           created_at: string;
           closed_at: string;
+          typeLabel: {
+            remote_control: string;
+            file_transfer: string;
+            tcp_tunnel: string;
+          };
         };
         mailTemplate: {
           name: string;

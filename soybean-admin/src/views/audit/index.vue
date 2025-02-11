@@ -1,12 +1,20 @@
 <script setup lang="tsx">
+import { NTag } from 'naive-ui';
 import { fetchAuditLogList } from '@/service/api/audit';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
+import { AuditTypeOptions } from '@/constants/business';
 import TableHeader from './components/table-header.vue';
 import AuditSearch from './components/search.vue';
 
 const appStore = useAppStore();
+
+const auditTypes: any = {
+  '0': '',
+  '1': 'error',
+  '2': 'success'
+};
 
 const {
   columns,
@@ -27,6 +35,7 @@ const {
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     conn_id: null,
+    type: null,
     rustdesk_id: null,
     ip: null,
     session_id: null,
@@ -39,6 +48,24 @@ const {
       key: 'id',
       title: 'ID',
       align: 'center'
+    },
+    {
+      key: 'type',
+      title: $t('dataMap.audit.type'),
+      align: 'center',
+      render: row => {
+        let label = '';
+        for (const option of AuditTypeOptions) {
+          if (option.value === row.type) {
+            label = option.label;
+          }
+        }
+        return (
+          <NTag bordered={false} type={auditTypes[row.type]}>
+            {$t(label as App.I18n.I18nKey)}
+          </NTag>
+        );
+      }
     },
     {
       key: 'conn_id',

@@ -286,13 +286,19 @@ const local: App.I18n.Schema = {
     },
     audit: {
       username: 'Username',
+      type: 'Type',
       conn_id: 'Connect Id',
       rustdesk_id: 'Rustdesk ID',
       ip: 'IP',
       session_id: 'Session Id',
       uuid: 'UUID',
       created_at: 'Created At',
-      closed_at: 'Closed At'
+      closed_at: 'Closed At',
+      typeLabel: {
+        remote_control: 'Remote Control',
+        file_transfer: 'File Transfer',
+        tcp_tunnel: 'TCP Tunnel'
+      }
     },
     mailTemplate: {
       name: 'Name',

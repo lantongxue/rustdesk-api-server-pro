@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
+import { AuditTypeOptions, translateOptions } from '@/constants/business';
 
 defineOptions({
   name: 'AuditSearch'
@@ -32,6 +33,9 @@ async function search() {
       <NCollapseItem :title="$t('common.search')" name="user-search">
         <NForm ref="formRef" :model="model" label-placement="left" :label-width="80">
           <NGrid responsive="screen" item-responsive>
+            <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.audit.type')" path="type">
+              <NSelect v-model:value="model.type" :options="translateOptions(AuditTypeOptions)" clearable />
+            </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.audit.conn_id')" path="conn_id">
               <NInput v-model:value="model.conn_id" />
             </NFormItemGi>

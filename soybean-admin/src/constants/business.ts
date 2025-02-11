@@ -48,6 +48,21 @@ export const UserIsAdminOptions = [
   }
 ];
 
+export const AuditTypeOptions = [
+  {
+    value: 0,
+    label: 'dataMap.audit.typeLabel.remote_control'
+  },
+  {
+    value: 1,
+    label: 'dataMap.audit.typeLabel.file_transfer'
+  },
+  {
+    value: 2,
+    label: 'dataMap.audit.typeLabel.tcp_tunnel'
+  }
+];
+
 export const MailTemplateOptions = [
   {
     value: 1,
