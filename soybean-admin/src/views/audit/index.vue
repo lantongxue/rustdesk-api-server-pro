@@ -26,23 +26,18 @@ const {
     size: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    action: null,
     conn_id: null,
     rustdesk_id: null,
     ip: null,
     session_id: null,
     uuid: null,
-    created_at: null
+    created_at: null,
+    closed_at: null
   },
   columns: () => [
     {
       key: 'id',
       title: 'ID',
-      align: 'center'
-    },
-    {
-      key: 'action',
-      title: $t('dataMap.audit.action'),
       align: 'center'
     },
     {
@@ -73,6 +68,11 @@ const {
     {
       key: 'created_at',
       title: $t('dataMap.audit.created_at'),
+      align: 'center'
+    },
+    {
+      key: 'closed_at',
+      title: $t('dataMap.audit.closed_at'),
       align: 'center'
     }
   ]

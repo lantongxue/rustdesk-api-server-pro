@@ -3,6 +3,7 @@ package api
 import (
 	"io"
 	"rustdesk-api-server-pro/app/model"
+	"time"
 
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
@@ -24,6 +25,8 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 	// {"action":"new","conn_id":762,"id":"182921366","ip":"103.156.242.225","session_id":0,"uuid":"xxx"}
 	// {"action":"close","conn_id":762,"id":"182921366","session_id":17409556129324805845,"uuid":"xxx"}
 	// {"conn_id":762,"id":"182921366","peer":["1139987256","SYSTEM"],"session_id":17409556129324805845,"type":0,"uuid":"xxx"}
+	// 重要字段解析
+	// type：0=控制会话，1=文件传输会话，2=TCP隧道会话
 
 	body, err := io.ReadAll(c.Ctx.Request().Body)
 	if err != nil {
@@ -38,7 +41,7 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 	sessionId := gjson.GetBytes(body, "session_id").String()
 
 	if gjson.GetBytes(body, "note").Exists() { // 只更新备注
-		c.Db.Where("rustdesk_id = ? and session_id = ?", rustdeskId, sessionId).Update(&model.Audit{
+		c.Db.Where("session_id = ?", sessionId).Update(&model.Audit{
 			Note: gjson.GetBytes(body, "note").String(),
 		})
 		return mvc.Response{}
@@ -53,7 +56,6 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 		if action == "new" {
 			ip := gjson.GetBytes(body, "ip").String()
 			c.Db.Insert(&model.Audit{
-				Action:     action,
 				ConnId:     connId,
 				RustdeskId: rustdeskId,
 				IP:         ip,
@@ -62,12 +64,8 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 			})
 		}
 		if action == "close" {
-			c.Db.Insert(&model.Audit{
-				Action:     action,
-				ConnId:     connId,
-				RustdeskId: rustdeskId,
-				SessionId:  sessionId,
-				Uuid:       uuid,
+			c.Db.Where("conn_id = ?", connId).Update(&model.Audit{
+				ClosedAt: time.Now(),
 			})
 		}
 		return mvc.Response{}
@@ -76,17 +74,38 @@ func (c *AuditController) PostAuditConn() mvc.Result {
 	peerResult := gjson.GetBytes(body, "peer")
 	if peerResult.Exists() {
 		t := gjson.GetBytes(body, "type").Int()
-		typ := int(t)
+		_type := int(t)
 		peer := peerResult.String()
-		c.Db.Insert(&model.Audit{
-			ConnId:     connId,
-			RustdeskId: rustdeskId,
-			SessionId:  sessionId,
-			Uuid:       uuid,
-			Type:       typ,
-			Peer:       peer,
+		c.Db.Where("conn_id = ?", connId).Update(&model.Audit{
+			SessionId: sessionId,
+			Type:      _type,
+			Peer:      peer,
 		})
 	}
 
 	return mvc.Response{}
+}
+
+func (c *AuditController) PostAuditFile() mvc.Result {
+	// {"id":"1235182932","info":"{\"files\":[[\"f1\",170398208],[\"f2\",147870720],[\"f3\",104590630]],\"ip\":\"192.168.100.170\",\"name\":\"mrkin\",\"num\":17778}","is_file":false,"path":"/Users/kali/Downloads/.nuget","peer_id":"182921366","type":1,"uuid":"NzIwQTBFMUYtRjg1OS01NjU0LUJCREUtMkNCMEU5MzQ5QzhF"}
+	// {"id":"1235182932","info":"{\"files\":[[\"\",89]],\"ip\":\"192.168.100.170\",\"name\":\"mrkin\",\"num\":1}","is_file":true,"path":"/Users/kali/Downloads/.wslconfig","peer_id":"182921366","type":1,"uuid":"NzIwQTBFMUYtRjg1OS01NjU0LUJCREUtMkNCMEU5MzQ5QzhF"}
+	// {"id":"1235182932","info":"{\"files\":[[\"\",34335]],\"ip\":\"192.168.100.170\",\"name\":\"mrkin\",\"num\":1}","is_file":true,"path":"/Users/kali/Downloads/weixin.jpg","peer_id":"182921366","type":0,"uuid":"NzIwQTBFMUYtRjg1OS01NjU0LUJCREUtMkNCMEU5MzQ5QzhF"}
+	// 这个记录和conn的没关系
+	// 重要字段解析
+	// type：0=从被控端传输到主控端，1=从主控端传输到被控端
+
+	return mvc.Response{
+		Object: iris.Map{
+			"error": "11",
+		},
+	}
+}
+
+func (c *AuditController) PostAuditAlarm() mvc.Result {
+
+	return mvc.Response{
+		Object: iris.Map{
+			"error": "11",
+		},
+	}
 }

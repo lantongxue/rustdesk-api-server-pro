@@ -286,13 +286,13 @@ const local: App.I18n.Schema = {
     },
     audit: {
       username: 'Имя',
-      action: 'Действие',
       conn_id: 'Подключен',
       rustdesk_id: 'Rustdesk ID',
       ip: 'IP',
       session_id: 'ID сессии',
       uuid: 'UUID',
-      created_at: 'Создана'
+      created_at: 'Создана',
+      closed_at: 'Закрыть'
     },
     mailTemplate: {
       name: 'Имя',

@@ -136,6 +136,13 @@ func (c *AddressBookController) PostAb() mvc.Result {
 		}
 	}
 	user := c.GetUser()
+	if user.LicensedDevices > 0 && len(abData.Peers) > user.LicensedDevices {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": "Number of equipment in excess of licenses",
+			},
+		}
+	}
 	_, err = session.Where("user_id = ?", user.Id).Delete(&model.Tags{})
 	if err != nil {
 		_ = session.Rollback()

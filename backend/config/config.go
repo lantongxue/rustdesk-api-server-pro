@@ -9,6 +9,7 @@ import (
 )
 
 type ServerConfig struct {
+	DebugMode  bool        `yaml:"debugMode"`
 	Db         *DbConfig   `yaml:"db"`
 	SignKey    string      `yaml:"signKey"`
 	HttpConfig *HttpConfig `yaml:"httpConfig"`
@@ -52,6 +53,7 @@ var (
 
 func GetDefaultServerConfig() *ServerConfig {
 	return &ServerConfig{
+		DebugMode: false,
 		Db: &DbConfig{
 			Driver:   "sqlite",
 			Dsn:      "./server.db",

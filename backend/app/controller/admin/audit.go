@@ -21,7 +21,6 @@ func (c *AuditController) BeforeActivation(b mvc.BeforeActivation) {
 func (c *AuditController) HandleList() mvc.Result {
 	currentPage := c.Ctx.URLParamIntDefault("current", 1)
 	pageSize := c.Ctx.URLParamIntDefault("size", 10)
-	action := c.Ctx.URLParamDefault("action", "")
 	conn_id := c.Ctx.URLParamDefault("conn_id", "")
 	rustdesk_id := c.Ctx.URLParamDefault("rustdesk_id", "")
 	ip := c.Ctx.URLParamDefault("ip", "")
@@ -29,12 +28,11 @@ func (c *AuditController) HandleList() mvc.Result {
 	uuid := c.Ctx.URLParamDefault("uuid", "")
 	created_at_0 := c.Ctx.URLParamDefault("created_at[0]", "")
 	created_at_1 := c.Ctx.URLParamDefault("created_at[1]", "")
+	closed_at_0 := c.Ctx.URLParamDefault("closed_at[0]", "")
+	closed_at_1 := c.Ctx.URLParamDefault("closed_at[1]", "")
 
 	query := func() *xorm.Session {
 		q := c.Db.Table(&model.Audit{})
-		if action != "" {
-			q.Where("audit.action = ?", action)
-		}
 		if conn_id != "" {
 			q.Where("audit.conn_id = ?", conn_id)
 		}
@@ -53,6 +51,9 @@ func (c *AuditController) HandleList() mvc.Result {
 		if created_at_0 != "" && created_at_1 != "" {
 			q.Where("audit.created_at BETWEEN ? AND ?", created_at_0, created_at_1)
 		}
+		if closed_at_0 != "" && closed_at_1 != "" {
+			q.Where("audit.closed_at BETWEEN ? AND ?", closed_at_0, closed_at_1)
+		}
 		q.Desc("id")
 		return q
 	}
@@ -68,7 +69,6 @@ func (c *AuditController) HandleList() mvc.Result {
 	for _, a := range auditList {
 		list = append(list, iris.Map{
 			"id":          a.Id,
-			"action":      a.Action,
 			"conn_id":     a.ConnId,
 			"rustdesk_id": a.RustdeskId,
 			"ip":          a.IP,

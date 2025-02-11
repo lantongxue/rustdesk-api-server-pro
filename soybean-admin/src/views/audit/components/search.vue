@@ -32,9 +32,6 @@ async function search() {
       <NCollapseItem :title="$t('common.search')" name="user-search">
         <NForm ref="formRef" :model="model" label-placement="left" :label-width="80">
           <NGrid responsive="screen" item-responsive>
-            <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.audit.action')" path="action">
-              <NInput v-model:value="model.action" />
-            </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.audit.conn_id')" path="conn_id">
               <NInput v-model:value="model.conn_id" />
             </NFormItemGi>
@@ -50,9 +47,17 @@ async function search() {
             <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.audit.uuid')" path="uuid">
               <NInput v-model:value="model.uuid" />
             </NFormItemGi>
-            <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.user.created_at')" path="created_at">
+            <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.audit.created_at')" path="created_at">
               <NDatePicker
                 v-model:formatted-value="model.created_at"
+                type="daterange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                clearable
+              />
+            </NFormItemGi>
+            <NFormItemGi span="24 s:12 m:6" :label="$t('dataMap.audit.closed_at')" path="closed_at">
+              <NDatePicker
+                v-model:formatted-value="model.closed_at"
                 type="daterange"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 clearable

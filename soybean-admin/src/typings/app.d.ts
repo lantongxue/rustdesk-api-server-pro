@@ -513,13 +513,13 @@ declare namespace App {
         };
         audit: {
           username: string;
-          action: string;
           conn_id: string;
           rustdesk_id: string;
           ip: string;
           session_id: string;
           uuid: string;
           created_at: string;
+          closed_at: string;
         };
         mailTemplate: {
           name: string;
