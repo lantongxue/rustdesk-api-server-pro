@@ -161,8 +161,9 @@ const local: App.I18n.Schema = {
     user_list: '用户列表',
     user_sessions: '会话管理',
     system: '系统管理',
-    system_mailtemplate: '邮件模板',
-    system_maillogs: '邮件日志'
+    system_mail_template: '邮件模板',
+    system_mail_logs: '邮件日志',
+    system_mail: "邮件管理"
   },
   page: {
     login: {
