@@ -1,0 +1,33 @@
+重新调整代码目录
+
+新增src目录，将backend里面的代码和soybean-admin的代码放一起，
+类似这样
+docker/
+img/
+src/
+    app/
+    cmd/
+    confg/
+    db/
+    ....
+    soybean-admin
+        build/
+        src/
+        package.json
+
+将前端资源打包进二进制文件中
+具体操作
+在soybean-admin中创建一个assets.go文件
+大概代码内容
+package soybeanadmin
+import "embed"
+//go:embed dist/*
+var DistFs embed.FS
+
+然后在app/main.go中引入这个文件变量
+app.HandleDir("/", iris.Dir("dist"))
+改为
+app.HandleDir("/", DistFs)
+
+重新编写Makefile逻辑
+重新编写Dockerfile逻辑

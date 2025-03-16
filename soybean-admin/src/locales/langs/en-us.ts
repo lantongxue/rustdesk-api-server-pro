@@ -161,8 +161,9 @@ const local: App.I18n.Schema = {
     user_list: 'User List',
     user_sessions: 'Sessions',
     system: 'System Management',
-    system_mailtemplate: 'Mail Template',
-    system_maillogs: 'Mail Logs'
+    system_mail_template: 'Mail Template',
+    system_mail_logs: 'Mail Logs',
+    system_mail: "Mail Managment"
   },
   page: {
     login: {

@@ -98,24 +98,34 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
-        name: 'system_maillogs',
-        path: '/system/maillogs',
-        component: 'view.system_maillogs',
+        name: 'system_mail',
+        path: '/system/mail',
         meta: {
-          title: 'system_maillogs',
-          i18nKey: 'route.system_maillogs',
-          icon: 'icon-park-outline:upload-logs'
-        }
-      },
-      {
-        name: 'system_mailtemplate',
-        path: '/system/mailtemplate',
-        component: 'view.system_mailtemplate',
-        meta: {
-          title: 'system_mailtemplate',
-          i18nKey: 'route.system_mailtemplate',
-          icon: 'fluent:mail-template-16-regular'
-        }
+          title: 'system_mail',
+          i18nKey: 'route.system_mail'
+        },
+        children: [
+          {
+            name: 'system_mail_logs',
+            path: '/system/mail/logs',
+            component: 'view.system_mail_logs',
+            meta: {
+              title: 'system_mail_logs',
+              i18nKey: 'route.system_mail_logs',
+              icon: 'icon-park-outline:upload-logs'
+            }
+          },
+          {
+            name: 'system_mail_template',
+            path: '/system/mail/template',
+            component: 'view.system_mail_template',
+            meta: {
+              title: 'system_mail_template',
+              i18nKey: 'route.system_mail_template',
+              icon: 'fluent:mail-template-16-regular'
+            }
+          }
+        ]
       }
     ]
   },

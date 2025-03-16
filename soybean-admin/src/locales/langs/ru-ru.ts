@@ -161,8 +161,9 @@ const local: App.I18n.Schema = {
     user_list: 'Список пользователей',
     user_sessions: 'Сессии',
     system: 'Система',
-    system_mailtemplate: 'Шаблоны почты',
-    system_maillogs: 'Журнал почты'
+    system_mail_template: 'Шаблоны почты',
+    system_mail_logs: 'Журнал почты',
+    system_mail: "Управление почтой"
   },
   page: {
     login: {
