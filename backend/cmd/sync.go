@@ -25,6 +25,7 @@ var dbSyncCmd = &cobra.Command{
 			new(model.Tags),
 			new(model.AuthToken),
 			new(model.Audit),
+			new(model.FileTransfer),
 			new(model.Device),
 			new(model.AddressBook),
 			new(model.AddressBookTag),

@@ -94,6 +94,25 @@ func (c *AuditController) PostAuditFile() mvc.Result {
 	// 重要字段解析
 	// type：0=从被控端传输到主控端，1=从主控端传输到被控端
 
+	body, err := io.ReadAll(c.Ctx.Request().Body)
+	if err != nil {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": err.Error(),
+			},
+		}
+	}
+
+	c.Db.Insert(&model.FileTransfer{
+		RustdeskId: gjson.GetBytes(body, "id").String(),
+		Info:       gjson.GetBytes(body, "info").String(),
+		IsFile:     gjson.GetBytes(body, "is_file").Bool(),
+		Path:       gjson.GetBytes(body, "path").String(),
+		PeerId:     gjson.GetBytes(body, "peer_id").String(),
+		Type:       int(gjson.GetBytes(body, "type").Int()),
+		Uuid:       gjson.GetBytes(body, "type").String(),
+	})
+
 	return mvc.Response{
 		Object: iris.Map{
 			"error": "11",
