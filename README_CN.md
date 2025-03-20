@@ -33,17 +33,27 @@ docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```shell
 cat > /your/path/server.yaml <<EOF
 signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
+debugMode: true # debug mode
 db:
   driver: "sqlite"
   dsn: "./server.db"
   timeZone: "Asia/Shanghai" # setting the time zone fixes the database creation time problem
-  showSql: true
+  showSql: false
 
   # driver: "mysql"
   # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
 httpConfig:
   printRequestLog: true
-  port: ":8080" # api server port
+  port: ":12345" # api server port
+
+smtpConfig:
+  host: "127.0.0.1"
+  port: 1025
+  username: "test"
+  password: "test"
+  encryption: "none" # none ssl/tls starttls
+  from: "test@localhost.com"
+
 jobsConfig:
   deviceCheckJob:
     duration: 30
