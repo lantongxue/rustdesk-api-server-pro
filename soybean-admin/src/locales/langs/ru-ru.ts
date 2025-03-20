@@ -144,7 +144,8 @@ const local: App.I18n.Schema = {
     pageFunTitle: 'Настройка страницы',
     configOperation: {
       copyConfig: 'Копировать',
-      copySuccessMsg: 'Копирование конфигурации успешно, пожалуйста, замените переменную «themeSettings» в «src/theme/settings.ts»',
+      copySuccessMsg:
+        'Копирование конфигурации успешно, пожалуйста, замените переменную «themeSettings» в «src/theme/settings.ts»',
       resetConfig: 'Сбросить',
       resetSuccessMsg: 'Успешный сброс'
     }
@@ -163,7 +164,7 @@ const local: App.I18n.Schema = {
     system: 'Система',
     system_mail_template: 'Шаблоны почты',
     system_mail_logs: 'Журнал почты',
-    system_mail: "Управление почтой"
+    system_mail: 'Управление почтой'
   },
   page: {
     login: {
@@ -211,7 +212,7 @@ const local: App.I18n.Schema = {
         searchPlaceholder: 'Username\\Nickname\\Email',
         tfa_secret_bind: '2FA привязка устройства',
         require2FASecret: '2FA секрет отсутствует',
-        require2FACode: "2FA код не подходит"
+        require2FACode: '2FA код не подходит'
       },
       sessions: {
         kill: 'Завершить',

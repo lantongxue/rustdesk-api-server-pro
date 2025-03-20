@@ -113,11 +113,7 @@ func (c *AuditController) PostAuditFile() mvc.Result {
 		Uuid:       gjson.GetBytes(body, "type").String(),
 	})
 
-	return mvc.Response{
-		Object: iris.Map{
-			"error": "11",
-		},
-	}
+	return mvc.Response{}
 }
 
 func (c *AuditController) PostAuditAlarm() mvc.Result {

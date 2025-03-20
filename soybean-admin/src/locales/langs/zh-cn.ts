@@ -163,7 +163,7 @@ const local: App.I18n.Schema = {
     system: '系统管理',
     system_mail_template: '邮件模板',
     system_mail_logs: '邮件日志',
-    system_mail: "邮件管理"
+    system_mail: '邮件管理'
   },
   page: {
     login: {
