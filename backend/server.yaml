@@ -10,7 +10,7 @@ db:
   # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
 httpConfig:
   printRequestLog: true
-  port: ":8080" # api server port
+  port: ":12345" # api server port
 
 smtpConfig:
   host: "127.0.0.1"

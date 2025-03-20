@@ -164,7 +164,9 @@ const local: App.I18n.Schema = {
     system: 'Система',
     system_mail_template: 'Шаблоны почты',
     system_mail_logs: 'Журнал почты',
-    system_mail: 'Управление почтой'
+    system_mail: 'Управление почтой',
+    audit_baselogs: 'Базовый журнал',
+    audit_filetransferlogs: 'Журнал передачи файлов'
   },
   page: {
     login: {
@@ -300,7 +302,13 @@ const local: App.I18n.Schema = {
         remote_control: 'Удаленное управление',
         file_transfer: 'Передача файлов',
         tcp_tunnel: 'Туннель TCP'
-      }
+      },
+      fileTransferTypeLabel: {
+        master_controlled: 'Главная - > Обвинения',
+        controlled_master: 'Обвинение - > Главный'
+      },
+      peer_id: 'Peer ID',
+      path: 'Путь'
     },
     mailTemplate: {
       name: 'Имя',

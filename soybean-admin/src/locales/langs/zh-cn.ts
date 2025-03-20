@@ -163,7 +163,9 @@ const local: App.I18n.Schema = {
     system: '系统管理',
     system_mail_template: '邮件模板',
     system_mail_logs: '邮件日志',
-    system_mail: '邮件管理'
+    system_mail: '邮件管理',
+    audit_baselogs: '基础日志',
+    audit_filetransferlogs: '文件传输日志'
   },
   page: {
     login: {
@@ -299,7 +301,13 @@ const local: App.I18n.Schema = {
         remote_control: '远程控制',
         file_transfer: '文件传输',
         tcp_tunnel: 'TCP隧道'
-      }
+      },
+      fileTransferTypeLabel: {
+        master_controlled: '主控 -> 被控',
+        controlled_master: '被控 -> 主控'
+      },
+      peer_id: '对端ID',
+      path: '路径'
     },
     mailTemplate: {
       name: '名称',

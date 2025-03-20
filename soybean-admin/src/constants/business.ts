@@ -63,6 +63,17 @@ export const AuditTypeOptions = [
   }
 ];
 
+export const AuditFileTransferTypeOptions = [
+  {
+    value: 0,
+    label: 'dataMap.audit.fileTransferTypeLabel.master_controlled'
+  },
+  {
+    value: 1,
+    label: 'dataMap.audit.fileTransferTypeLabel.controlled_master'
+  }
+];
+
 export const MailTemplateOptions = [
   {
     value: 1,

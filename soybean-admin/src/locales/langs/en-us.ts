@@ -163,7 +163,9 @@ const local: App.I18n.Schema = {
     system: 'System Management',
     system_mail_template: 'Mail Template',
     system_mail_logs: 'Mail Logs',
-    system_mail: 'Mail Managment'
+    system_mail: 'Mail Managment',
+    audit_baselogs: 'Base Logs',
+    audit_filetransferlogs: 'File Transfer Logs'
   },
   page: {
     login: {
@@ -299,7 +301,13 @@ const local: App.I18n.Schema = {
         remote_control: 'Remote Control',
         file_transfer: 'File Transfer',
         tcp_tunnel: 'TCP Tunnel'
-      }
+      },
+      fileTransferTypeLabel: {
+        master_controlled: 'Master -> Controlled',
+        controlled_master: 'Controlled -> Master'
+      },
+      peer_id: 'Peer ID',
+      path: 'Path'
     },
     mailTemplate: {
       name: 'Name',

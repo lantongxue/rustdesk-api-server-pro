@@ -42,13 +42,35 @@ export const generatedRoutes: GeneratedRoute[] = [
   {
     name: 'audit',
     path: '/audit',
-    component: 'layout.base$view.audit',
+    component: 'layout.base',
     meta: {
       title: 'audit',
       icon: 'ph:warning-bold',
       i18nKey: 'route.audit',
       order: 3
-    }
+    },
+    children: [
+      {
+        name: 'audit_baselogs',
+        path: '/audit/baselogs',
+        component: 'view.audit_baselogs',
+        meta: {
+          title: 'audit_baselogs',
+          i18nKey: 'route.audit_baselogs',
+          icon: 'hugeicons:files-01'
+        }
+      },
+      {
+        name: 'audit_filetransferlogs',
+        path: '/audit/filetransferlogs',
+        component: 'view.audit_filetransferlogs',
+        meta: {
+          title: 'audit_filetransferlogs',
+          i18nKey: 'route.audit_filetransferlogs',
+          icon: 'solar:square-transfer-horizontal-linear',
+        }
+      }
+    ]
   },
   {
     name: 'home',

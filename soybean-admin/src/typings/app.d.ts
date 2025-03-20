@@ -526,6 +526,12 @@ declare namespace App {
             file_transfer: string;
             tcp_tunnel: string;
           };
+          fileTransferTypeLabel: {
+            master_controlled: string;
+            controlled_master: string;
+          };
+          peer_id: string;
+          path: string;
         };
         mailTemplate: {
           name: string;

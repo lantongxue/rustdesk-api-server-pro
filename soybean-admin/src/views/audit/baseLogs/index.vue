@@ -6,7 +6,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
 import { AuditTypeOptions } from '@/constants/business';
 import TableHeader from './components/table-header.vue';
-import AuditSearch from './components/search.vue';
+import AuditBaseLogsSearch from './components/search.vue';
 
 const appStore = useAppStore();
 
@@ -108,7 +108,7 @@ const {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <AuditSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <AuditBaseLogsSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
 
     <NCard :title="$t('route.audit')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>

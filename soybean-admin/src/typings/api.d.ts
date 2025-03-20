@@ -135,6 +135,19 @@ declare namespace Api {
       > &
         Api.Common.CommonSearchParams
     >;
+
+    type AuditFileTransferLog = Common.CommonRecord<{
+      rustdesk_id: string;
+      peer_id: string;
+      path: string;
+      uuid: string;
+      type: number;
+    }>;
+    type AuditFileTransferList = Common.PaginatingQueryRecord<AuditFileTransferLog>;
+    type AuditFileTransferLogSearchParams = CommonType.RecordNullable<
+      Pick<Api.Audit.AuditFileTransferLog, 'rustdesk_id' | 'peer_id' | 'uuid' | 'type' | 'created_at'> &
+        Api.Common.CommonSearchParams
+    >;
   }
 
   namespace System {
