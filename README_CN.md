@@ -4,7 +4,7 @@ Rustdesk Api Server Pro
 
 这是一个基于开源RustDesk客户端的开源Api服务器，实现了客户端所有Api接口，并提供一个Web-UI用于管理数据。
 
-![Preview](./img/login.png "Preview")
+![Dashboard](./img/1.jpeg "Dashboard")
 
 > 我们致力于用最简单的代码和结构实现功能！
 
@@ -15,22 +15,16 @@ Rustdesk Api Server Pro
     - 国际化支持
     - 统计面板
     - 用户管理
+    - 两步验证 & 邮件验证码
     - 会话管理
     - 日志审计
-    - hbbr&hbbs管理
 - 轻量化&跨平台
     - 最小sqlite即可
     - 支持主流操作系统和架构
 
-![Dashboard](./img/dashboard.png "Dashboard")
 
-![Users](./img/users.png "Users")
 
-![Sessions](./img/sessions.png "Sessions")
-
-![Audit](./img/audit.png "Audit")
-
-## 使用Docker部署
+## 使用Docker部署（推荐）
 1. 拉取镜像
 ```shell
 docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest

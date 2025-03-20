@@ -5,7 +5,7 @@ Rustdesk Api Server Pro
 
 This is an open source Api server based on the open source [RustDesk](https://github.com/rustdesk/rustdesk) client, the implementation of the client all Api interfaces, and provides a Web-UI for the management of data.
 
-![Preview](./img/login.png)
+![Dashboard](./img/1.jpeg "Dashboard")
 
 > We strive to achieve functionality with the simplest possible code and structure!
 
@@ -16,22 +16,14 @@ This is an open source Api server based on the open source [RustDesk](https://gi
     - Internationalization support
     - Statistics panel
     - User Management
+    - 2FA & Email Verify Code
     - Session Management
     - Log Audit
-    - hbbr&hbbs management
 - Lightweight & Cross Platform
     - Minimal sqlite
     - Support for major operating systems and architectures
 
-![Dashboard](./img/dashboard.png "Dashboard")
-
-![Users](./img/users.png "Users")
-
-![Sessions](./img/sessions.png "Sessions")
-
-![Audit](./img/audit.png "Audit")
-
-## Deploying with Docker
+## Deploying with Docker(recommend)
 1. pull image
 ```shell
 docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest

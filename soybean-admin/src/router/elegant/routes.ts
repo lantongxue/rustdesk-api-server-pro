@@ -67,7 +67,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'audit_filetransferlogs',
           i18nKey: 'route.audit_filetransferlogs',
-          icon: 'solar:square-transfer-horizontal-linear',
+          icon: 'solar:square-transfer-horizontal-linear'
         }
       }
     ]
