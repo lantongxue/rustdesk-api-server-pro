@@ -9,6 +9,13 @@ This is an open source Api server based on the open source [RustDesk](https://gi
 
 > We strive to achieve functionality with the simplest possible code and structure!
 
+## Special Sponsor
+CDN acceleration and security protection for his project are sponsored by Tencent EdgeOne.
+
+<a href="https://edgeone.ai/?from=github" target="_blank">Best Asian CDN, Edge, and Secure Solutions - Tencent EdgeOne</a>
+
+<a href="https://edgeone.ai/?from=github" target="_blank">![edgeone](https://edgeone.ai/media/34fe3a45-492d-4ea4-ae5d-ea1087ca7b4b.png)</a>
+
 ## Features
 - Synchronized RuskDesk version (Currently adapted client: 1.2.7)
 - Pure Go implementation of all interfaces
