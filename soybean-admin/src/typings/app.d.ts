@@ -265,7 +265,7 @@ declare namespace App {
   namespace I18n {
     type RouteKey = import('@elegant-router/types').RouteKey;
 
-    type LangType = 'en-US' | 'zh-CN' | 'ru-RU';
+    type LangType = 'en-US' | 'zh-CN' | 'ru-RU' | 'it-IT';
 
     type LangOption = {
       label: string;
@@ -452,6 +452,9 @@ declare namespace App {
           audit: {
             logsSearchPlaceholder: string;
           };
+          devices: {
+            logsSearchPlaceholder: string;
+          };
         };
         system: {
           mailTemplate: {
@@ -510,6 +513,14 @@ declare namespace App {
         session: {
           expired: string;
           created_at: string;
+        };
+        device: {
+        username: string,
+        hostname: string,
+        version: string,
+        memory: string,
+        os: string,
+        rustdesk_id: string,
         };
         audit: {
           username: string;
