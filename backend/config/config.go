@@ -27,6 +27,7 @@ type DbConfig struct {
 type HttpConfig struct {
 	PrintRequestLog bool   `yaml:"printRequestLog"`
 	Port            string `yaml:"port"`
+	StaticDir       string `yaml:"staticdir"`
 }
 
 type SmtpConfig struct {
@@ -61,7 +62,8 @@ func GetDefaultServerConfig() *ServerConfig {
 			TimeZone: "Asia/Shanghai",
 		},
 		HttpConfig: &HttpConfig{
-			Port: ":8080",
+			Port:      ":8080",
+			StaticDir: "dist",
 		},
 		SignKey: util.RandomString(32),
 		JobsConfig: &JobsConfig{
