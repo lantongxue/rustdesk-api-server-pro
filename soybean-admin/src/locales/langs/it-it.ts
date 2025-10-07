@@ -200,7 +200,6 @@ const local: App.I18n.Schema = {
       oneWeek: 'Una settimana',
       changeLogs: 'Registro modifiche'
     },
-    
     user: {
       list: {
         addUser: 'Aggiungi utente',
