@@ -116,6 +116,27 @@ declare namespace Api {
     >;
   }
 
+  namespace Devices {
+    type Device = Common.CommonRecord<{
+      rustdesk_id: string;
+      hostname: string;
+      username: string;
+      uuid: string;
+      version:string;
+      os:string;
+      memory:string;
+      created_at: string;
+    }>;
+    type DevicesList = Common.PaginatingQueryRecord<Device>;
+    type DeviceSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.Devices.Device,
+        'username' | 'hostname' | 'rustdesk_id'
+      > &
+        Api.Common.CommonSearchParams
+    >;
+  }
+
   namespace Audit {
     type AuditLog = Common.CommonRecord<{
       username: string;

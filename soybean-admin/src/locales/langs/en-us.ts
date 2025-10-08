@@ -165,7 +165,8 @@ const local: App.I18n.Schema = {
     system_mail_logs: 'Mail Logs',
     system_mail: 'Mail Managment',
     audit_baselogs: 'Base Logs',
-    audit_filetransferlogs: 'File Transfer Logs'
+    audit_filetransferlogs: 'File Transfer Logs',
+    devices: 'Devices',
   },
   page: {
     login: {
@@ -286,6 +287,14 @@ const local: App.I18n.Schema = {
     session: {
       expired: 'Expired At',
       created_at: 'Created At'
+    },
+    device: {
+        username: 'Username',
+        hostname: 'Computer Name',
+        version: 'Rustdesk Version',
+        memory: 'Memory',
+        os: 'OS',
+        rustdesk_id: 'Rustdesk ID',
     },
     audit: {
       username: 'Username',
