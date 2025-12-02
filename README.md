@@ -1,3 +1,6 @@
+## This project will be rewrite
+See https://github.com/lantongxue/rustdesk-api-server-pro/issues/30
+
 Rustdesk Api Server Pro
 ============
 
