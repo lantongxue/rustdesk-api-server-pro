@@ -35,15 +35,13 @@ CDN acceleration and security protection for his project are sponsored by Tencen
 ## Deploying with Docker(recommend)
 
 1. pull image
-   
-   ```shell
-   docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
-   ```
+ ```shell
+ docker pull ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+ ```
 
 2. create config
-   
-   ```shell
-   cat > /your/path/server.yaml <<EOF
+```shell
+cat > /your/path/server.yaml <<EOF
 signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
 debugMode: true # debug mode
 db:
@@ -88,9 +86,9 @@ docker run \
 
 4. add your admin account(This step can be ignored if an environment variable is set to initialize the administrator account password, but I still recommend that you create the administrator account this way instead of initializing it with an environment variable)
    
-   ```shell
-   docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
-   ```
+```shell
+docker exec rustdesk-api-server-pro rustdesk-api-server-pro user add admin yourpassword --admin
+```
 
 > The container image listens on port `8080` by default.
 
@@ -145,9 +143,9 @@ cd backend && go build
 
 3. Build the frontend
    
-   ```shell
-   cd soybean-admin && pnpm i && pnpm build
-   ```
+```shell
+cd soybean-admin && pnpm i && pnpm build
+```
 
 ### Run
 
@@ -157,25 +155,25 @@ Assuming the compiled binary file is called `rustdesk-api-server-pro.exe`.
 
 1. Synchronize the database table structure
    
-   ```shell
-   rustdesk-api-server-pro.exe sync
-   ```
+```shell
+rustdesk-api-server-pro.exe sync
+```
 
 2. Add your first user
    
-   ```shell
-   rustdesk-api-server-pro.exe user add admin yourpassword --admin
-   ```
-   
-   > --admin is optional, when enabled the added user is an administrator user, otherwise it is a regular user
+```shell
+rustdesk-api-server-pro.exe user add admin yourpassword --admin
+```
+
+> --admin is optional, when enabled the added user is an administrator user, otherwise it is a regular user
 
 3. Start the server
    
-   ```shell
-   rustdesk-api-server-pro.exe start
-   ```
-   
-   > Listening on port `8080` by default
+```shell
+rustdesk-api-server-pro.exe start
+```
+
+> Listening on port `8080` by default
 
 #### Web Management Interface
 
