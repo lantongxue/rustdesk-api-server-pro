@@ -44,21 +44,19 @@ CDN acceleration and security protection for his project are sponsored by Tencen
    
    ```shell
    cat > /your/path/server.yaml <<EOF
-   signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
-   debugMode: true # debug mode
-   db:
-   driver: "sqlite"
-   dsn: "./server.db"
-   timeZone: "Asia/Shanghai" # setting the time zone fixes the database creation time problem
-   showSql: false
-   
-   # driver: "mysql"
-   # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
-   httpConfig:
-   printRequestLog: true
-   staticdir: "../dist"
-   port: ":12345" # api server port
-   ```
+signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
+debugMode: true # debug mode
+db:
+  driver: "sqlite"
+  dsn: "./server.db"
+  timeZone: "Asia/Shanghai" # setting the time zone fixes the database creation time problem
+  showSql: false
+  # driver: "mysql"
+  # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
+httpConfig:
+  printRequestLog: true
+  staticdir: "../dist"
+  port: ":12345" # api server port
 
 smtpConfig:
   host: "127.0.0.1"
@@ -70,21 +68,22 @@ smtpConfig:
 
 jobsConfig:
   deviceCheckJob:
-    duration: 30
+  duration: 30
 EOF
 
 ```
+
 3. run image
 ```shell
 docker run \
---name rustdesk-api-server-pro \
--d \
--e ADMIN_USER=admin \ #Administrator account (optional)
--e ADMIN_PASS=yourpassword \ #Administrator password (optional)
--e TZ=Asia/Shanghai \ #must match the 'timeZone' setting in server.yaml
--p 8080:8080 \
--v /your/path:/app/data \
-ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+  --name rustdesk-api-server-pro \
+  -d \
+  -e ADMIN_USER=admin \ #Administrator account (optional)
+  -e ADMIN_PASS=yourpassword \ #Administrator password (optional)
+  -e TZ=Asia/Shanghai \ #must match the 'timeZone' setting in server.yaml
+  -p 8080:8080 \
+  -v /your/path:/app/data \
+  ghcr.io/lantongxue/rustdesk-api-server-pro:latest
 ```
 
 4. add your admin account(This step can be ignored if an environment variable is set to initialize the administrator account password, but I still recommend that you create the administrator account this way instead of initializing it with an environment variable)
