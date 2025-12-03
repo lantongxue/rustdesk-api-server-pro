@@ -56,7 +56,7 @@ db:
   # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
 httpConfig:
   printRequestLog: true
-  staticdir: "../dist"
+  staticdir: "/app/dist"
   port: ":12345" # api server port
 
 smtpConfig:
