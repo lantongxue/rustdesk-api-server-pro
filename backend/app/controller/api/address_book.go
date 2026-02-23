@@ -63,6 +63,7 @@ func (c *AddressBookController) GetAb() mvc.Result {
 			"platform": peer.Platform,
 			"alias":    peer.Alias,
 			"tags":     peerTags,
+			"note":     peer.Note,
 		})
 	}
 
@@ -199,6 +200,7 @@ func (c *AddressBookController) PostAb() mvc.Result {
 			Platform:   peer.Platform,
 			Alias:      peer.Alias,
 			Tags:       peerTags,
+			Note:       peer.Note,
 		})
 	}
 	if len(peers) > 0 {

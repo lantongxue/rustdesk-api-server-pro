@@ -19,6 +19,7 @@ type AbPeer struct {
 	Platform         string   `json:"platform"`
 	Alias            string   `json:"alias"`
 	Tags             []string `json:"tags"`
+	Note             string   `json:"note"`
 	ForceAlwaysRelay string   `json:"forceAlwaysRelay"`
 	RdpPort          string   `json:"rdpPort"`
 	RdpUsername      string   `json:"rdpUsername"`

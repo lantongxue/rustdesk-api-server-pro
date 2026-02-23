@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/tidwall/gjson"
 	"io"
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
@@ -10,6 +9,7 @@ import (
 
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
+	"github.com/tidwall/gjson"
 	"xorm.io/xorm"
 )
 
@@ -76,6 +76,7 @@ func (c *AddressBookPeerController) PostAbPeers() mvc.Result {
 			"platform":         peer.Platform,
 			"alias":            peer.Alias,
 			"tags":             peerTags,
+			"note":             peer.Note,
 			"forceAlwaysRelay": forceAlwaysRelay,
 			"rdpPort":          peer.RdpPort,
 			"rdpUsername":      peer.RdpUsername,
@@ -164,6 +165,7 @@ func (c *AddressBookPeerController) HandleAbPeerAdd() mvc.Result {
 		Platform:         form.Platform,
 		Alias:            form.Alias,
 		Tags:             peerTags,
+		Note:             form.Note,
 		ForceAlwaysRelay: forceAlwaysRelay,
 		RdpPort:          form.RdpPort,
 		RdpUsername:      form.RdpUsername,
@@ -226,6 +228,8 @@ func (c *AddressBookPeerController) HandleAbPeerUpdate() mvc.Result {
 	}
 
 	// 下面的更新逻辑有点复杂，每次请求只会带上要更新的字段，要考虑和其他字段更新的兼容性
+	updateCols := make([]string, 0, 8)
+
 	tagsResult := gjson.GetBytes(body, "tags")
 	if tagsResult.Exists() {
 		peerTags := tagsResult.String()
@@ -233,24 +237,58 @@ func (c *AddressBookPeerController) HandleAbPeerUpdate() mvc.Result {
 			peerTags = "[]"
 		}
 		peer.Tags = peerTags
+		updateCols = append(updateCols, "tags")
 	}
 
 	aliasResult := gjson.GetBytes(body, "alias")
 	if aliasResult.Exists() {
 		peer.Alias = aliasResult.String()
+		updateCols = append(updateCols, "alias")
 	}
 
 	hashResult := gjson.GetBytes(body, "hash")
 	if hashResult.Exists() {
 		peer.Hash = hashResult.String()
+		updateCols = append(updateCols, "hash")
 	}
 
 	passwordResult := gjson.GetBytes(body, "password")
 	if passwordResult.Exists() {
 		peer.Password = passwordResult.String()
+		updateCols = append(updateCols, "password")
 	}
 
-	_, err = c.Db.Where("id = ?", peer.Id).Cols("tags", "alias", "hash", "password").Update(&peer)
+	noteResult := gjson.GetBytes(body, "note")
+	if noteResult.Exists() {
+		peer.Note = noteResult.String()
+		updateCols = append(updateCols, "note")
+	}
+
+	usernameResult := gjson.GetBytes(body, "username")
+	if usernameResult.Exists() {
+		peer.Username = usernameResult.String()
+		updateCols = append(updateCols, "username")
+	}
+
+	hostnameResult := gjson.GetBytes(body, "hostname")
+	if hostnameResult.Exists() {
+		peer.Hostname = hostnameResult.String()
+		updateCols = append(updateCols, "hostname")
+	}
+
+	platformResult := gjson.GetBytes(body, "platform")
+	if platformResult.Exists() {
+		peer.Platform = platformResult.String()
+		updateCols = append(updateCols, "platform")
+	}
+
+	if len(updateCols) == 0 {
+		return mvc.Response{
+			Text: "",
+		}
+	}
+
+	_, err = c.Db.Where("id = ?", peer.Id).Cols(updateCols...).Update(&peer)
 	if err != nil {
 		return mvc.Response{
 			Object: iris.Map{

@@ -47,6 +47,7 @@ func (c *PeerController) GetPeers() mvc.Result {
 			"status":    status,
 			"user":      user.Username,
 			"user_name": p.LoginName,
+			"note":      p.Note,
 		})
 	}
 	return mvc.Response{

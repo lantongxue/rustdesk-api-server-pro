@@ -14,6 +14,7 @@ type Peer struct {
 	Platform         string    `xorm:"'platform' varchar(255)"`
 	Alias            string    `xorm:"'alias' varchar(255)"`
 	Tags             string    `xorm:"'tags' text"`
+	Note             string    `xorm:"'note' varchar(1024)"`
 	ForceAlwaysRelay bool      `xorm:"'forceAlwaysRelay' tinyint"`
 	RdpPort          string    `xorm:"'rdpPort' varchar(5)"`
 	RdpUsername      string    `xorm:"'rdpUsername' varchar(100)"`
