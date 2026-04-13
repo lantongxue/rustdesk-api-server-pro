@@ -3,6 +3,8 @@ package api
 import (
 	"rustdesk-api-server-pro/app/form/api"
 	"rustdesk-api-server-pro/app/model"
+	versionhelper "rustdesk-api-server-pro/helper/version"
+	"strconv"
 	"time"
 
 	"github.com/kataras/iris/v12"
@@ -13,6 +15,23 @@ type SystemController struct {
 	basicController
 }
 
+func ResolveHeartbeatRustdeskID(id, uuid string) string {
+	if id != "" {
+		return id
+	}
+	return uuid
+}
+
+func NormalizeReportedVersion(version string, ver int64) string {
+	if version != "" {
+		return version
+	}
+	if ver > 0 {
+		return strconv.FormatInt(ver, 10)
+	}
+	return ""
+}
+
 func (c *SystemController) PostHeartbeat() mvc.Result {
 	// {"conns":[762],"id":"182921366","modified_at":1725698100,"uuid":"xxx","ver":1002070}
 	var form api.HeartbeatForm
@@ -21,6 +40,14 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 		return mvc.Response{
 			Object: iris.Map{
 				"error": err.Error(),
+			},
+		}
+	}
+	form.RustdeskId = ResolveHeartbeatRustdeskID(form.RustdeskId, form.Uuid)
+	if form.RustdeskId == "" {
+		return mvc.Response{
+			Object: iris.Map{
+				"error": "missing id",
 			},
 		}
 	}
@@ -65,8 +92,8 @@ func (c *SystemController) PostHeartbeat() mvc.Result {
 	return mvc.Response{
 		Object: iris.Map{
 			"modified_at": time.Now().Unix(),
+			"strategy":    versionhelper.ResolveCapability(NormalizeReportedVersion(form.Version, form.Ver)),
 			//"disconnect":  0,
-			//"strategy":    iris.Map{},
 		},
 	}
 }
@@ -79,6 +106,12 @@ func (c *SystemController) PostSysinfo() mvc.Result {
 			Object: iris.Map{
 				"error": err.Error(),
 			},
+		}
+	}
+	form.RustdeskId = ResolveHeartbeatRustdeskID(form.RustdeskId, form.Uuid)
+	if form.RustdeskId == "" {
+		return mvc.Response{
+			Text: "ID_NOT_FOUND",
 		}
 	}
 
@@ -105,7 +138,7 @@ func (c *SystemController) PostSysinfo() mvc.Result {
 	device.Os = form.Os
 	device.Username = form.Username
 	device.Uuid = form.Uuid
-	device.Version = form.Version
+	device.Version = NormalizeReportedVersion(form.Version, form.Ver)
 
 	c.Db.Where("id = ?", device.Id).Update(&device)
 

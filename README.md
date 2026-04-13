@@ -22,7 +22,7 @@ CDN acceleration and security protection for his project are sponsored by Tencen
 
 ## Features
 
-- Synchronized RuskDesk version (Currently adapted client: 1.2.7)
+- Synchronized RuskDesk version (Currently adapted client: 1.4.6)
 - Pure Go implementation of all interfaces
 - Visual management interface
   - Internationalization support
@@ -34,6 +34,18 @@ CDN acceleration and security protection for his project are sponsored by Tencen
 - Lightweight & Cross Platform
   - Minimal sqlite
   - Support for major operating systems and architectures
+
+## Compatibility Statement (RustDesk 1.4.6)
+
+- Target client baseline: `1.4.6`
+- Covered in this adaptation:
+  - Heartbeat/sysinfo payload compatibility
+  - Version capability gate (`translate_mode` enabled at `>=1.4.6`)
+  - Auth payload compatibility (strict required fields, tolerant unknown fields)
+  - `rustdesk install --version` supports both `1.4.6` and `Branch_1.4.6`
+- Verification commands:
+  - `cd backend && go test ./...`
+  - `cd soybean-admin && pnpm typecheck && pnpm lint && pnpm build`
 
 ## Deploying with Docker(recommend)
 

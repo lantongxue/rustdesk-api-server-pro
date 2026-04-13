@@ -1,5 +1,10 @@
 on:
   workflow_dispatch:
+    inputs:
+      run_smoke_e2e:
+        description: "Run RustDesk 1.4.6 smoke tests"
+        required: false
+        default: "false"
   push:
     tags:
       - "v*.*.*"
@@ -8,6 +13,21 @@ permissions:
   contents: write
   
 jobs:
+  smoke-e2e:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_smoke_e2e == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup go env
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.23.1'
+      - name: run 1.4.6 smoke test
+        run: |
+          cd backend
+          go test ./test/e2e -run TestE2E_Smoke_146_ClientHandshake -v
+
   build:
     runs-on: ubuntu-latest
     strategy:

@@ -515,12 +515,12 @@ declare namespace App {
           created_at: string;
         };
         device: {
-        username: string,
-        hostname: string,
-        version: string,
-        memory: string,
-        os: string,
-        rustdesk_id: string,
+          username: string;
+          hostname: string;
+          version: string;
+          memory: string;
+          os: string;
+          rustdesk_id: string;
         };
         audit: {
           username: string;

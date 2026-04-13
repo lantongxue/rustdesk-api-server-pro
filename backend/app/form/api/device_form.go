@@ -9,4 +9,5 @@ type DeviceForm struct {
 	Username   string `json:"username"`
 	Uuid       string `json:"uuid"`
 	Version    string `json:"version"`
+	Ver        int64  `json:"ver"`
 }

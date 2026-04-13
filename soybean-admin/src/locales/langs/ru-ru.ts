@@ -166,7 +166,8 @@ const local: App.I18n.Schema = {
     system_mail_logs: 'Журнал почты',
     system_mail: 'Управление почтой',
     audit_baselogs: 'Базовый журнал',
-    audit_filetransferlogs: 'Журнал передачи файлов'
+    audit_filetransferlogs: 'Журнал передачи файлов',
+    devices: 'Устройства'
   },
   page: {
     login: {
@@ -222,6 +223,9 @@ const local: App.I18n.Schema = {
       },
       audit: {
         logsSearchPlaceholder: 'Username\\Action\\RustdeskID\\IP'
+      },
+      devices: {
+        logsSearchPlaceholder: 'Имя компьютера\\Имя пользователя\\RustdeskID'
       }
     },
     system: {
@@ -287,6 +291,14 @@ const local: App.I18n.Schema = {
     session: {
       expired: 'Истекает',
       created_at: 'Создана'
+    },
+    device: {
+      username: 'Имя пользователя',
+      hostname: 'Имя компьютера',
+      version: 'Версия RustDesk',
+      memory: 'Память',
+      os: 'ОС',
+      rustdesk_id: 'Rustdesk ID'
     },
     audit: {
       username: 'Имя',

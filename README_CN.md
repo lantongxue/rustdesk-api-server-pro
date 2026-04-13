@@ -9,7 +9,7 @@ Rustdesk Api Server Pro
 > 我们致力于用最简单的代码和结构实现功能！
 
 ## 特性
-- 同步RuskDesk版本（当前适配客户端：1.2.7）
+- 同步RuskDesk版本（当前适配客户端：1.4.6）
 - 纯Go实现所有接口
 - 可视化管理界面
     - 国际化支持
@@ -23,6 +23,17 @@ Rustdesk Api Server Pro
     - 支持主流操作系统和架构
 
 
+
+## 兼容性声明（RustDesk 1.4.6）
+- 当前目标客户端基线：`1.4.6`
+- 本轮已覆盖：
+    - heartbeat/sysinfo 上报兼容
+    - 版本能力门槛（`>=1.4.6` 启用 `translate_mode`）
+    - 鉴权载荷兼容（必填严格校验，未知字段容忍）
+    - `rustdesk install --version` 同时支持 `1.4.6` 与 `Branch_1.4.6`
+- 验证命令：
+    - `cd backend && go test ./...`
+    - `cd soybean-admin && pnpm typecheck && pnpm lint && pnpm build`
 
 ## 使用Docker部署（推荐）
 1. 拉取镜像

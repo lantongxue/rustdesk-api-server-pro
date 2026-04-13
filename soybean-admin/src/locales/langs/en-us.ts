@@ -166,7 +166,7 @@ const local: App.I18n.Schema = {
     system_mail: 'Mail Managment',
     audit_baselogs: 'Base Logs',
     audit_filetransferlogs: 'File Transfer Logs',
-    devices: 'Devices',
+    devices: 'Devices'
   },
   page: {
     login: {
@@ -222,6 +222,9 @@ const local: App.I18n.Schema = {
       },
       audit: {
         logsSearchPlaceholder: 'Username\\Action\\RustdeskID\\IP'
+      },
+      devices: {
+        logsSearchPlaceholder: 'Computer Name\\Username\\RustdeskID'
       }
     },
     system: {
@@ -289,12 +292,12 @@ const local: App.I18n.Schema = {
       created_at: 'Created At'
     },
     device: {
-        username: 'Username',
-        hostname: 'Computer Name',
-        version: 'Rustdesk Version',
-        memory: 'Memory',
-        os: 'OS',
-        rustdesk_id: 'Rustdesk ID',
+      username: 'Username',
+      hostname: 'Computer Name',
+      version: 'Rustdesk Version',
+      memory: 'Memory',
+      os: 'OS',
+      rustdesk_id: 'Rustdesk ID'
     },
     audit: {
       username: 'Username',
