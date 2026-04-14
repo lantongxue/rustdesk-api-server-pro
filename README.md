@@ -47,6 +47,42 @@ CDN acceleration and security protection for his project are sponsored by Tencen
   - `cd backend && go test ./...`
   - `cd soybean-admin && pnpm typecheck && pnpm lint && pnpm build`
 
+## Playwright E2E (Full-stack)
+
+- Covered cases: `login`, `devices`, `users`, `audit`
+- E2E test files are under `soybean-admin/tests/e2e`
+
+### Prerequisites
+
+1. Start backend API and create admin user:
+
+```shell
+cd backend
+go run . sync
+go run . user add admin admin123456 --admin
+E2E_SKIP_CAPTCHA=true go run . start
+```
+
+2. Install frontend dependencies and Playwright browser:
+
+```shell
+cd soybean-admin
+pnpm i
+npx playwright install chromium
+```
+
+### Run tests
+
+```shell
+cd soybean-admin
+E2E_ADMIN_USER=admin E2E_ADMIN_PASS=admin123456 pnpm test:e2e
+```
+
+### CI
+
+- `build-release.yml` supports optional full-stack Playwright E2E.
+- Trigger `workflow_dispatch` with `run_playwright_e2e=true`.
+
 ## Deploying with Docker(recommend)
 
 1. pull image

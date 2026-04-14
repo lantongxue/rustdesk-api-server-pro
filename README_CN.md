@@ -35,6 +35,42 @@ Rustdesk Api Server Pro
     - `cd backend && go test ./...`
     - `cd soybean-admin && pnpm typecheck && pnpm lint && pnpm build`
 
+## Playwright E2E（全栈联调）
+
+- 覆盖场景：`login`、`devices`、`users`、`audit`
+- 用例目录：`soybean-admin/tests/e2e`
+
+### 前置条件
+
+1. 启动后端并创建管理员账号：
+
+```shell
+cd backend
+go run . sync
+go run . user add admin admin123456 --admin
+E2E_SKIP_CAPTCHA=true go run . start
+```
+
+2. 安装前端依赖与 Playwright 浏览器：
+
+```shell
+cd soybean-admin
+pnpm i
+npx playwright install chromium
+```
+
+### 执行测试
+
+```shell
+cd soybean-admin
+E2E_ADMIN_USER=admin E2E_ADMIN_PASS=admin123456 pnpm test:e2e
+```
+
+### CI
+
+- `build-release.yml` 已支持可选 Playwright 全栈 E2E 任务。
+- 通过 `workflow_dispatch` 触发时设置 `run_playwright_e2e=true`。
+
 ## 使用Docker部署（推荐）
 1. 拉取镜像
 ```shell

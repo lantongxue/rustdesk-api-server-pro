@@ -5,6 +5,10 @@ on:
         description: "Run RustDesk 1.4.6 smoke tests"
         required: false
         default: "false"
+      run_playwright_e2e:
+        description: "Run full-stack Playwright E2E tests"
+        required: false
+        default: "false"
   push:
     tags:
       - "v*.*.*"
@@ -27,6 +31,66 @@ jobs:
         run: |
           cd backend
           go test ./test/e2e -run TestE2E_Smoke_146_ClientHandshake -v
+
+  playwright-e2e:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_playwright_e2e == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      E2E_ADMIN_USER: admin
+      E2E_ADMIN_PASS: admin123456
+      E2E_BACKEND_URL: http://127.0.0.1:12345
+      E2E_BASE_URL: http://127.0.0.1:9527
+      E2E_SKIP_CAPTCHA: true
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup go env
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.23.1'
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: install pnpm and dependencies
+        run: |
+          npm install -g pnpm
+          cd soybean-admin
+          pnpm i
+          npx playwright install --with-deps chromium
+
+      - name: prepare backend and admin user
+        run: |
+          cd backend
+          go run . sync
+          go run . user add "${E2E_ADMIN_USER}" "${E2E_ADMIN_PASS}" --admin || true
+
+      - name: start backend
+        run: |
+          cd backend
+          E2E_SKIP_CAPTCHA=true nohup go run . start > ../backend-e2e.log 2>&1 &
+
+      - name: run playwright e2e
+        run: |
+          cd soybean-admin
+          pnpm test:e2e
+
+      - name: upload playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: soybean-admin/playwright-report
+
+      - name: upload playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: soybean-admin/test-results
 
   build:
     runs-on: ubuntu-latest
