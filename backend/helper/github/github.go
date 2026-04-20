@@ -7,6 +7,10 @@ import (
 	"rustdesk-api-server-pro/util"
 )
 
+func ReleaseTagURL(repo, tag string) string {
+	return fmt.Sprintf("https://api.github.com/repos/%s/releases/tags/%s", repo, tag)
+}
+
 type Release struct {
 	ID              int     `json:"id"`
 	NodeID          string  `json:"node_id"`
@@ -66,7 +70,7 @@ func GetLatestRelease(repo string) *Release {
 }
 
 func GetReleaseByTag(repo, tag string) *Release {
-	repo = fmt.Sprintf("https://api.github.com/repos/%s/releases/tags/%s", repo, tag)
+	repo = ReleaseTagURL(repo, tag)
 	resp, err := util.HttpGetString(repo)
 	if err != nil {
 		fmt.Println("GetReleaseByTag:: Request error:", err)

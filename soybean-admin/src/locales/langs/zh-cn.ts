@@ -165,7 +165,8 @@ const local: App.I18n.Schema = {
     system_mail_logs: '邮件日志',
     system_mail: '邮件管理',
     audit_baselogs: '基础日志',
-    audit_filetransferlogs: '文件传输日志'
+    audit_filetransferlogs: '文件传输日志',
+    devices: '设备管理'
   },
   page: {
     login: {
@@ -221,6 +222,9 @@ const local: App.I18n.Schema = {
       },
       audit: {
         logsSearchPlaceholder: '用户名、行为、RustdeskID、IP'
+      },
+      devices: {
+        logsSearchPlaceholder: '主机名、用户名、RustdeskID'
       }
     },
     system: {
@@ -286,6 +290,14 @@ const local: App.I18n.Schema = {
     session: {
       expired: '过期时间',
       created_at: '创建时间'
+    },
+    device: {
+      username: '用户名',
+      hostname: '主机名',
+      version: 'RustDesk版本',
+      memory: '内存',
+      os: '系统',
+      rustdesk_id: 'RustdeskID'
     },
     audit: {
       username: '用户名',

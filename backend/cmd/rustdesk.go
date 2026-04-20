@@ -31,7 +31,7 @@ var rustdeskInstallCmd = &cobra.Command{
 
 		repo := "rustdesk/rustdesk-server"
 		release := &github.Release{}
-		rustdeskServerVersion := cmd.Flag("version").Value.String()
+		rustdeskServerVersion := NormalizeRustdeskServerVersion(cmd.Flag("version").Value.String())
 		if rustdeskServerVersion == "latest" {
 			release = github.GetLatestRelease(repo)
 		} else {
@@ -75,7 +75,7 @@ var rustdeskInstallCmd = &cobra.Command{
 			util.SetHttpProxy(proxyServer)
 			err := util.DownloadFile(matchedAsset.BrowserDownloadURL, matchedAsset.Name, true)
 			if err != nil {
-				fmt.Println("rustdesk-server download error: ", err)
+				fmt.Println("rustdesk-server download error: ", err, "tag:", rustdeskServerVersion, "url:", matchedAsset.BrowserDownloadURL)
 				os.Exit(0)
 			}
 		}

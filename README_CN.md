@@ -9,7 +9,7 @@ Rustdesk Api Server Pro
 > 我们致力于用最简单的代码和结构实现功能！
 
 ## 特性
-- 同步RuskDesk版本（当前适配客户端：1.2.7）
+- 同步RuskDesk版本（当前适配客户端：1.4.6）
 - 纯Go实现所有接口
 - 可视化管理界面
     - 国际化支持
@@ -23,6 +23,53 @@ Rustdesk Api Server Pro
     - 支持主流操作系统和架构
 
 
+
+## 兼容性声明（RustDesk 1.4.6）
+- 当前目标客户端基线：`1.4.6`
+- 本轮已覆盖：
+    - heartbeat/sysinfo 上报兼容
+    - 版本能力门槛（`>=1.4.6` 启用 `translate_mode`）
+    - 鉴权载荷兼容（必填严格校验，未知字段容忍）
+    - `rustdesk install --version` 同时支持 `1.4.6` 与 `Branch_1.4.6`
+- 验证命令：
+    - `cd backend && go test ./...`
+    - `cd soybean-admin && pnpm typecheck && pnpm lint && pnpm build`
+
+## Playwright E2E（全栈联调）
+
+- 覆盖场景：`login`、`devices`、`users`、`audit`
+- 用例目录：`soybean-admin/tests/e2e`
+
+### 前置条件
+
+1. 启动后端并创建管理员账号：
+
+```shell
+cd backend
+go run . sync
+go run . user add admin admin123456 --admin
+E2E_SKIP_CAPTCHA=true go run . start
+```
+
+2. 安装前端依赖与 Playwright 浏览器：
+
+```shell
+cd soybean-admin
+pnpm i
+npx playwright install chromium
+```
+
+### 执行测试
+
+```shell
+cd soybean-admin
+E2E_ADMIN_USER=admin E2E_ADMIN_PASS=admin123456 pnpm test:e2e
+```
+
+### CI
+
+- `build-release.yml` 已支持可选 Playwright 全栈 E2E 任务。
+- 通过 `workflow_dispatch` 触发时设置 `run_playwright_e2e=true`。
 
 ## 使用Docker部署（推荐）
 1. 拉取镜像

@@ -22,7 +22,7 @@ CDN acceleration and security protection for his project are sponsored by Tencen
 
 ## Features
 
-- Synchronized RuskDesk version (Currently adapted client: 1.2.7)
+- Synchronized RuskDesk version (Currently adapted client: 1.4.6)
 - Pure Go implementation of all interfaces
 - Visual management interface
   - Internationalization support
@@ -34,6 +34,54 @@ CDN acceleration and security protection for his project are sponsored by Tencen
 - Lightweight & Cross Platform
   - Minimal sqlite
   - Support for major operating systems and architectures
+
+## Compatibility Statement (RustDesk 1.4.6)
+
+- Target client baseline: `1.4.6`
+- Covered in this adaptation:
+  - Heartbeat/sysinfo payload compatibility
+  - Version capability gate (`translate_mode` enabled at `>=1.4.6`)
+  - Auth payload compatibility (strict required fields, tolerant unknown fields)
+  - `rustdesk install --version` supports both `1.4.6` and `Branch_1.4.6`
+- Verification commands:
+  - `cd backend && go test ./...`
+  - `cd soybean-admin && pnpm typecheck && pnpm lint && pnpm build`
+
+## Playwright E2E (Full-stack)
+
+- Covered cases: `login`, `devices`, `users`, `audit`
+- E2E test files are under `soybean-admin/tests/e2e`
+
+### Prerequisites
+
+1. Start backend API and create admin user:
+
+```shell
+cd backend
+go run . sync
+go run . user add admin admin123456 --admin
+E2E_SKIP_CAPTCHA=true go run . start
+```
+
+2. Install frontend dependencies and Playwright browser:
+
+```shell
+cd soybean-admin
+pnpm i
+npx playwright install chromium
+```
+
+### Run tests
+
+```shell
+cd soybean-admin
+E2E_ADMIN_USER=admin E2E_ADMIN_PASS=admin123456 pnpm test:e2e
+```
+
+### CI
+
+- `build-release.yml` supports optional full-stack Playwright E2E.
+- Trigger `workflow_dispatch` with `run_playwright_e2e=true`.
 
 ## Deploying with Docker(recommend)
 

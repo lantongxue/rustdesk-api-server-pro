@@ -122,18 +122,14 @@ declare namespace Api {
       hostname: string;
       username: string;
       uuid: string;
-      version:string;
-      os:string;
-      memory:string;
+      version: string;
+      os: string;
+      memory: string;
       created_at: string;
     }>;
     type DevicesList = Common.PaginatingQueryRecord<Device>;
     type DeviceSearchParams = CommonType.RecordNullable<
-      Pick<
-        Api.Devices.Device,
-        'username' | 'hostname' | 'rustdesk_id'
-      > &
-        Api.Common.CommonSearchParams
+      Pick<Api.Devices.Device, 'username' | 'hostname' | 'rustdesk_id'> & Api.Common.CommonSearchParams
     >;
   }
 

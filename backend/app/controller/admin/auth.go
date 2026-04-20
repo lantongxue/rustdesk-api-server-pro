@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"os"
 	"rustdesk-api-server-pro/app/form/admin"
 	"rustdesk-api-server-pro/app/model"
 	"rustdesk-api-server-pro/config"
@@ -25,7 +26,7 @@ func (c *AuthController) PostAuthLogin() mvc.Result {
 		return c.Error(nil, err.Error())
 	}
 
-	if !captcha.VerifyCode(loginForm.CaptchaId, loginForm.Code) {
+	if os.Getenv("E2E_SKIP_CAPTCHA") != "true" && !captcha.VerifyCode(loginForm.CaptchaId, loginForm.Code) {
 		return c.Error(nil, "CaptchaError")
 	}
 

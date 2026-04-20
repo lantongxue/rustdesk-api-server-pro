@@ -1,20 +1,12 @@
 <script setup lang="tsx">
-import { NTag } from 'naive-ui';
 import { fetchDevicesList } from '@/service/api/devices';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable } from '@/hooks/common/table';
-import { AuditTypeOptions } from '@/constants/business';
 import TableHeader from './components/table-header.vue';
 import AuditBaseLogsSearch from './components/search.vue';
 
 const appStore = useAppStore();
-
-const auditTypes: any = {
-  '0': '',
-  '1': 'error',
-  '2': 'success'
-};
 
 const {
   columns,
@@ -47,7 +39,7 @@ const {
     {
       key: 'rustdesk_id',
       title: $t('dataMap.device.rustdesk_id'),
-      align: 'center',
+      align: 'center'
     },
     {
       key: 'hostname',
@@ -70,7 +62,7 @@ const {
       align: 'center'
     },
     {
-      key: 'uumemoryid',
+      key: 'memory',
       title: $t('dataMap.device.memory'),
       align: 'center'
     },

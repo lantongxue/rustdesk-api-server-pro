@@ -141,8 +141,7 @@ const local: App.I18n.Schema = {
     pageFunTitle: 'Funzioni pagina',
     configOperation: {
       copyConfig: 'Copia configurazione',
-      copySuccessMsg:
-        'Copiato con successo, sostituisci la variabile "themeSettings" in "src/theme/settings.ts"',
+      copySuccessMsg: 'Copiato con successo, sostituisci la variabile "themeSettings" in "src/theme/settings.ts"',
       resetConfig: 'Reimposta configurazione',
       resetSuccessMsg: 'Reimpostazione riuscita'
     }
@@ -164,7 +163,7 @@ const local: App.I18n.Schema = {
     system_mail: 'Gestione email',
     audit_baselogs: 'Log di base',
     audit_filetransferlogs: 'Log trasferimenti file',
-    devices: 'Dispositivi',
+    devices: 'Dispositivi'
   },
   page: {
     login: {
@@ -220,6 +219,9 @@ const local: App.I18n.Schema = {
       },
       audit: {
         logsSearchPlaceholder: 'Nome utente\\Azione\\RustdeskID\\IP'
+      },
+      devices: {
+        logsSearchPlaceholder: 'Nome computer\\Nome utente\\RustdeskID'
       }
     },
     system: {
@@ -287,12 +289,12 @@ const local: App.I18n.Schema = {
       created_at: 'Creato il'
     },
     device: {
-        username: 'Nome utente',
-        hostname: 'Nome computer',
-        version: 'Versione Rustdesk',
-        memory: 'Memoria',
-        os: 'Sistema Operativo',
-        rustdesk_id: 'ID Rustdesk',
+      username: 'Nome utente',
+      hostname: 'Nome computer',
+      version: 'Versione Rustdesk',
+      memory: 'Memoria',
+      os: 'Sistema Operativo',
+      rustdesk_id: 'ID Rustdesk'
     },
     audit: {
       username: 'Nome utente',
