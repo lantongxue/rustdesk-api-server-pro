@@ -11,10 +11,13 @@ import (
 )
 
 func StartJobs(cfg *config.ServerConfig) {
-
-	dbEngine, err := db.NewEngine(cfg.Db)
-	if err != nil {
-		panic(err)
+	dbEngine := db.DbEngine
+	if dbEngine == nil {
+		var err error
+		dbEngine, err = db.NewEngine(cfg.Db)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	s, err := gocron.NewScheduler()
